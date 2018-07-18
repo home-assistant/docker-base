@@ -15,6 +15,7 @@ RUN apk add --no-cache ca-certificates
 ENV GPG_KEY 0D96DF4D4110E5C43FBFB17F2D347EA6AA65421D
 ENV PYTHON_VERSION 3.6.6
 
+COPY *.patch /usr/src/
 RUN set -ex \
     && apk add --no-cache --virtual .fetch-deps \
         gnupg \
@@ -33,6 +34,7 @@ RUN set -ex \
     && rm python.tar.xz \
     \
     && apk add --no-cache --virtual .build-deps  \
+        patch \
         bzip2-dev \
         coreutils \
         dpkg-dev dpkg \
@@ -59,6 +61,7 @@ RUN set -ex \
 # add build deps before removing fetch deps in case there's overlap
     && apk del .fetch-deps \
     \
+    && patch -d /usr/src/python -p 1 < /usr/src/musl-find_library.patch \
     && cd /usr/src/python \
     && gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)" \
     && ./configure \
@@ -89,7 +92,8 @@ RUN set -ex \
             -o \
             \( -type f -a \( -name '*.pyc' -o -name '*.pyo' \) \) \
         \) -exec rm -rf '{}' + \
-    && rm -rf /usr/src/python
+    && rm -rf /usr/src/python \
+    && rm -f /usr/src/*.patch
 
 # make some useful symlinks that are expected to exist
 RUN cd /usr/local/bin \
