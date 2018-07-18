@@ -61,7 +61,8 @@ RUN set -ex \
 # add build deps before removing fetch deps in case there's overlap
     && apk del .fetch-deps \
     \
-    && patch -d /usr/src/python -p 1 < /usr/src/musl-find_library.patch \
+    && for i in /usr/src/*.patch; do \
+        patch -d /usr/src/python -p 1 < ${i}; done \
     && cd /usr/src/python \
     && gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)" \
     && ./configure \
