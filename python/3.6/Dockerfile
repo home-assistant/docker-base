@@ -40,7 +40,7 @@ RUN set -ex \
         coreutils \
         dpkg-dev dpkg \
         expat-dev \
-	findutils \
+        findutils \
         gcc \
         gdbm-dev \
         libc-dev \
