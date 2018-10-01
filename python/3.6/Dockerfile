@@ -89,9 +89,7 @@ RUN set -ex \
 	\
     && find /usr/local -depth \
         \( \
-            \( -type d -a \( -name test -o -name tests \) \) \
-            -o \
-            \( -type f -a \( -name '*.pyc' -o -name '*.pyo' \) \) \
+            -type d -a \( -name test -o -name tests \) \
         \) -exec rm -rf '{}' + \
     && rm -rf /usr/src/python \
     && rm -f /usr/src/*.patch
@@ -123,9 +121,7 @@ RUN set -ex; \
     \
     find /usr/local -depth \
         \( \
-            \( -type d -a \( -name test -o -name tests \) \) \
-            -o \
-            \( -type f -a \( -name '*.pyc' -o -name '*.pyo' \) \) \
+            -type d -a \( -name test -o -name tests \) \
         \) -exec rm -rf '{}' +; \
     rm -f get-pip.py
 
