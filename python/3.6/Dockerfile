@@ -19,7 +19,7 @@ COPY *.patch /usr/src/
 RUN set -ex \
     && apk add --no-cache --virtual .fetch-deps \
         gnupg \
-        libressl \
+        openssl \
         tar \
         xz \
     \
@@ -46,8 +46,8 @@ RUN set -ex \
         libc-dev \
         libffi-dev \
         libnsl-dev \
-        libressl \
-        libressl-dev \
+        openssl \
+        openssl-dev \
         libtirpc-dev \
         linux-headers \
         make \
@@ -106,7 +106,7 @@ ENV PYTHON_PIP_VERSION 18.1
 
 RUN set -ex; \
     \
-    apk add --no-cache --virtual .fetch-deps libressl; \
+    apk add --no-cache --virtual .fetch-deps openssl; \
     \
     wget -O get-pip.py 'https://bootstrap.pypa.io/get-pip.py'; \
     \
