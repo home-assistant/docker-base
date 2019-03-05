@@ -7,6 +7,7 @@ You can use this images to build your stuff. It is not recommended.
 | Image | OS | Tags | latest |
 |-------|----|------|--------|
 | armhf-base | Alpine | 3.6, 3.7, 3.8, 3.9 | 3.9 |
+| armv7-base | Alpine | 3.9 | 3.9 |
 | aarch64-base | Alpine | 3.6, 3.7, 3.8, 3.9 | 3.9 |
 | amd64-base | Alpine | 3.6, 3.7, 3.8, 3.9 | 3.9 |
 | i386-base | Alpine | 3.6, 3.7, 3.8, 3.9 | 3.9 |
@@ -26,7 +27,7 @@ You can use this images to build your stuff. It is not recommended.
 
 | Image | OS | Tags | latest |
 |-------|----|------|--------|
-| armhf-base-ubuntu | Ubuntu | 14.04, 16.04, 18.04 | 18.04 |
+| armv7-base-ubuntu | Ubuntu | 14.04, 16.04, 18.04 | 18.04 |
 | aarch64-base-ubuntu | Ubuntu | 14.04, 16.04, 18.04 | 18.04 |
 | amd64-base-ubuntu | Ubuntu | 14.04, 16.04, 18.04 | 18.04 |
 | i386-base-ubuntu | Ubuntu | 14.04, 16.04, 18.04 | 18.04 |
@@ -36,3 +37,7 @@ You can use this images to build your stuff. It is not recommended.
 | Image | OS | Tags | latest |
 |-------|----|------|--------|
 | armhf-base-raspbian | Raspbian | jessie, stretch | stretch |
+
+## Thanks
+
+We use https://github.com/multiarch/qemu-user-static to provide a multiarch image.
