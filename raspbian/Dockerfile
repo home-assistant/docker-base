@@ -1,4 +1,4 @@
-ARG BUILD_VERSION
+ARG BUILD_FROM
 FROM raspbian/$BUILD_FROM:latest
 
 # QEMU for crossbuilds
