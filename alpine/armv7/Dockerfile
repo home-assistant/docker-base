@@ -1,5 +1,5 @@
 ARG BUILD_VERSION
-FROM pvizeli/alpine-armv7:$BUILD_VERSION
+FROM arm32v7/alpine:$BUILD_VERSION
 
 # QEMU for crossbuilds
 COPY qemu-arm-static /usr/bin/qemu-arm-static
