@@ -8,7 +8,7 @@ COPY qemu-arm-static /usr/bin/qemu-arm-static
 ENV LANG C.UTF-8
 
 # Base system
-ARG BASHIO_VERSION=0.1.0
+ARG BASHIO_VERSION=0.2.0
 RUN apt-get update && apt-get install -y \
         bash \
         jq \

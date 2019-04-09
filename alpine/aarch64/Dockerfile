@@ -8,7 +8,7 @@ COPY qemu-aarch64-static /usr/bin/qemu-aarch64-static
 ENV LANG C.UTF-8
 
 # Base system
-ARG BASHIO_VERSION=0.1.0
+ARG BASHIO_VERSION=0.2.0
 RUN apk upgrade --no-cache \
     && apk add --no-cache \
         bash \
