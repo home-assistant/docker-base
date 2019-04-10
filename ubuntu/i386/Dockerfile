@@ -5,7 +5,7 @@ FROM i386/ubuntu:$BUILD_VERSION
 ENV LANG C.UTF-8
 
 # Base system
-ARG BASHIO_VERSION=0.2.0
+ARG BASHIO_VERSION=0.3.1
 RUN apt-get update && apt-get install -y \
         bash \
         jq \
