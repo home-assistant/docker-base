@@ -1,5 +1,5 @@
 ARG BUILD_VERSION
-FROM pvizeli/alpine-armv7:$BUILD_VERSION
+FROM arm32v7/alpine:$BUILD_VERSION
 
 # QEMU for crossbuilds
 COPY qemu-arm-static /usr/bin/qemu-arm-static
@@ -8,7 +8,7 @@ COPY qemu-arm-static /usr/bin/qemu-arm-static
 ENV LANG C.UTF-8
 
 # Base system
-ARG BASHIO_VERSION=0.1.0
+ARG BASHIO_VERSION=0.3.1
 RUN apk upgrade --no-cache \
     && apk add --no-cache \
         bash \
