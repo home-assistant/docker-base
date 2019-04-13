@@ -1,0 +1,136 @@
+# https://dev.azure.com/home-assistant
+
+trigger:
+  branches: none
+  tags:
+    include:
+    - '*'
+    exclude:
+    - untagged*
+pr: none
+
+jobs:
+
+- job: 'Alpine'
+  condition: startsWith(variables['Build.SourceBranch'], 'refs/tags')
+  pool:
+    vmImage: 'ubuntu-16.04'
+  strategy:
+    maxParallel: 2
+    matrix:
+      alpine36:
+        buildVersion: '3.6'
+        buildArch: '--amd64 --i386 --armhf --aarch64'
+        buildLatest: '--no-latest'
+      alpine37:
+        buildVersion: '3.7'
+        buildArch: '--amd64 --i386 --armhf --aarch64'
+        buildLatest: '--no-latest'
+      alpine38:
+        buildVersion: '3.8'
+        buildArch: '--amd64 --i386 --armhf --aarch64'
+        buildLatest: '--no-latest'
+      alpine39:
+        buildVersion: '3.9'
+        buildArch: '--all'
+        buildLatest: ''
+  steps:
+  - script: sudo docker login -u $(dockerUser) -p $(dockerPassword)
+    displayName: 'Docker hub login'
+  - script: sudo docker pull homeassistant/amd64-builder
+    displayName: 'Install Builder'
+  - script: |
+      sudo docker run --rm --privileged \
+        -v ~/.docker:/root/.docker \
+        -v /run/docker.sock:/run/docker.sock:rw -v $(pwd):/data:ro \
+        homeassistant/amd64-builder --base $(buildVersion) $(buildArch) \
+        -t /data/alpine --docker-hub homeassistant $(buildLatest)
+    displayName: 'Build Alpine base-images'
+
+
+- job: 'Python'
+  condition: startsWith(variables['Build.SourceBranch'], 'refs/tags')
+  dependsOn: 'Alpine'
+  pool:
+    vmImage: 'ubuntu-16.04'
+  strategy:
+    maxParallel: 1
+    matrix:
+      python36:
+        buildVersion: '3.6'
+        buildLatest: '--no-latest'
+      python37:
+        buildVersion: '3.7'
+        buildLatest: ''
+  steps:
+  - script: sudo docker login -u $(dockerUser) -p $(dockerPassword)
+    displayName: 'Docker hub login'
+  - script: sudo docker pull homeassistant/amd64-builder
+    displayName: 'Install Builder'
+  - script: |
+      sudo docker run --rm --privileged \
+        -v ~/.docker:/root/.docker \
+        -v /run/docker.sock:/run/docker.sock:rw -v $(pwd):/data:ro \
+        homeassistant/amd64-builder --base-python $(buildVersion) --all \
+        -t /data/python --docker-hub homeassistant $(buildLatest)
+    displayName: 'Build Python base-images'
+
+
+- job: 'Ubuntu'
+  condition: startsWith(variables['Build.SourceBranch'], 'refs/tags')
+  pool:
+    vmImage: 'ubuntu-16.04'
+  strategy:
+    maxParallel: 2
+    matrix:
+      ubuntu14:
+        buildVersion: '14.04'
+        buildArch: '--amd64 --i386 --armv7 --aarch64'
+        buildLatest: '--no-latest'
+      ubuntu16:
+        buildVersion: '16.04'
+        buildArch: '--amd64 --i386 --armv7 --aarch64'
+        buildLatest: '--no-latest'
+      ubuntu18:
+        buildVersion: '18.04'
+        buildArch: '--amd64 --i386 --armv7 --aarch64'
+        buildLatest: ''
+  steps:
+  - script: sudo docker login -u $(dockerUser) -p $(dockerPassword)
+    displayName: 'Docker hub login'
+  - script: sudo docker pull homeassistant/amd64-builder
+    displayName: 'Install Builder'
+  - script: |
+      sudo docker run --rm --privileged \
+        -v ~/.docker:/root/.docker \
+        -v /run/docker.sock:/run/docker.sock:rw -v $(pwd):/data:ro \
+        homeassistant/amd64-builder --base-ubuntu $(buildVersion) $(buildArch) \
+        -t /data/ubuntu --docker-hub homeassistant $(buildLatest)
+    displayName: 'Build Ubuntu base-images'
+
+
+- job: 'Raspbian'
+  condition: startsWith(variables['Build.SourceBranch'], 'refs/tags')
+  pool:
+    vmImage: 'ubuntu-16.04'
+  strategy:
+    maxParallel: 2
+    matrix:
+      jessie:
+        buildVersion: 'jessie'
+        buildLatest: '--no-latest'
+      stretch:
+        buildVersion: 'stretch'
+        buildLatest: ''
+  steps:
+  - script: sudo docker login -u $(dockerUser) -p $(dockerPassword)
+    displayName: 'Docker hub login'
+  - script: sudo docker pull homeassistant/amd64-builder
+    displayName: 'Install Builder'
+  - script: |
+      sudo docker run --rm --privileged \
+        -v ~/.docker:/root/.docker \
+        -v /run/docker.sock:/run/docker.sock:rw -v $(pwd):/data:ro \
+        homeassistant/amd64-builder --base-raspbian $(buildVersion) --armhf \
+        -t /data/raspbian --docker-hub homeassistant $(buildLatest)
+    displayName: 'Build Ubuntu base-images'
