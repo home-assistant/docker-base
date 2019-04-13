@@ -35,7 +35,7 @@ jobs:
 
 
 - job: 'Alpine'
-  condition: startsWith(variables['Build.SourceBranch'], 'refs/tags')
+  condition: and(startsWith(variables['Build.SourceBranch'], 'refs/tags'), succeeded('Linter'))
   dependsOn: 'Linter'
   pool:
     vmImage: 'ubuntu-16.04'
@@ -74,7 +74,7 @@ jobs:
 
 
 - job: 'Python'
-  condition: startsWith(variables['Build.SourceBranch'], 'refs/tags')
+  condition: and(startsWith(variables['Build.SourceBranch'], 'refs/tags'), succeeded('Linter'))
   dependsOn: 'Alpine'
   pool:
     vmImage: 'ubuntu-16.04'
@@ -103,7 +103,7 @@ jobs:
 
 
 - job: 'Ubuntu'
-  condition: startsWith(variables['Build.SourceBranch'], 'refs/tags')
+  condition: and(startsWith(variables['Build.SourceBranch'], 'refs/tags'), succeeded('Linter'))
   dependsOn: 'Linter'
   pool:
     vmImage: 'ubuntu-16.04'
@@ -138,7 +138,7 @@ jobs:
 
 
 - job: 'Raspbian'
-  condition: startsWith(variables['Build.SourceBranch'], 'refs/tags')
+  condition: and(startsWith(variables['Build.SourceBranch'], 'refs/tags'), succeeded('Linter'))
   dependsOn: 'Linter'
   pool:
     vmImage: 'ubuntu-16.04'
