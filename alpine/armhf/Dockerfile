@@ -7,10 +7,12 @@ COPY qemu-arm-static /usr/bin/qemu-arm-static
 # Default ENV
 ENV LANG C.UTF-8
 
+# Set shell
+SHELL ["/bin/ash", "-o", "pipefail", "-c"]
+
 # Base system
 ARG BASHIO_VERSION=0.3.1
-RUN apk upgrade --no-cache \
-    && apk add --no-cache \
+RUN apk add --no-cache \
         bash \
         jq \
         tzdata \

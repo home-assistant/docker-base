@@ -4,9 +4,12 @@ FROM ubuntu:$BUILD_VERSION
 # Default ENV
 ENV LANG C.UTF-8
 
+# Set shell
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
 # Base system
 ARG BASHIO_VERSION=0.3.1
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
         bash \
         jq \
         tzdata \
