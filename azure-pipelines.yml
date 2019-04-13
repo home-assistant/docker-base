@@ -1,15 +1,18 @@
 # https://dev.azure.com/home-assistant
 
 trigger:
+  branches:
+    include:
+    - master
   tags:
     include:
     - '*'
     exclude:
     - untagged*
-pr: none
+pr:
+- master
 
 jobs:
-
 
 - job: 'linter'
   condition: startsWith(variables['Build.SourceBranch'], 'refs/heads')
@@ -21,6 +24,7 @@ jobs:
   - script: |
       for dockerfile in **/Dockerfile
       do
+        echo "Linting: $dockerfile"
         sudo docker run --rm -i hadolint/hadolint:v1.16.3 < "$dockerfile"
       done
     displayName: 'Linting Dockerfiles'
