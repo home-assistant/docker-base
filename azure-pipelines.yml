@@ -1,7 +1,6 @@
 # https://dev.azure.com/home-assistant
 
 trigger:
-  branches: none
   tags:
     include:
     - '*'
