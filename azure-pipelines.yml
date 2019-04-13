@@ -22,6 +22,7 @@ jobs:
   - script: sudo docker pull hadolint/hadolint:v1.16.3
     displayName: 'Install Hadolint'
   - script: |
+      set -e
       shopt -s globstar
       for dockerfile in **/Dockerfile
       do
