@@ -4,6 +4,9 @@ FROM $BUILD_FROM
 # ensure local python is preferred over distribution python
 ENV PATH /usr/local/bin:$PATH
 
+# Set shell
+SHELL ["/bin/ash", "-o", "pipefail", "-c"]
+
 # install ca-certificates so that HTTPS works consistently
 # the other runtime dependencies for Python are installed later
 RUN apk add --no-cache ca-certificates
@@ -60,7 +63,7 @@ RUN set -ex \
     && apk del .fetch-deps \
     \
     && for i in /usr/src/*.patch; do \
-        patch -d /usr/src/python -p 1 < ${i}; done \
+        patch -d /usr/src/python -p 1 < "${i}"; done \
     && cd /usr/src/python \
     && gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)" \
     && ./configure \
