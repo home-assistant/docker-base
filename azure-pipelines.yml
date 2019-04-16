@@ -12,13 +12,17 @@ trigger:
 pr:
 - master
 
+variables:
+  versionHadolint: 'v1.16.3'
+  versionBuilder: '1.1'
+
 jobs:
 
 - job: 'Linter'
   pool:
     vmImage: 'ubuntu-16.04'
   steps:
-  - script: sudo docker pull hadolint/hadolint:v1.16.3
+  - script: sudo docker pull hadolint/hadolint:$(versionHadolint)
     displayName: 'Install Hadolint'
   - script: |
       set -e
@@ -28,7 +32,7 @@ jobs:
         echo "Linting: $dockerfile"
         sudo docker run --rm -i \
           -v $(pwd)/.hadolint.yaml:/.hadolint.yaml:ro \
-          hadolint/hadolint:v1.16.3 < "$dockerfile"
+          hadolint/hadolint:$(versionHadolint) < "$dockerfile"
       done
     displayName: 'Linting Dockerfiles'
 
@@ -60,15 +64,15 @@ jobs:
   steps:
   - script: sudo docker login -u $(dockerUser) -p $(dockerPassword)
     displayName: 'Docker hub login'
-  - script: sudo docker pull homeassistant/amd64-builder
+  - script: sudo docker pull homeassistant/amd64-builder:$(versionBuilder)
     displayName: 'Install Builder'
   - script: |
       sudo docker run --rm --privileged \
         -v ~/.docker:/root/.docker \
         -v /run/docker.sock:/run/docker.sock:rw -v $(pwd):/data:ro \
-        homeassistant/amd64-builder --base $(buildVersion) $(buildArch) \
-        -t /data/alpine --docker-hub homeassistant $(buildLatest) \
-        --release $(Build.SourceBranchName)
+        homeassistant/amd64-builder:$(versionBuilder) --base $(buildVersion) \
+        $(buildArch) -t /data/alpine --docker-hub homeassistant \
+        $(buildLatest) --release $(Build.SourceBranchName)
     displayName: 'Build Alpine base-images'
 
 
@@ -94,14 +98,15 @@ jobs:
   steps:
   - script: sudo docker login -u $(dockerUser) -p $(dockerPassword)
     displayName: 'Docker hub login'
-  - script: sudo docker pull homeassistant/amd64-builder
+  - script: sudo docker pull homeassistant/amd64-builder:$(versionBuilder)
     displayName: 'Install Builder'
   - script: |
       sudo docker run --rm --privileged \
         -v ~/.docker:/root/.docker \
         -v /run/docker.sock:/run/docker.sock:rw -v $(pwd):/data:ro \
-        homeassistant/amd64-builder --base-python 3.6 "--$(buildArch)" \
-        -t /data/python --docker-hub homeassistant --no-latest \
+        homeassistant/amd64-builder:$(versionBuilder) \
+        --base-python 3.6 "--$(buildArch)" -t /data/python \
+        --docker-hub homeassistant --no-latest \
         --release $(Build.SourceBranchName)
     displayName: 'Build Python base-images'
 
@@ -128,14 +133,15 @@ jobs:
   steps:
   - script: sudo docker login -u $(dockerUser) -p $(dockerPassword)
     displayName: 'Docker hub login'
-  - script: sudo docker pull homeassistant/amd64-builder
+  - script: sudo docker pull homeassistant/amd64-builder:$(versionBuilder)
     displayName: 'Install Builder'
   - script: |
       sudo docker run --rm --privileged \
         -v ~/.docker:/root/.docker \
         -v /run/docker.sock:/run/docker.sock:rw -v $(pwd):/data:ro \
-        homeassistant/amd64-builder --base-python 3.7 "--$(buildArch)" \
-        -t /data/python --docker-hub homeassistant \
+        homeassistant/amd64-builder:$(versionBuilder) \
+        --base-python 3.7 "--$(buildArch)" -t /data/python \
+        --docker-hub homeassistant \
         --release $(Build.SourceBranchName)
     displayName: 'Build Python base-images'
 
@@ -163,13 +169,14 @@ jobs:
   steps:
   - script: sudo docker login -u $(dockerUser) -p $(dockerPassword)
     displayName: 'Docker hub login'
-  - script: sudo docker pull homeassistant/amd64-builder
+  - script: sudo docker pull homeassistant/amd64-builder:$(versionBuilder)
     displayName: 'Install Builder'
   - script: |
       sudo docker run --rm --privileged \
         -v ~/.docker:/root/.docker \
         -v /run/docker.sock:/run/docker.sock:rw -v $(pwd):/data:ro \
-        homeassistant/amd64-builder --base-ubuntu $(buildVersion) $(buildArch) \
+        homeassistant/amd64-builder:$(versionBuilder) \
+        --base-ubuntu $(buildVersion) $(buildArch) \
         -t /data/ubuntu --docker-hub homeassistant $(buildLatest) \
         --release $(Build.SourceBranchName)
     displayName: 'Build Ubuntu base-images'
@@ -192,13 +199,14 @@ jobs:
   steps:
   - script: sudo docker login -u $(dockerUser) -p $(dockerPassword)
     displayName: 'Docker hub login'
-  - script: sudo docker pull homeassistant/amd64-builder
+  - script: sudo docker pull homeassistant/amd64-builder:$(versionBuilder)
     displayName: 'Install Builder'
   - script: |
       sudo docker run --rm --privileged \
         -v ~/.docker:/root/.docker \
         -v /run/docker.sock:/run/docker.sock:rw -v $(pwd):/data:ro \
-        homeassistant/amd64-builder --base-raspbian $(buildVersion) --armhf \
+        homeassistant/amd64-builder:$(versionBuilder) \
+        --base-raspbian $(buildVersion) --armhf \
         -t /data/raspbian --docker-hub homeassistant $(buildLatest) \
         --release $(Build.SourceBranchName)
     displayName: 'Build Ubuntu base-images'
