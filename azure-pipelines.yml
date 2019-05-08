@@ -13,8 +13,11 @@ pr:
 - master
 
 variables:
-  versionHadolint: 'v1.16.3'
-  versionBuilder: '1.1'
+  - name: versionHadolint
+    value: 'v1.16.3'
+  - name: versionBuilder
+    value: '1.1'
+  - group: docker
 
 jobs:
 
