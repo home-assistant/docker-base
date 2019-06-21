@@ -8,7 +8,7 @@ ENV LANG C.UTF-8
 SHELL ["/bin/ash", "-o", "pipefail", "-c"]
 
 # Base system
-ARG BASHIO_VERSION=0.3.1
+ARG BASHIO_VERSION=0.3.2
 RUN apk add --no-cache \
         bash \
         jq \
