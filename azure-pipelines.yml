@@ -16,14 +16,14 @@ variables:
   - name: versionHadolint
     value: 'v1.16.3'
   - name: versionBuilder
-    value: '1.1'
+    value: '4.1'
   - group: docker
 
 jobs:
 
 - job: 'Linter'
   pool:
-    vmImage: 'ubuntu-16.04'
+    vmImage: 'ubuntu-latest'
   steps:
   - script: sudo docker pull hadolint/hadolint:$(versionHadolint)
     displayName: 'Install Hadolint'
@@ -51,19 +51,23 @@ jobs:
       alpine36:
         buildVersion: '3.6'
         buildArch: '--amd64 --i386 --armhf --aarch64'
-        buildLatest: '--no-latest'
+        buildArgs: '--no-latest'
       alpine37:
         buildVersion: '3.7'
         buildArch: '--amd64 --i386 --armhf --aarch64'
-        buildLatest: '--no-latest'
+        buildArgs: '--no-latest'
       alpine38:
         buildVersion: '3.8'
         buildArch: '--amd64 --i386 --armhf --aarch64'
-        buildLatest: '--no-latest'
+        buildArgs: '--no-latest'
       alpine39:
         buildVersion: '3.9'
         buildArch: '--all'
-        buildLatest: ''
+        buildArgs: '--no-latest'
+      alpine310:
+        buildVersion: '3.10'
+        buildArch: '--all'
+        buildArgs: ''
   steps:
   - script: sudo docker login -u $(dockerUser) -p $(dockerPassword)
     displayName: 'Docker hub login'
@@ -75,78 +79,36 @@ jobs:
         -v /run/docker.sock:/run/docker.sock:rw -v $(pwd):/data:ro \
         homeassistant/amd64-builder:$(versionBuilder) --base $(buildVersion) \
         $(buildArch) -t /data/alpine --docker-hub homeassistant \
-        $(buildLatest) --release $(Build.SourceBranchName)
+        $(buildArgs) --release $(Build.SourceBranchName)
     displayName: 'Build Alpine base-images'
 
 
-- job: 'Python36'
-  condition: and(startsWith(variables['Build.SourceBranch'], 'refs/tags'), succeeded('Alpine'))
-  dependsOn: 'Alpine'
-  timeoutInMinutes: 120
-  pool:
-    vmImage: 'ubuntu-16.04'
-  strategy:
-    maxParallel: 3
-    matrix:
-      amd64:
-        buildArch: 'amd64'
-      i386:
-        buildArch: 'i386'
-      armhf:
-        buildArch: 'armhf'
-      armv7:
-        buildArch: 'armv7'
-      aarch64:
-        buildArch: 'aarch64'
-  steps:
-  - script: sudo docker login -u $(dockerUser) -p $(dockerPassword)
-    displayName: 'Docker hub login'
-  - script: sudo docker pull homeassistant/amd64-builder:$(versionBuilder)
-    displayName: 'Install Builder'
-  - script: |
-      sudo docker run --rm --privileged \
-        -v ~/.docker:/root/.docker \
-        -v /run/docker.sock:/run/docker.sock:rw -v $(pwd):/data:ro \
-        homeassistant/amd64-builder:$(versionBuilder) \
-        --base-python 3.6 "--$(buildArch)" -t /data/python \
-        --docker-hub homeassistant --no-latest \
-        --release $(Build.SourceBranchName)
-    displayName: 'Build Python base-images'
+- template: .azure/azp-template-python.yml
+  parameters:
+    name: '36_Alpine39'
+    version: '3.6=3.9'
+    args: '--no-latest'
 
 
-- job: 'Python37'
-  condition: and(startsWith(variables['Build.SourceBranch'], 'refs/tags'), succeeded('Alpine'))
-  dependsOn: 'Alpine'
-  timeoutInMinutes: 120
-  pool:
-    vmImage: 'ubuntu-16.04'
-  strategy:
-    maxParallel: 3
-    matrix:
-      amd64:
-        buildArch: 'amd64'
-      i386:
-        buildArch: 'i386'
-      armhf:
-        buildArch: 'armhf'
-      armv7:
-        buildArch: 'armv7'
-      aarch64:
-        buildArch: 'aarch64'
-  steps:
-  - script: sudo docker login -u $(dockerUser) -p $(dockerPassword)
-    displayName: 'Docker hub login'
-  - script: sudo docker pull homeassistant/amd64-builder:$(versionBuilder)
-    displayName: 'Install Builder'
-  - script: |
-      sudo docker run --rm --privileged \
-        -v ~/.docker:/root/.docker \
-        -v /run/docker.sock:/run/docker.sock:rw -v $(pwd):/data:ro \
-        homeassistant/amd64-builder:$(versionBuilder) \
-        --base-python 3.7 "--$(buildArch)" -t /data/python \
-        --docker-hub homeassistant \
-        --release $(Build.SourceBranchName)
-    displayName: 'Build Python base-images'
+- template: .azure/azp-template-python.yml
+  parameters:
+    name: '36_Alpine310'
+    version: '3.6=3.10'
+    args: '--no-latest --release-tag'
+
+
+- template: .azure/azp-template-python.yml
+  parameters:
+    name: '37_Alpine39'
+    version: '3.7=3.9'
+    args: '--no-latest'
+
+
+- template: .azure/azp-template-python.yml
+  parameters:
+    name: '37_Alpine310'
+    version: '3.7=3.10'
+    args: '--release-tag'
 
 
 - job: 'Ubuntu'

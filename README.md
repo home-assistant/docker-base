@@ -8,20 +8,20 @@ You can use this images to build your stuff. It is not recommended.
 
 | Image | OS | Tags | latest |
 |-------|----|------|--------|
-| armhf-base | Alpine | 3.6, 3.7, 3.8, 3.9 | 3.9 |
+| armhf-base | Alpine | 3.6, 3.7, 3.8, 3.9, 3.10 | 3.10 |
 | armv7-base | Alpine | 3.9 | 3.9 |
-| aarch64-base | Alpine | 3.6, 3.7, 3.8, 3.9 | 3.9 |
-| amd64-base | Alpine | 3.6, 3.7, 3.8, 3.9 | 3.9 |
-| i386-base | Alpine | 3.6, 3.7, 3.8, 3.9 | 3.9 |
+| aarch64-base | Alpine | 3.6, 3.7, 3.8, 3.9, 3.10 | 3.10 |
+| amd64-base | Alpine | 3.6, 3.7, 3.8, 3.9, 3.10 | 3.10 |
+| i386-base | Alpine | 3.6, 3.7, 3.8, 3.9, 3.10 | 3.10 |
 
 ## Python images
 
 | Image | OS | Tags | latest |
 |-------|----|------|--------|
-| armhf-base-python | Alpine 3.9 | 3.6, 3.7 | 3.7 |
-| aarch64-base-python | Alpine 3.9 | 3.6, 3.7 | 3.7 |
-| amd64-base-python | Alpine 3.9 | 3.6, 3.7 | 3.7 |
-| i386-base-python | Alpine 3.9 | 3.6, 3.7 | 3.7 |
+| armhf-base-python | Alpine | 3.6, 3.7, 3.6-alpine3.9, 3.6-alpine3.10, 3.7-alpine3.9, 3.7-alpine.3.10 | 3.7 |
+| aarch64-base-python | Alpine | 3.6, 3.7, 3.6-alpine3.9, 3.6-alpine3.10, 3.7-alpine3.9, 3.7-alpine.3.10 | 3.7 |
+| amd64-base-python | Alpine | 3.6, 3.7, 3.6-alpine3.9, 3.6-alpine3.10, 3.7-alpine3.9, 3.7-alpine.3.10 | 3.7 |
+| i386-base-python | Alpine | 3.6, 3.7, 3.6-alpine3.9, 3.6-alpine3.10, 3.7-alpine3.9, 3.7-alpine.3.10 | 3.7 |
 
 ## Ubuntu images
 
