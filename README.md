@@ -2,7 +2,10 @@
 
 # Hass.io Base Images
 
-You can use this images to build your stuff. It is not recommended.
+These base images are designed as Docker base images for use with building Hass.io containers and add-ons.
+It is recommended to use these as a base for your own Hass.io add-ons. 
+
+Using these images as a base for other Docker projects is, however, not recommended.
 
 ## Base images
 
