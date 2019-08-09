@@ -16,7 +16,7 @@ variables:
   - name: versionHadolint
     value: 'v1.16.3'
   - name: versionBuilder
-    value: '5.0'
+    value: '6.0'
   - group: docker
 
 jobs:
@@ -46,7 +46,6 @@ jobs:
   pool:
     vmImage: 'ubuntu-16.04'
   strategy:
-    maxParallel: 3
     matrix:
       alpine36:
         buildVersion: '3.6'
@@ -117,7 +116,6 @@ jobs:
   pool:
     vmImage: 'ubuntu-16.04'
   strategy:
-    maxParallel: 2
     matrix:
       trusty:
         buildVersion: '14.04'
@@ -153,7 +151,6 @@ jobs:
   pool:
     vmImage: 'ubuntu-16.04'
   strategy:
-    maxParallel: 2
     matrix:
       jessie:
         buildVersion: 'jessie'
@@ -173,5 +170,36 @@ jobs:
         homeassistant/amd64-builder:$(versionBuilder) \
         --base-raspbian $(buildVersion) --armhf \
         -t /data/raspbian --docker-hub homeassistant $(buildLatest) \
+        --release $(Build.SourceBranchName)
+    displayName: 'Build Ubuntu base-images'
+
+
+- job: 'Debian'
+  condition: and(startsWith(variables['Build.SourceBranch'], 'refs/tags'), succeeded('Linter'))
+  dependsOn: 'Linter'
+  pool:
+    vmImage: 'ubuntu-16.04'
+  strategy:
+    matrix:
+      stretch:
+        buildVersion: 'stretch'
+        buildArch: '--amd64 --i386 --armv7 --aarch64'
+        buildLatest: '--no-latest'
+      buster:
+        buildVersion: 'buster'
+        buildArch: '--amd64 --i386 --armv7 --aarch64'
+        buildLatest: ''
+  steps:
+  - script: sudo docker login -u $(dockerUser) -p $(dockerPassword)
+    displayName: 'Docker hub login'
+  - script: sudo docker pull homeassistant/amd64-builder:$(versionBuilder)
+    displayName: 'Install Builder'
+  - script: |
+      sudo docker run --rm --privileged \
+        -v ~/.docker:/root/.docker \
+        -v /run/docker.sock:/run/docker.sock:rw -v $(pwd):/data:ro \
+        homeassistant/amd64-builder:$(versionBuilder) \
+        --base-debian $(buildVersion) $(buildArch) \
+        -t /data/debian --docker-hub homeassistant $(buildLatest) \
         --release $(Build.SourceBranchName)
     displayName: 'Build Ubuntu base-images'

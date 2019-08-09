@@ -37,6 +37,17 @@ Using these images as a base for other Docker projects is, however, not recommen
 | amd64-base-ubuntu | Ubuntu | 14.04, 16.04, 18.04 | 18.04 |
 | i386-base-ubuntu | Ubuntu | 14.04, 16.04, 18.04 | 18.04 |
 
+# Debian images
+
+**Note**: We prefer the alpine based version because it's more IoT friendly. In some case, you need a glibc system like this.
+
+| Image | OS | Tags | latest |
+|-------|----|------|--------|
+| armv7-base-debian | Debian | stretch buster | buster |
+| aarch64-base-debian | Debain | stretch buster | buster |
+| amd64-base-debian | Debain | stretch buster | buster |
+| i386-base-debian | Debain | stretch buster | buster |
+
 ## Raspbian images
 
 | Image | OS | Tags | latest |
