@@ -37,6 +37,12 @@ Using these images as a base for other Docker projects is, however, not recommen
 | amd64-base-ubuntu | Ubuntu | 14.04, 16.04, 18.04 | 18.04 |
 | i386-base-ubuntu | Ubuntu | 14.04, 16.04, 18.04 | 18.04 |
 
+## Debian images
+| Image | OS | Tags | latest |
+|-------|----|------|--------|
+| armv7-base-ubuntu | Debian | buster | buster |
+| aarch64-base-ubuntu | Debian | buster | buster |
+
 ## Raspbian images
 
 | Image | OS | Tags | latest |
