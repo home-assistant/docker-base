@@ -15,6 +15,7 @@ RUN apk add --no-cache \
         tzdata \
         ca-certificates \
         curl \
+        bind-tools \
     \
     && mkdir -p /tmp/bashio \
     && curl -L -s https://github.com/hassio-addons/bashio/archive/v${BASHIO_VERSION}.tar.gz | tar -xzf - --strip 1 -C /tmp/bashio \
