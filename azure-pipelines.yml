@@ -7,8 +7,6 @@ trigger:
   tags:
     include:
     - '*'
-    exclude:
-    - untagged*
 pr:
 - master
 
