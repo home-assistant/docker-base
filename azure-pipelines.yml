@@ -16,7 +16,7 @@ variables:
   - name: versionHadolint
     value: 'v1.16.3'
   - name: versionBuilder
-    value: '6.0'
+    value: '6.1'
   - group: docker
 
 jobs:
@@ -181,13 +181,17 @@ jobs:
     vmImage: 'ubuntu-16.04'
   strategy:
     matrix:
+      jessie:
+        buildVersion: 'jessie'
+        buildArch: '--amd64 --i386 --armv7 --armhf --aarch64'
+        buildLatest: '--no-latest'
       stretch:
         buildVersion: 'stretch'
-        buildArch: '--amd64 --i386 --armv7 --aarch64'
+        buildArch: '--amd64 --i386 --armv7 --armhf --aarch64'
         buildLatest: '--no-latest'
       buster:
         buildVersion: 'buster'
-        buildArch: '--amd64 --i386 --armv7 --aarch64'
+        buildArch: '--amd64 --i386 --armv7 --armhf --aarch64'
         buildLatest: ''
   steps:
   - script: sudo docker login -u $(dockerUser) -p $(dockerPassword)
