@@ -14,7 +14,7 @@ variables:
   - name: versionHadolint
     value: 'v1.16.3'
   - name: versionBuilder
-    value: '6.1'
+    value: '6.4'
   - group: docker
 
 jobs:
