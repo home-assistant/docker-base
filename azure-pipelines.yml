@@ -12,7 +12,7 @@ pr:
 
 variables:
   - name: versionHadolint
-    value: 'v1.16.3'
+    value: 'v1.17.2'
   - name: versionBuilder
     value: '6.4'
   - group: docker
