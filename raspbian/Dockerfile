@@ -11,7 +11,7 @@ ENV LANG C.UTF-8
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Base system
-ARG BASHIO_VERSION=0.5.0
+ARG BASHIO_VERSION=0.6.0
 RUN apt-get update && apt-get install -y --no-install-recommends \
         bash \
         jq \
