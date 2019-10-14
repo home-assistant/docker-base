@@ -43,11 +43,11 @@ Using these images as a base for other Docker projects is, however, not recommen
 
 | Image | OS | Tags | latest |
 |-------|----|------|--------|
-| armv7-base-debian | Debian | jessie stretch buster | buster |
-| armhf-base-debian | Debian | jessie stretch buster | buster |
-| aarch64-base-debian | Debain | jessie stretch buster | buster |
-| amd64-base-debian | Debain | jessie stretch buster | buster |
-| i386-base-debian | Debain | jessie stretch buster | buster |
+| armv7-base-debian | Debian | stretch buster | buster |
+| armhf-base-debian | Debian | stretch buster | buster |
+| aarch64-base-debian | Debain | stretch buster | buster |
+| amd64-base-debian | Debain | stretch buster | buster |
+| i386-base-debian | Debain | stretch buster | buster |
 
 ## Raspbian images
 
