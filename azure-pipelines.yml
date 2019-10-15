@@ -105,6 +105,20 @@ jobs:
   parameters:
     name: '37_Alpine310'
     version: '3.7=3.10'
+    args: '--release-tag --no-latest'
+
+
+- template: .azure/azp-template-python.yml
+  parameters:
+    name: '38_Alpine39'
+    version: '3.8=3.9'
+    args: '--no-latest'
+
+
+- template: .azure/azp-template-python.yml
+  parameters:
+    name: '38_Alpine310'
+    version: '3.8=3.10'
     args: '--release-tag'
 
 

@@ -21,10 +21,10 @@ Using these images as a base for other Docker projects is, however, not recommen
 
 | Image | OS | Tags | latest |
 |-------|----|------|--------|
-| armhf-base-python | Alpine | 3.6, 3.7, 3.6-alpine3.9, 3.6-alpine3.10, 3.7-alpine3.9, 3.7-alpine.3.10 | 3.7 |
-| aarch64-base-python | Alpine | 3.6, 3.7, 3.6-alpine3.9, 3.6-alpine3.10, 3.7-alpine3.9, 3.7-alpine.3.10 | 3.7 |
-| amd64-base-python | Alpine | 3.6, 3.7, 3.6-alpine3.9, 3.6-alpine3.10, 3.7-alpine3.9, 3.7-alpine.3.10 | 3.7 |
-| i386-base-python | Alpine | 3.6, 3.7, 3.6-alpine3.9, 3.6-alpine3.10, 3.7-alpine3.9, 3.7-alpine.3.10 | 3.7 |
+| armhf-base-python | Alpine | 3.6, 3.7, 3.8, 3.6-alpine3.9, 3.6-alpine3.10, 3.7-alpine3.9, 3.7-alpine.3.10, 3.8-alpine3.9, 3.8-alpine3.10 | 3.8-alpine.3.10 |
+| aarch64-base-python | Alpine | 3.6, 3.7, 3.8, 3.6-alpine3.9, 3.6-alpine3.10, 3.7-alpine3.9, 3.7-alpine.3.10, 3.8-alpine3.9, 3.8-alpine3.10 | 3.8-alpine.3.10 |
+| amd64-base-python | Alpine | 3.6, 3.7, 3.8, 3.6-alpine3.9, 3.6-alpine3.10, 3.7-alpine3.9, 3.7-alpine.3.10, 3.8-alpine3.9, 3.8-alpine3.10 | 3.8-alpine.3.10 |
+| i386-base-python | Alpine | 3.6, 3.7, 3.8, 3.6-alpine3.9, 3.6-alpine3.10, 3.7-alpine3.9, 3.7-alpine.3.10, 3.8-alpine3.9, 3.8-alpine3.10 | 3.8-alpine.3.10 |
 
 ## Ubuntu images
 
