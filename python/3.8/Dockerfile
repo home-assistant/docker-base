@@ -115,6 +115,7 @@ RUN set -ex \
             test_pprint \
             test_re \
             test_set \
+            test_sqlite \
             test_statistics \
             test_struct \
             test_tabnanny \
