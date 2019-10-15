@@ -6,6 +6,7 @@ COPY qemu-arm-static /usr/bin/qemu-arm-static
 
 # Default ENV
 ENV LANG C.UTF-8
+ENV DEBIAN_FRONTEND noninteractive
 ENV CURL_CA_BUNDLE /etc/ssl/certs/ca-certificates.crt
 
 # Set shell
