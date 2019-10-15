@@ -69,6 +69,7 @@ RUN set -ex \
     && ./configure \
         --build="$gnuArch" \
         --enable-loadable-sqlite-extensions \
+        --enable-optimizations \
         --enable-shared \
         --with-system-expat \
         --with-system-ffi \
