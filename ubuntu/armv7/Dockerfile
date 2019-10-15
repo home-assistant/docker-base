@@ -6,6 +6,7 @@ COPY qemu-arm-static /usr/bin/qemu-arm-static
 
 # Default ENV
 ENV LANG C.UTF-8
+ENV DEBIAN_FRONTEND noninteractive
 
 # Set shell
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]

@@ -3,6 +3,7 @@ FROM i386/ubuntu:$BUILD_VERSION
 
 # Default ENV
 ENV LANG C.UTF-8
+ENV DEBIAN_FRONTEND noninteractive
 
 # Set shell
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
