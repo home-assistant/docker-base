@@ -78,6 +78,51 @@ RUN set -ex \
 # set thread stack size to 1MB so we don't segfault before we hit sys.getrecursionlimit()
 # https://github.com/alpinelinux/aports/commit/2026e1259422d4e0cf92391ca2d3844356c649d0
         EXTRA_CFLAGS="-DTHREAD_STACK_SIZE=0x100000" \
+# setting PROFILE_TASK makes "--enable-optimizations" reasonable: https://bugs.python.org/issue36044
+        PROFILE_TASK='-m test.regrtest --pgo \
+            test_asyncio \
+            test_asyncore \
+            test_array \
+            test_base64 \
+            test_binascii \
+            test_binop \
+            test_bisect \
+            test_bytes \
+            test_cmath \
+            test_codecs \
+            test_collections \
+            test_complex \
+            test_dataclasses \
+            test_datetime \
+            test_decimal \
+            test_difflib \
+            test_embed \
+            test_float \
+            test_fstring \
+            test_functools \
+            test_generators \
+            test_hashlib \
+            test_heapq \
+            test_int \
+            test_itertools \
+            test_json \
+            test_long \
+            test_math \
+            test_memoryview \
+            test_operator \
+            test_ordered_dict \
+            test_pickle \
+            test_pprint \
+            test_re \
+            test_set \
+            test_statistics \
+            test_struct \
+            test_tabnanny \
+            test_time \
+            test_unicode \
+            test_xml_etree \
+            test_xml_etree_c \
+		' \
     && make install \
     \
 	&& find /usr/local -type f -executable -not \( -name '*tkinter*' \) -exec scanelf --needed --nobanner --format '%n#p' '{}' ';' \
