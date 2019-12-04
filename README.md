@@ -53,7 +53,7 @@ Using these images as a base for other Docker projects is, however, not recommen
 
 | Image | OS | Tags | latest |
 |-------|----|------|--------|
-| armhf-base-raspbian | Raspbian | jessie, stretch | stretch |
+| armhf-base-raspbian | Raspbian | jessie, stretch, buster | buster |
 
 ## Thanks
 

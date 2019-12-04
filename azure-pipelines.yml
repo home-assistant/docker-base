@@ -169,6 +169,9 @@ jobs:
         buildLatest: '--no-latest'
       stretch:
         buildVersion: 'stretch'
+        buildLatest: '--no-latest'
+      buster:
+        buildVersion: 'buster'
         buildLatest: ''
   steps:
   - script: sudo docker login -u $(dockerUser) -p $(dockerPassword)

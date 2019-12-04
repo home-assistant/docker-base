@@ -1,5 +1,5 @@
 ARG BUILD_FROM
-FROM raspbian/$BUILD_FROM:latest
+FROM tianon/raspbian:${BUILD_FROM}
 
 # QEMU for crossbuilds
 COPY qemu-arm-static /usr/bin/qemu-arm-static
