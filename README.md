@@ -12,7 +12,7 @@ Using these images as a base for other Docker projects is, however, not recommen
 | Image | OS | Tags | latest |
 |-------|----|------|--------|
 | armhf-base | Alpine | 3.6, 3.7, 3.8, 3.9, 3.10 | 3.10 |
-| armv7-base | Alpine | 3.9 | 3.9 |
+| armv7-base | Alpine | 3.9, 3.10 | 3.10 |
 | aarch64-base | Alpine | 3.6, 3.7, 3.8, 3.9, 3.10 | 3.10 |
 | amd64-base | Alpine | 3.6, 3.7, 3.8, 3.9, 3.10 | 3.10 |
 | i386-base | Alpine | 3.6, 3.7, 3.8, 3.9, 3.10 | 3.10 |
