@@ -60,6 +60,7 @@ RUN set -ex \
         tk-dev \
         xz-dev \
         zlib-dev \
+        bluez-dev \
 # add build deps before removing fetch deps in case there's overlap
     && apk del .fetch-deps \
     \
