@@ -64,6 +64,10 @@ jobs:
       alpine310:
         buildVersion: '3.10'
         buildArch: '--all'
+        buildArgs: '--no-latest'
+      alpine311:
+        buildVersion: '3.11'
+        buildArch: '--all'
         buildArgs: ''
   steps:
   - script: sudo docker login -u $(dockerUser) -p $(dockerPassword)
@@ -91,6 +95,13 @@ jobs:
   parameters:
     name: '36_Alpine310'
     version: '3.6=3.10'
+    args: '--no-latest'
+
+
+- template: .azure/azp-template-python.yml
+  parameters:
+    name: '36_Alpine311'
+    version: '3.6=3.11'
     args: '--no-latest --release-tag'
 
 
@@ -105,6 +116,13 @@ jobs:
   parameters:
     name: '37_Alpine310'
     version: '3.7=3.10'
+    args: '--no-latest'
+
+
+- template: .azure/azp-template-python.yml
+  parameters:
+    name: '37_Alpine311'
+    version: '3.7=3.11'
     args: '--release-tag --no-latest'
 
 
@@ -119,6 +137,13 @@ jobs:
   parameters:
     name: '38_Alpine310'
     version: '3.8=3.10'
+    args: '--no-latest'
+
+
+- template: .azure/azp-template-python.yml
+  parameters:
+    name: '38_Alpine311'
+    version: '3.8=3.11'
     args: '--release-tag'
 
 
