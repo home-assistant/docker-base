@@ -32,9 +32,9 @@ Using these images as a base for other Docker projects is, however, not recommen
 
 | Image | OS | Tags | latest |
 |-------|----|------|--------|
-| armv7-base-ubuntu | Ubuntu | 14.04, 16.04, 18.04 | 18.04 |
-| aarch64-base-ubuntu | Ubuntu | 14.04, 16.04, 18.04 | 18.04 |
-| amd64-base-ubuntu | Ubuntu | 14.04, 16.04, 18.04 | 18.04 |
+| armv7-base-ubuntu | Ubuntu | 14.04, 16.04, 18.04 20.04 | 18.04 |
+| aarch64-base-ubuntu | Ubuntu | 14.04, 16.04, 18.04 20.04 | 18.04 |
+| amd64-base-ubuntu | Ubuntu | 14.04, 16.04, 18.04 20.04 | 18.04 |
 | i386-base-ubuntu | Ubuntu | 14.04, 16.04, 18.04 | 18.04 |
 
 # Debian images
@@ -43,11 +43,11 @@ Using these images as a base for other Docker projects is, however, not recommen
 
 | Image | OS | Tags | latest |
 |-------|----|------|--------|
-| armv7-base-debian | Debian | stretch buster | buster |
-| armhf-base-debian | Debian | stretch buster | buster |
-| aarch64-base-debian | Debain | stretch buster | buster |
-| amd64-base-debian | Debain | stretch buster | buster |
-| i386-base-debian | Debain | stretch buster | buster |
+| armv7-base-debian | Debian | stretch buster bullseye | buster |
+| armhf-base-debian | Debian | stretch buster bullseye | buster |
+| aarch64-base-debian | Debain | stretch buster bullseye | buster |
+| amd64-base-debian | Debain | stretch buster bullseye | buster |
+| i386-base-debian | Debain | stretch buster bullseye | buster |
 
 ## Raspbian images
 
