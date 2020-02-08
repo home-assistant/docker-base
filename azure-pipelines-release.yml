@@ -14,7 +14,6 @@ variables:
 jobs:
 
 - job: 'Alpine'
-  condition: and(startsWith(variables['Build.SourceBranch'], 'refs/tags'), succeeded('Linter'))
   pool:
     vmImage: 'ubuntu-16.04'
   strategy:
@@ -122,7 +121,6 @@ jobs:
 
 
 - job: 'Ubuntu'
-  condition: and(startsWith(variables['Build.SourceBranch'], 'refs/tags'), succeeded('Linter'))
   pool:
     vmImage: 'ubuntu-16.04'
   strategy:
@@ -160,7 +158,6 @@ jobs:
 
 
 - job: 'Raspbian'
-  condition: and(startsWith(variables['Build.SourceBranch'], 'refs/tags'), succeeded('Linter'))
   pool:
     vmImage: 'ubuntu-16.04'
   strategy:
@@ -191,7 +188,6 @@ jobs:
 
 
 - job: 'Debian'
-  condition: and(startsWith(variables['Build.SourceBranch'], 'refs/tags'), succeeded('Linter'))
   pool:
     vmImage: 'ubuntu-16.04'
   strategy:
