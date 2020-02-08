@@ -1,46 +1,20 @@
 # https://dev.azure.com/home-assistant
 
 trigger:
-  branches:
-    include:
-    - master
   tags:
     include:
     - '*'
-pr:
-- master
+pr: none
 
 variables:
-  - name: versionHadolint
-    value: 'v1.17.2'
   - name: versionBuilder
     value: '6.4'
   - group: docker
 
 jobs:
 
-- job: 'Linter'
-  pool:
-    vmImage: 'ubuntu-latest'
-  steps:
-  - script: sudo docker pull hadolint/hadolint:$(versionHadolint)
-    displayName: 'Install Hadolint'
-  - script: |
-      set -e
-      shopt -s globstar
-      for dockerfile in **/Dockerfile
-      do
-        echo "Linting: $dockerfile"
-        sudo docker run --rm -i \
-          -v $(pwd)/.hadolint.yaml:/.hadolint.yaml:ro \
-          hadolint/hadolint:$(versionHadolint) < "$dockerfile"
-      done
-    displayName: 'Linting Dockerfiles'
-
-
 - job: 'Alpine'
   condition: and(startsWith(variables['Build.SourceBranch'], 'refs/tags'), succeeded('Linter'))
-  dependsOn: 'Linter'
   pool:
     vmImage: 'ubuntu-16.04'
   strategy:
@@ -149,7 +123,6 @@ jobs:
 
 - job: 'Ubuntu'
   condition: and(startsWith(variables['Build.SourceBranch'], 'refs/tags'), succeeded('Linter'))
-  dependsOn: 'Linter'
   pool:
     vmImage: 'ubuntu-16.04'
   strategy:
@@ -188,7 +161,6 @@ jobs:
 
 - job: 'Raspbian'
   condition: and(startsWith(variables['Build.SourceBranch'], 'refs/tags'), succeeded('Linter'))
-  dependsOn: 'Linter'
   pool:
     vmImage: 'ubuntu-16.04'
   strategy:
@@ -220,7 +192,6 @@ jobs:
 
 - job: 'Debian'
   condition: and(startsWith(variables['Build.SourceBranch'], 'refs/tags'), succeeded('Linter'))
-  dependsOn: 'Linter'
   pool:
     vmImage: 'ubuntu-16.04'
   strategy:
