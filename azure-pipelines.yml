@@ -166,6 +166,10 @@ jobs:
         buildVersion: '18.04'
         buildArch: '--amd64 --i386 --armv7 --aarch64'
         buildLatest: ''
+      focal:
+        buildVersion: '20.04'
+        buildArch: '--amd64 --armv7 --aarch64'
+        buildLatest: '--no-latest'
   steps:
   - script: sudo docker login -u $(dockerUser) -p $(dockerPassword)
     displayName: 'Docker hub login'
@@ -229,6 +233,10 @@ jobs:
         buildVersion: 'buster'
         buildArch: '--amd64 --i386 --armv7 --armhf --aarch64'
         buildLatest: ''
+      bullseye:
+        buildVersion: 'bullseye'
+        buildArch: '--amd64 --i386 --armv7 --armhf --aarch64'
+        buildLatest: '--no-latest'
   steps:
   - script: sudo docker login -u $(dockerUser) -p $(dockerPassword)
     displayName: 'Docker hub login'
