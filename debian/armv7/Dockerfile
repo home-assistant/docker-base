@@ -13,7 +13,7 @@ ENV CURL_CA_BUNDLE /etc/ssl/certs/ca-certificates.crt
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Base system
-ARG BASHIO_VERSION=0.6.0
+ARG BASHIO_VERSION=0.7.0
 RUN apt-get update && apt-get install -y --no-install-recommends \
         bash \
         jq \
