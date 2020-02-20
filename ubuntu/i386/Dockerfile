@@ -9,7 +9,7 @@ ENV DEBIAN_FRONTEND noninteractive
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Base system
-ARG BASHIO_VERSION=0.7.0
+ARG BASHIO_VERSION=0.8.0
 RUN apt-get update && apt-get install -y --no-install-recommends \
         bash \
         jq \
