@@ -1,11 +1,11 @@
-[![Build Status](https://dev.azure.com/home-assistant/Hass.io/_apis/build/status/base?branchName=master)](https://dev.azure.com/home-assistant/Hass.io/_build/latest?definitionId=3&branchName=master)
-
-# Hass.io Base Images
+# Home Assistant Base Images
 
 These base images are designed as Docker base images for use with building Hass.io containers and add-ons.
-It is recommended to use these as a base for your own Hass.io add-ons. 
+It is recommended to use these as a base for your own Home Assistant Add-ons. 
 
 Using these images as a base for other Docker projects is, however, not recommended.
+
+The image include [S6-Overlay](https://github.com/just-containers/s6-overlay).
 
 ## Base images
 
