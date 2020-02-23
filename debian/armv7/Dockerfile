@@ -5,9 +5,12 @@ FROM arm32v7/debian:${BUILD_VERSION}-slim
 COPY qemu-arm-static /usr/bin/qemu-arm-static
 
 # Default ENV
-ENV LANG C.UTF-8
-ENV DEBIAN_FRONTEND noninteractive
-ENV CURL_CA_BUNDLE /etc/ssl/certs/ca-certificates.crt
+ENV \
+    LANG="C.UTF-8" \
+    DEBIAN_FRONTEND="noninteractive" \
+    CURL_CA_BUNDLE="/etc/ssl/certs/ca-certificates.crt" \
+    S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
+    S6_CMD_WAIT_FOR_SERVICES=1
 
 # Set shell
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]

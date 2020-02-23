@@ -5,8 +5,11 @@ FROM arm32v7/ubuntu:$BUILD_VERSION
 COPY qemu-arm-static /usr/bin/qemu-arm-static
 
 # Default ENV
-ENV LANG C.UTF-8
-ENV DEBIAN_FRONTEND noninteractive
+ENV \
+    LANG="C.UTF-8" \
+    DEBIAN_FRONTEND="noninteractive" \
+    S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
+    S6_CMD_WAIT_FOR_SERVICES=1
 
 # Set shell
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]

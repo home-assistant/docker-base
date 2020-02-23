@@ -5,7 +5,10 @@ FROM arm64v8/alpine:$BUILD_VERSION
 COPY qemu-aarch64-static /usr/bin/qemu-aarch64-static
 
 # Default ENV
-ENV LANG C.UTF-8
+ENV \
+    LANG="C.UTF-8" \
+    S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
+    S6_CMD_WAIT_FOR_SERVICES=1
 
 # Set shell
 SHELL ["/bin/ash", "-o", "pipefail", "-c"]
