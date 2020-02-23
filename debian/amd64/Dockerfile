@@ -12,7 +12,7 @@ ENV \
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Base system
-ARG BASHIO_VERSION=0.8.0
+ARG BASHIO_VERSION=0.8.1
 ARG S6_OVERLAY_VERSION=1.22.1.0
 RUN apt-get update && apt-get install -y --no-install-recommends \
         bash \
