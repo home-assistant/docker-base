@@ -33,3 +33,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && mv /tmp/bashio/lib /usr/lib/bashio \
     && ln -s /usr/lib/bashio/bashio /usr/bin/bashio \
     && rm -rf /tmp/bashio
+
+# S6-Overlay
+ENTRYPOINT ["/init"]

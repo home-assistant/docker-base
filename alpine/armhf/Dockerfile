@@ -31,3 +31,6 @@ RUN apk add --no-cache \
     && mv /tmp/bashio/lib /usr/lib/bashio \
     && ln -s /usr/lib/bashio/bashio /usr/bin/bashio \
     && rm -rf /tmp/bashio
+
+# S6-Overlay
+ENTRYPOINT ["/init"]
