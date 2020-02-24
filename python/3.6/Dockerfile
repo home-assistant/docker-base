@@ -172,5 +172,3 @@ RUN set -ex; \
             -type d -a \( -name test -o -name tests \) \
         \) -exec rm -rf '{}' +; \
     rm -f get-pip.py
-
-CMD ["python3"]
