@@ -133,9 +133,6 @@ jobs:
     vmImage: 'ubuntu-16.04'
   strategy:
     matrix:
-      jessie:
-        buildVersion: 'jessie'
-        buildLatest: '--no-latest'
       stretch:
         buildVersion: 'stretch'
         buildLatest: '--no-latest'

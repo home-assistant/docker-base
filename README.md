@@ -57,7 +57,7 @@ We support the latest 3 release with the latest 2 Alpine version.
 
 | Image | OS | Tags | latest |
 |-------|----|------|--------|
-| armhf-base-raspbian | Raspbian | jessie, stretch, buster | buster |
+| armhf-base-raspbian | Raspbian | stretch, buster | buster |
 
 ## Thanks
 
