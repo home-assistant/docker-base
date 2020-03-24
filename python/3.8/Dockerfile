@@ -172,3 +172,19 @@ RUN set -ex; \
             -type d -a \( -name test -o -name tests \) \
         \) -exec rm -rf '{}' +; \
     rm -f get-pip.py
+
+
+# Setup jemalloc
+ARG JEMALLOC_VERSION=5.2.1
+
+RUN apk add --no-cache --virtual .build-deps \
+        build-base \
+    && curl -L -s https://github.com/jemalloc/jemalloc/releases/download/${JEMALLOC_VERSION}/jemalloc-${JEMALLOC_VERSION}.tar.bz2 | tar -xjf - -C /usr/src \
+    && cd /usr/src/jemalloc-${JEMALLOC_VERSION} \
+    && ./configure \
+    && make \
+    && make install \
+    && apk del .build-deps \
+    && rm -rf /usr/src/jemalloc-${JEMALLOC_VERSION}
+
+ENV LD_PRELOAD=/usr/local/lib/libjemalloc.so.2
