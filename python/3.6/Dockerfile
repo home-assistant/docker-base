@@ -185,5 +185,3 @@ RUN apk add --no-cache --virtual .build-deps \
     && make install \
     && apk del .build-deps \
     && rm -rf /usr/src/jemalloc-${JEMALLOC_VERSION}
-
-ENV LD_PRELOAD=/usr/local/lib/libjemalloc.so.2
