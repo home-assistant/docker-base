@@ -22,8 +22,8 @@ RUN set -ex \
         tar \
         xz \
     \
-    && wget -O python.tar.xz "https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz" \
-    && wget -O python.tar.xz.asc "https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz.asc" \
+    && curl -L -o python.tar.xz "https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz" \
+    && curl -L -o python.tar.xz.asc "https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz.asc" \
     && export GNUPGHOME="$(mktemp -d)" \
     && echo "disable-ipv6" >> "$GNUPGHOME/dirmngr.conf" \
     && gpg --batch --keyserver ha.pool.sks-keyservers.net --recv-keys "$GPG_KEY" \
@@ -156,7 +156,7 @@ RUN set -ex; \
     \
     apk add --no-cache --virtual .fetch-deps openssl; \
     \
-    wget -O get-pip.py 'https://bootstrap.pypa.io/get-pip.py'; \
+    curl -L -o get-pip.py 'https://bootstrap.pypa.io/get-pip.py'; \
     \
     apk del .fetch-deps; \
     \
@@ -172,3 +172,18 @@ RUN set -ex; \
             -type d -a \( -name test -o -name tests \) \
         \) -exec rm -rf '{}' +; \
     rm -f get-pip.py
+
+# Setup jemalloc
+ARG JEMALLOC_VERSION=5.2.1
+
+RUN apk add --no-cache --virtual .build-deps \
+        build-base \
+    && curl -L -s https://github.com/jemalloc/jemalloc/releases/download/${JEMALLOC_VERSION}/jemalloc-${JEMALLOC_VERSION}.tar.bz2 | tar -xjf - -C /usr/src \
+    && cd /usr/src/jemalloc-${JEMALLOC_VERSION} \
+    && ./configure \
+    && make \
+    && make install \
+    && apk del .build-deps \
+    && rm -rf /usr/src/jemalloc-${JEMALLOC_VERSION}
+
+ENV LD_PRELOAD=/usr/local/lib/libjemalloc.so.2
