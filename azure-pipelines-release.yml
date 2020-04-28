@@ -107,11 +107,11 @@ jobs:
       bionic:
         buildVersion: '18.04'
         buildArch: '--amd64 --i386 --armv7 --aarch64'
-        buildLatest: ''
+        buildLatest: '--no-latest'
       focal:
         buildVersion: '20.04'
         buildArch: '--amd64 --armv7 --aarch64'
-        buildLatest: '--no-latest'
+        buildLatest: ''
   steps:
   - script: sudo docker login -u $(dockerUser) -p $(dockerPassword)
     displayName: 'Docker hub login'
