@@ -12,7 +12,7 @@ SHELL ["/bin/ash", "-o", "pipefail", "-c"]
 
 # Base system
 ARG BASHIO_VERSION=0.9.0
-ARG S6_OVERLAY_VERSION=1.22.1.0
+ARG S6_OVERLAY_VERSION=2.0.0.1
 RUN apk add --no-cache \
         bash \
         jq \
