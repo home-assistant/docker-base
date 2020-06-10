@@ -15,13 +15,9 @@ jobs:
 
 - job: 'Alpine'
   pool:
-    vmImage: 'ubuntu-16.04'
+    vmImage: 'ubuntu-latest'
   strategy:
     matrix:
-      alpine38:
-        buildVersion: '3.8'
-        buildArch: '--amd64 --i386 --armhf --aarch64'
-        buildArgs: '--no-latest'
       alpine39:
         buildVersion: '3.9'
         buildArch: '--all'
@@ -32,6 +28,10 @@ jobs:
         buildArgs: '--no-latest'
       alpine311:
         buildVersion: '3.11'
+        buildArch: '--all'
+        buildArgs: '--no-latest'
+      alpine312:
+        buildVersion: '3.12'
         buildArch: '--all'
         buildArgs: ''
   steps:
@@ -51,49 +51,49 @@ jobs:
 
 - template: .azure/azp-template-python.yml
   parameters:
-    name: '36_Alpine310'
-    version: '3.6=3.10'
-    args: '--no-latest'
-
-
-- template: .azure/azp-template-python.yml
-  parameters:
     name: '36_Alpine311'
     version: '3.6=3.11'
-    args: '--no-latest --release-tag'
+    args: '--no-latest'
 
 
 - template: .azure/azp-template-python.yml
   parameters:
-    name: '37_Alpine310'
-    version: '3.7=3.10'
-    args: '--no-latest'
+    name: '36_Alpine312'
+    version: '3.6=3.12'
+    args: '--no-latest --release-tag'
 
 
 - template: .azure/azp-template-python.yml
   parameters:
     name: '37_Alpine311'
     version: '3.7=3.11'
-    args: '--release-tag --no-latest'
+    args: '--no-latest'
 
 
 - template: .azure/azp-template-python.yml
   parameters:
-    name: '38_Alpine310'
-    version: '3.8=3.10'
-    args: '--no-latest'
+    name: '37_Alpine312'
+    version: '3.7=3.12'
+    args: '--release-tag --no-latest'
 
 
 - template: .azure/azp-template-python.yml
   parameters:
     name: '38_Alpine311'
     version: '3.8=3.11'
+    args: '--no-latest'
+
+
+- template: .azure/azp-template-python.yml
+  parameters:
+    name: '38_Alpine312'
+    version: '3.8=3.12'
     args: '--release-tag'
 
 
 - job: 'Ubuntu'
   pool:
-    vmImage: 'ubuntu-16.04'
+    vmImage: 'ubuntu-latest'
   strategy:
     matrix:
       trusty:
@@ -130,7 +130,7 @@ jobs:
 
 - job: 'Raspbian'
   pool:
-    vmImage: 'ubuntu-16.04'
+    vmImage: 'ubuntu-latest'
   strategy:
     matrix:
       stretch:
@@ -157,7 +157,7 @@ jobs:
 
 - job: 'Debian'
   pool:
-    vmImage: 'ubuntu-16.04'
+    vmImage: 'ubuntu-latest'
   strategy:
     matrix:
       stretch:
