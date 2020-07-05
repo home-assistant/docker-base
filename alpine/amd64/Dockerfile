@@ -10,9 +10,13 @@ ENV \
 # Set shell
 SHELL ["/bin/ash", "-o", "pipefail", "-c"]
 
-# Base system
+# Version
 ARG BASHIO_VERSION=0.9.0
 ARG S6_OVERLAY_VERSION=2.0.0.1
+ARG JEMALLOC_VERSION=5.2.1
+
+# Base system
+WORKDIR /usr/src
 RUN apk add --no-cache \
         bash \
         jq \
@@ -21,16 +25,30 @@ RUN apk add --no-cache \
         curl \
         bind-tools \
     \
+    && apk add --no-cache --virtual .build-deps \
+        build-base \
+    \
     && curl -L -s "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-amd64.tar.gz" \
         | tar zxvf - -C / \
     && mkdir -p /etc/fix-attrs.d \
     && mkdir -p /etc/services.d \
     \
-    && mkdir -p /tmp/bashio \
-    && curl -L -s https://github.com/hassio-addons/bashio/archive/v${BASHIO_VERSION}.tar.gz | tar -xzf - --strip 1 -C /tmp/bashio \
-    && mv /tmp/bashio/lib /usr/lib/bashio \
+    && curl -L -s "https://github.com/jemalloc/jemalloc/releases/download/${JEMALLOC_VERSION}/jemalloc-${JEMALLOC_VERSION}.tar.bz2" \
+        | tar -xjf - -C /usr/src \
+    && cd /usr/src/jemalloc-${JEMALLOC_VERSION} \
+    && ./configure \
+    && make \
+    && make install \
+    \
+    && mkdir -p /usr/src/bashio \
+    && curl -L -s "https://github.com/hassio-addons/bashio/archive/v${BASHIO_VERSION}.tar.gz" \
+        | tar -xzf - --strip 1 -C /usr/src/bashio \
+    && mv /usr/src/bashio/lib /usr/lib/bashio \
     && ln -s /usr/lib/bashio/bashio /usr/bin/bashio \
-    && rm -rf /tmp/bashio
+    \
+    && apk del .build-deps \
+    && rm -rf /usr/src/*
 
 # S6-Overlay
+WORKDIR /
 ENTRYPOINT ["/init"]
