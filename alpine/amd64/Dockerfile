@@ -10,10 +10,13 @@ ENV \
 # Set shell
 SHELL ["/bin/ash", "-o", "pipefail", "-c"]
 
-# Base system
+# Version
 ARG BASHIO_VERSION=0.9.0
 ARG S6_OVERLAY_VERSION=2.0.0.1
 ARG JEMALLOC_VERSION=5.2.1
+
+# Base system
+WORKDIR /usr/src
 RUN apk add --no-cache \
         bash \
         jq \
@@ -37,14 +40,15 @@ RUN apk add --no-cache \
     && make \
     && make install \
     \
-    && mkdir -p /tmp/bashio \
-    && curl -L -s https://github.com/hassio-addons/bashio/archive/v${BASHIO_VERSION}.tar.gz | tar -xzf - --strip 1 -C /tmp/bashio \
-    && mv /tmp/bashio/lib /usr/lib/bashio \
+    && mkdir -p /usr/src/bashio \
+    && curl -L -s "https://github.com/hassio-addons/bashio/archive/v${BASHIO_VERSION}.tar.gz" \
+        | tar -xzf - --strip 1 -C /usr/src/bashio \
+    && mv /usr/src/bashio/lib /usr/lib/bashio \
     && ln -s /usr/lib/bashio/bashio /usr/bin/bashio \
     \
     && apk del .build-deps \
-    && rm -rf /tmp/bashio \
-    && rm -rf /usr/src/jemalloc-${JEMALLOC_VERSION}
+    && rm -rf /usr/src/*
 
 # S6-Overlay
+WORKDIR /
 ENTRYPOINT ["/init"]
