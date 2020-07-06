@@ -80,10 +80,10 @@ RUN set -ex \
 # set thread stack size to 1MB so we don't segfault before we hit sys.getrecursionlimit()
 # https://github.com/alpinelinux/aports/commit/2026e1259422d4e0cf92391ca2d3844356c649d0
         EXTRA_CFLAGS="-DTHREAD_STACK_SIZE=0x100000" \
+        LDFLAGS="-Wl,--strip-all" \
 # setting PROFILE_TASK makes "--enable-optimizations" reasonable: https://bugs.python.org/issue36044
 		PROFILE_TASK='-m test.regrtest --pgo \
-            test_asyncio \
-            test_asyncore \
+            test_asynio \
             test_array \
             test_base64 \
             test_binascii \
