@@ -83,7 +83,7 @@ RUN set -ex \
         LDFLAGS="-Wl,--strip-all" \
 # setting PROFILE_TASK makes "--enable-optimizations" reasonable: https://bugs.python.org/issue36044
 		PROFILE_TASK='-m test.regrtest --pgo \
-            test_asynio \
+            test_asyncio \
             test_array \
             test_base64 \
             test_binascii \
