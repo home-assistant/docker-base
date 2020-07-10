@@ -78,8 +78,8 @@ RUN set -ex \
         --with-system-ffi \
         --without-ensurepip \
     && make -j "$(nproc)" \
-        LDFLAGS="-Wl,--strip-all -L`jemalloc-config --libdir` -Wl,-rpath,`jemalloc-config --libdir` -ljemalloc `jemalloc-config --libs`" \
-        CFLAGS="-fno-semantic-interposition" \
+        LDFLAGS="-Wl,--strip-all" \
+        CFLAGS="-fno-semantic-interposition -fno-builtin-malloc -fno-builtin-calloc -fno-builtin-realloc -fno-builtin-free -ljemalloc" \
 # set thread stack size to 1MB so we don't segfault before we hit sys.getrecursionlimit()
 # https://github.com/alpinelinux/aports/commit/2026e1259422d4e0cf92391ca2d3844356c649d0
         EXTRA_CFLAGS="-DTHREAD_STACK_SIZE=0x100000" \
