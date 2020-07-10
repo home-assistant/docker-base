@@ -41,7 +41,7 @@ RUN set -ex \
         dpkg-dev dpkg \
         expat-dev \
         findutils \
-        gcc \
+        build-base \
         gdbm-dev \
         libc-dev \
         libffi-dev \
@@ -73,14 +73,16 @@ RUN set -ex \
         --enable-loadable-sqlite-extensions \
         --enable-optimizations \
         --enable-shared \
+        --with-lto \
         --with-system-expat \
         --with-system-ffi \
         --without-ensurepip \
     && make -j "$(nproc)" \
+        LDFLAGS="-Wl,--strip-all" \
+        CFLAGS="-fno-semantic-interposition -fno-builtin-malloc -fno-builtin-calloc -fno-builtin-realloc -fno-builtin-free -ljemalloc" \
 # set thread stack size to 1MB so we don't segfault before we hit sys.getrecursionlimit()
 # https://github.com/alpinelinux/aports/commit/2026e1259422d4e0cf92391ca2d3844356c649d0
         EXTRA_CFLAGS="-DTHREAD_STACK_SIZE=0x100000" \
-        LDFLAGS="-Wl,--strip-all" \
 # setting PROFILE_TASK makes "--enable-optimizations" reasonable: https://bugs.python.org/issue36044
 		PROFILE_TASK='-m test.regrtest --pgo \
             test_asyncio \
