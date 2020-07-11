@@ -19,7 +19,11 @@ We support version they are not EOL: https://wiki.alpinelinux.org/wiki/Alpine_Li
 | amd64-base | Alpine | 3.9, 3.10, 3.11 3.12 | 3.12 |
 | i386-base | Alpine | 3.9, 3.10, 3.11 3.12 | 3.12 |
 
-## Python images
+### Jemalloc
+
+We support on our platforms jemalloc. On application which you want enable it, set as envoriement `LD_PRELOAD="/usr/local/lib/libjemalloc.so.2"` on your Dockerfile or before you start the application.
+
+### Python images
 
 We support the latest 3 release with the latest 2 Alpine version.
 
@@ -30,7 +34,9 @@ We support the latest 3 release with the latest 2 Alpine version.
 | amd64-base-python | Alpine | 3.6, 3.7, 3.8, 3.6-alpine3.11, 3.6-alpine3.12, 3.7-alpine.3.11, 3.7-alpine.3.12, 3.8-alpine3.11, 3.8-alpine3.12 | 3.8-alpine.3.12 |
 | i386-base-python | Alpine | 3.6, 3.7, 3.8, 3.6-alpine3.11, 3.6-alpine3.12, 3.7-alpine.3.11, 3.7-alpine.3.12, 3.8-alpine3.11, 3.8-alpine3.12 | 3.8-alpine.3.12 |
 
-## Ubuntu images
+## Others
+
+### Ubuntu images
 
 **Note**: We prefer the alpine based version because it's more IoT friendly. In some case, you need a glibc system like this.
 
@@ -41,7 +47,7 @@ We support the latest 3 release with the latest 2 Alpine version.
 | amd64-base-ubuntu | Ubuntu | 14.04, 16.04, 18.04 20.04 | 20.04 |
 | i386-base-ubuntu | Ubuntu | 14.04, 16.04, 18.04 | |
 
-# Debian images
+### Debian images
 
 **Note**: We prefer the alpine based version because it's more IoT friendly. In some case, you need a glibc system like this.
 
@@ -53,7 +59,7 @@ We support the latest 3 release with the latest 2 Alpine version.
 | amd64-base-debian | Debain | stretch buster bullseye | buster |
 | i386-base-debian | Debain | stretch buster bullseye | buster |
 
-## Raspbian images
+### Raspbian images
 
 | Image | OS | Tags | latest |
 |-------|----|------|--------|
