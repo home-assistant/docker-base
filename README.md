@@ -5,7 +5,7 @@ It is recommended to use these as a base for your own Home Assistant Add-ons.
 
 Using these images as a base for other Docker projects is, however, not recommended.
 
-The image include [S6-Overlay](https://github.com/just-containers/s6-overlay).
+The image include [S6-Overlay](https://github.com/just-containers/s6-overlay) and [Bashio](https://github.com/hassio-addons/bashio).
 
 ## Base images
 
@@ -36,17 +36,6 @@ We support the latest 3 release with the latest 2 Alpine version.
 
 ## Others
 
-### Ubuntu images
-
-**Note**: We prefer the alpine based version because it's more IoT friendly. In some case, you need a glibc system like this.
-
-| Image | OS | Tags | latest |
-|-------|----|------|--------|
-| armv7-base-ubuntu | Ubuntu | 14.04, 16.04, 18.04 20.04 | 20.04 |
-| aarch64-base-ubuntu | Ubuntu | 14.04, 16.04, 18.04 20.04 | 20.04 |
-| amd64-base-ubuntu | Ubuntu | 14.04, 16.04, 18.04 20.04 | 20.04 |
-| i386-base-ubuntu | Ubuntu | 14.04, 16.04, 18.04 | |
-
 ### Debian images
 
 **Note**: We prefer the alpine based version because it's more IoT friendly. In some case, you need a glibc system like this.
@@ -59,6 +48,17 @@ We support the latest 3 release with the latest 2 Alpine version.
 | amd64-base-debian | Debain | stretch buster bullseye | buster |
 | i386-base-debian | Debain | stretch buster bullseye | buster |
 
+### Ubuntu images
+
+**Note**: We prefer the alpine based version because it's more IoT friendly. In some case, you need a glibc system like this.
+
+| Image | OS | Tags | latest |
+|-------|----|------|--------|
+| armv7-base-ubuntu | Ubuntu | 14.04, 16.04, 18.04 20.04 | 20.04 |
+| aarch64-base-ubuntu | Ubuntu | 14.04, 16.04, 18.04 20.04 | 20.04 |
+| amd64-base-ubuntu | Ubuntu | 14.04, 16.04, 18.04 20.04 | 20.04 |
+| i386-base-ubuntu | Ubuntu | 14.04, 16.04, 18.04 | |
+
 ### Raspbian images
 
 | Image | OS | Tags | latest |
@@ -67,4 +67,4 @@ We support the latest 3 release with the latest 2 Alpine version.
 
 ## Thanks
 
-We use https://github.com/multiarch/qemu-user-static to provide a multiarch image.
+We use https://github.com/multiarch/qemu-user-static to provide a multiarch image. 
