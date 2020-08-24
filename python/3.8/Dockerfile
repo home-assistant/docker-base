@@ -12,7 +12,7 @@ SHELL ["/bin/ash", "-o", "pipefail", "-c"]
 RUN apk add --no-cache ca-certificates
 
 ENV GPG_KEY E3FF2839C048B25C084DEBE9B26995E310250568
-ENV PYTHON_VERSION 3.8.3
+ENV PYTHON_VERSION 3.8.4
 
 COPY *.patch /usr/src/
 RUN set -ex \
@@ -107,7 +107,7 @@ RUN cd /usr/local/bin \
     && ln -s python3-config python-config
 
 # if this is called "PIP_VERSION", pip explodes with "ValueError: invalid truth value '<VERSION>'"
-ENV PYTHON_PIP_VERSION 20.1.1
+ENV PYTHON_PIP_VERSION 20.2.2
 
 RUN set -ex; \
     \
