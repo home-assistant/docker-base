@@ -9,7 +9,7 @@ The image include [S6-Overlay](https://github.com/just-containers/s6-overlay) an
 
 ## Base images
 
-We support version they are not EOL: https://wiki.alpinelinux.org/wiki/Alpine_Linux:Releases
+We support version that are not EOL: https://wiki.alpinelinux.org/wiki/Alpine_Linux:Releases
 
 | Image | OS | Tags | latest |
 |-------|----|------|--------|
