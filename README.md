@@ -29,10 +29,10 @@ We support the latest 3 release with the latest 2 Alpine version.
 
 | Image | OS | Tags | latest |
 |-------|----|------|--------|
-| armhf-base-python | Alpine | 3.6, 3.7, 3.8, 3.6-alpine3.11, 3.6-alpine3.12, 3.7-alpine.3.11, 3.7-alpine.3.12, 3.8-alpine3.11, 3.8-alpine3.12 | 3.8-alpine.3.12 |
-| aarch64-base-python | Alpine | 3.6, 3.7, 3.8, 3.6-alpine3.11, 3.6-alpine3.12, 3.7-alpine.3.11, 3.7-alpine.3.12, 3.8-alpine3.11, 3.8-alpine3.12 | 3.8-alpine.3.12 |
-| amd64-base-python | Alpine | 3.6, 3.7, 3.8, 3.6-alpine3.11, 3.6-alpine3.12, 3.7-alpine.3.11, 3.7-alpine.3.12, 3.8-alpine3.11, 3.8-alpine3.12 | 3.8-alpine.3.12 |
-| i386-base-python | Alpine | 3.6, 3.7, 3.8, 3.6-alpine3.11, 3.6-alpine3.12, 3.7-alpine.3.11, 3.7-alpine.3.12, 3.8-alpine3.11, 3.8-alpine3.12 | 3.8-alpine.3.12 |
+| armhf-base-python | Alpine | 3.7, 3.8, 3.9, 3.7-alpine.3.11, 3.7-alpine.3.12, 3.8-alpine3.11, 3.8-alpine3.12, 3.9-alpine3.11, 3.9-alpine3.12 | 3.9-alpine.3.12 |
+| aarch64-base-python | Alpine | 3.7, 3.8, 3.9, 3.7-alpine.3.11, 3.7-alpine.3.12, 3.8-alpine3.11, 3.8-alpine3.12, 3.9-alpine3.11, 3.9-alpine3.12 | 3.9-alpine.3.12 |
+| amd64-base-python | Alpine | 3.7, 3.8, 3.9, 3.7-alpine.3.11, 3.7-alpine.3.12, 3.8-alpine3.11, 3.8-alpine3.12, 3.9-alpine3.11, 3.9-alpine3.12 | 3.9-alpine.3.12 |
+| i386-base-python | Alpine | 3.7, 3.8, 3.9, 3.7-alpine.3.11, 3.7-alpine.3.12, 3.8-alpine3.11, 3.8-alpine3.12, 3.9-alpine3.11, 3.9-alpine3.12 | 3.9-alpine.3.12 |
 
 ## Others
 
