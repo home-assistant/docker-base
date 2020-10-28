@@ -15,6 +15,7 @@ SHELL ["/bin/ash", "-o", "pipefail", "-c"]
 
 # Version
 ARG BASHIO_VERSION=0.9.0
+ARG TEMPIO_VERSION=2020.10.1
 ARG S6_OVERLAY_VERSION=2.1.0.2
 ARG JEMALLOC_VERSION=5.2.1
 
@@ -48,6 +49,10 @@ RUN apk add --no-cache \
         | tar -xzf - --strip 1 -C /usr/src/bashio \
     && mv /usr/src/bashio/lib /usr/lib/bashio \
     && ln -s /usr/lib/bashio/bashio /usr/bin/bashio \
+    \
+    && curl -Lso /usr/bin/tempio \
+        "https://github.com/home-assistant/tempio/releases/download/${TEMPIO_VERSION}/tempio_${BUILD_ARCH}" \
+    && chmod a+x /usr/bin/tempio \
     \
     && apk del .build-deps \
     && rm -rf /usr/src/*
