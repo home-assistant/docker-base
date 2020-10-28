@@ -5,7 +5,7 @@ It is recommended to use these as a base for your own Home Assistant Add-ons.
 
 Using these images as a base for other Docker projects is, however, not recommended.
 
-The image include [S6-Overlay](https://github.com/just-containers/s6-overlay) and [Bashio](https://github.com/hassio-addons/bashio).
+The image include [S6-Overlay](https://github.com/just-containers/s6-overlay), [Bashio](https://github.com/hassio-addons/bashio) and [TempIO](https://github.com/home-assistant/tempio).
 
 ## Base images
 
