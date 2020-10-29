@@ -19,8 +19,11 @@ ARG BASHIO_VERSION=0.9.0
 ARG TEMPIO_VERSION=2020.10.2
 ARG S6_OVERLAY_VERSION=2.1.0.2
 
+ARG BUILD_ARCH
+
 RUN \
-    apt-get update && apt-get install -y --no-install-recommends \
+    set -x \
+    && apt-get update && apt-get install -y --no-install-recommends \
         bash \
         jq \
         tzdata \

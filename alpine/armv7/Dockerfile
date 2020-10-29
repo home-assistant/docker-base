@@ -21,7 +21,11 @@ ARG JEMALLOC_VERSION=5.2.1
 
 # Base system
 WORKDIR /usr/src
-RUN apk add --no-cache \
+ARG BUILD_ARCH
+
+RUN \
+    set -x \
+    && apk add --no-cache \
         bash \
         jq \
         tzdata \
