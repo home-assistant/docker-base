@@ -16,7 +16,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Base system
 ARG BASHIO_VERSION=0.9.0
-ARG TEMPIO_VERSION=2020.10.1
+ARG TEMPIO_VERSION=2020.10.2
 ARG S6_OVERLAY_VERSION=2.1.0.2
 
 RUN \
@@ -28,17 +28,17 @@ RUN \
         ca-certificates \
     && rm -rf /var/lib/apt/lists/* \
     \
-    && curl -L -s "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-aarch64.tar.gz" \
+    && curl -L -f -s "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-aarch64.tar.gz" \
         | tar zxvf - -C / \
     && mkdir -p /etc/fix-attrs.d \
     && mkdir -p /etc/services.d \
     \
-    && curl -Lso /usr/bin/tempio \
+    && curl -L -f -s -o /usr/bin/tempio \
         "https://github.com/home-assistant/tempio/releases/download/${TEMPIO_VERSION}/tempio_${BUILD_ARCH}" \
     && chmod a+x /usr/bin/tempio \
     \
     && mkdir -p /tmp/bashio \
-    && curl -L -s "https://github.com/hassio-addons/bashio/archive/v${BASHIO_VERSION}.tar.gz" \
+    && curl -L -f -s "https://github.com/hassio-addons/bashio/archive/v${BASHIO_VERSION}.tar.gz" \
         | tar -xzf - --strip 1 -C /tmp/bashio \
     && mv /tmp/bashio/lib /usr/lib/bashio \
     && ln -s /usr/lib/bashio/bashio /usr/bin/bashio \
