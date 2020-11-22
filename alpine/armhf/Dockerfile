@@ -28,10 +28,11 @@ RUN \
     set -x \
     && apk add --no-cache \
         bash \
-        jq \
+        bind-tools \
         ca-certificates \
         curl \
-        bind-tools \
+        jq \
+        tzdata \
     \
     && apk add --no-cache --virtual .build-deps \
         build-base \
