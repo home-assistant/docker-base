@@ -20,7 +20,6 @@ ARG JEMALLOC_VERSION=5.2.1
 WORKDIR /usr/src
 ARG BUILD_ARCH
 
-# hadolint ignore=SC2086
 RUN \
     set -x \
     && apk add --no-cache \
