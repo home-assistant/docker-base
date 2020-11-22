@@ -28,13 +28,42 @@ RUN \
     && apk add --no-cache \
         bash \
         jq \
-        tzdata \
         ca-certificates \
         curl \
         bind-tools \
     \
     && apk add --no-cache --virtual .build-deps \
         build-base \
+        patch \
+        pkgconf \
+    \
+    && mkdir -p /usr/src/tzdata \
+    && curl -L -f -s "https://www.iana.org/time-zones/repository/releases/tzcode2020c.tar.gz" \
+        | tar -xzf - -C /usr/src/tzdata \
+    && curl -L -f -s "https://www.iana.org/time-zones/repository/releases/tzdata2020c.tar.gz" \
+        | tar -xzf - -C /usr/src/tzdata \
+    && cd /usr/src/tzdata \
+    && make CFLAGS="-DHAVE_STDINT_H=1" TZDIR="/usr/share/zoneinfo" \
+    && _timezones="africa antarctica asia australasia europe northamerica southamerica etcetera backward factory" \
+    && ./zic -b fat -y ./yearistype -d /usr/share/zoneinfo $_timezones \
+    && ./zic -b fat -y ./yearistype -d /usr/share/zoneinfo/right -L leapseconds $_timezones \
+    && ./zic -b fat -y ./yearistype -d /usr/share/zoneinfo -p America/New_York \
+    && install -m444 -t /usr/share/zoneinfo iso3166.tab zone1970.tab zone.tab \
+    && install -m755 zic zdump /usr/sbin \
+    && rm -f /usr/share/zoneinfo/localtime \
+    \
+    && mkdir -p /usr/src/posixtz \
+    && cd /usr/src/posixtz \
+    && curl -J -L -o posixtz.xz "https://dev.alpinelinux.org/archive/posixtz/posixtz-0.5.tar.xz" \
+    && tar xvf posixtz.xz --strip 1 \
+    && curl -J -L --retry 5 -o 0001.patch \
+        "https://git.alpinelinux.org/aports/plain/main/tzdata/0001-posixtz-ensure-the-file-offset-we-pass-to-lseek-is-o.patch" \
+    && curl -J -L --retry 5 -o 0002.patch \
+        "https://git.alpinelinux.org/aports/plain/main/tzdata/0002-fix-implicit-declaration-warnings-by-including-strin.patch" \
+    && patch -p 2 < 0001.patch \
+    && patch -p 2 < 0002.patch \
+    && make posixtz \
+    && install -Dm755 posixtz /usr/bin/posixtz \
     \
     && curl -L -f -s "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-armhf.tar.gz" \
         | tar zxvf - -C / \
