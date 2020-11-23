@@ -24,11 +24,11 @@ RUN \
     set -x \
     && apk add --no-cache \
         bash \
-        jq \
-        tzdata \
+        bind-tools \
         ca-certificates \
         curl \
-        bind-tools \
+        jq \
+        "tzdata>=2020c-r1" \
     \
     && apk add --no-cache --virtual .build-deps \
         build-base \
