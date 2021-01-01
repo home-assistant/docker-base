@@ -31,7 +31,7 @@ RUN \
         ca-certificates \
         curl \
         jq \
-        "tzdata>=2020c-r1" \
+        tzdata \
     \
     && apk add --no-cache --virtual .build-deps \
         build-base \
