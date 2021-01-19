@@ -9,15 +9,15 @@ The image include [S6-Overlay](https://github.com/just-containers/s6-overlay), [
 
 ## Base images
 
-We support version that are not EOL: https://wiki.alpinelinux.org/wiki/Alpine_Linux:Releases
+We support version that are not EOL: https://alpinelinux.org/releases/
 
 | Image | OS | Tags | latest |
 |-------|----|------|--------|
-| armhf-base | Alpine | 3.9, 3.10, 3.11 3.12 | 3.12 |
-| armv7-base | Alpine | 3.9, 3.10, 3.11 3.12 | 3.12 |
-| aarch64-base | Alpine | 3.9, 3.10, 3.11 3.12 | 3.12 |
-| amd64-base | Alpine | 3.9, 3.10, 3.11 3.12 | 3.12 |
-| i386-base | Alpine | 3.9, 3.10, 3.11 3.12 | 3.12 |
+| armhf-base | Alpine | 3.10, 3.11 3.12 3.13 | 3.13 |
+| armv7-base | Alpine | 3.10, 3.11 3.12 3.13 | 3.13 |
+| aarch64-base | Alpine | 3.10, 3.11 3.12 3.13 | 3.13 |
+| amd64-base | Alpine | 3.10, 3.11 3.12 3.13 | 3.13 |
+| i386-base | Alpine | 3.10, 3.11 3.12 3.13 | 3.13 |
 
 ### Jemalloc
 
@@ -29,11 +29,11 @@ We support the latest 3 release with the latest 2 Alpine version.
 
 | Image | OS | Tags | latest |
 |-------|----|------|--------|
-| armhf-base-python | Alpine | 3.7, 3.8, 3.9, 3.7-alpine.3.11, 3.7-alpine.3.12, 3.8-alpine3.11, 3.8-alpine3.12, 3.9-alpine3.11, 3.9-alpine3.12 | 3.9-alpine.3.12 |
-| armv7-base-python | Alpine | 3.7, 3.8, 3.9, 3.7-alpine.3.11, 3.7-alpine.3.12, 3.8-alpine3.11, 3.8-alpine3.12, 3.9-alpine3.11, 3.9-alpine3.12 | 3.9-alpine.3.12 |
-| aarch64-base-python | Alpine | 3.7, 3.8, 3.9, 3.7-alpine.3.11, 3.7-alpine.3.12, 3.8-alpine3.11, 3.8-alpine3.12, 3.9-alpine3.11, 3.9-alpine3.12 | 3.9-alpine.3.12 |
-| amd64-base-python | Alpine | 3.7, 3.8, 3.9, 3.7-alpine.3.11, 3.7-alpine.3.12, 3.8-alpine3.11, 3.8-alpine3.12, 3.9-alpine3.11, 3.9-alpine3.12 | 3.9-alpine.3.12 |
-| i386-base-python | Alpine | 3.7, 3.8, 3.9, 3.7-alpine.3.11, 3.7-alpine.3.12, 3.8-alpine3.11, 3.8-alpine3.12, 3.9-alpine3.11, 3.9-alpine3.12 | 3.9-alpine.3.12 |
+| armhf-base-python | Alpine | 3.7, 3.8, 3.9, 3.7-alpine.3.12, 3.7-alpine.3.13, 3.8-alpine3.12, 3.8-alpine3.13, 3.9-alpine3.12, 3.9-alpine3.13 | 3.9-alpine.3.13 |
+| armv7-base-python | Alpine | 3.7, 3.8, 3.9, 3.7-alpine.3.12, 3.7-alpine.3.13, 3.8-alpine3.12, 3.8-alpine3.13, 3.9-alpine3.12, 3.9-alpine3.13 | 3.9-alpine.3.13 |
+| aarch64-base-python | Alpine | 3.7, 3.8, 3.9, 3.7-alpine.3.12, 3.7-alpine.3.13, 3.8-alpine3.12, 3.8-alpine3.13, 3.9-alpine3.12, 3.9-alpine3.13 | 3.9-alpine.3.13 |
+| amd64-base-python | Alpine | 3.7, 3.8, 3.9, 3.7-alpine.3.12, 3.7-alpine.3.13, 3.8-alpine3.12, 3.8-alpine3.13, 3.9-alpine3.12, 3.9-alpine3.13 | 3.9-alpine.3.13 |
+| i386-base-python | Alpine | 3.7, 3.8, 3.9, 3.7-alpine.3.12, 3.7-alpine.3.13, 3.8-alpine3.12, 3.8-alpine3.13, 3.9-alpine3.12, 3.9-alpine3.13 | 3.9-alpine.3.13 |
 
 ## Others
 

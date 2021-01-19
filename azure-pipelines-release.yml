@@ -37,6 +37,12 @@ stages:
     parameters:
       name: '3_12'
       version: '3.12'
+      args: '--no-latest'
+  
+  - template: .azure/azp-template-alpine.yml
+    parameters:
+      name: '3_13'
+      version: '3.13'
 
 - stage: Others
   jobs:
@@ -142,40 +148,40 @@ stages:
   jobs:
   - template: .azure/azp-template-python.yml
     parameters:
-      name: '37_Alpine311'
-      version: '3.7=3.11'
-      args: '--no-latest'
-
-  - template: .azure/azp-template-python.yml
-    parameters:
       name: '37_Alpine312'
       version: '3.7=3.12'
-      args: '--no-latest --release-tag'
-
+      args: '--no-latest'
 
   - template: .azure/azp-template-python.yml
     parameters:
-      name: '38_Alpine311'
-      version: '3.8=3.11'
-      args: '--no-latest'
+      name: '37_Alpine313'
+      version: '3.7=3.13'
+      args: '--no-latest --release-tag'
 
 
   - template: .azure/azp-template-python.yml
     parameters:
       name: '38_Alpine312'
       version: '3.8=3.12'
-      args: '--release-tag --no-latest'
+      args: '--no-latest'
 
 
   - template: .azure/azp-template-python.yml
     parameters:
-      name: '39_Alpine311'
-      version: '3.9=3.11'
-      args: '--no-latest'
+      name: '38_Alpine313'
+      version: '3.8=3.13'
+      args: '--release-tag --no-latest'
 
 
   - template: .azure/azp-template-python.yml
     parameters:
       name: '39_Alpine312'
       version: '3.9=3.12'
+      args: '--no-latest'
+
+
+  - template: .azure/azp-template-python.yml
+    parameters:
+      name: '39_Alpine313'
+      version: '3.9=3.13'
       args: '--release-tag'
