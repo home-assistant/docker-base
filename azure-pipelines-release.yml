@@ -17,12 +17,6 @@ stages:
   jobs:
   - template: .azure/azp-template-alpine.yml
     parameters:
-      name: '3_9'
-      version: '3.9'
-      args: '--no-latest'
-
-  - template: .azure/azp-template-alpine.yml
-    parameters:
       name: '3_10'
       version: '3.10'
       args: '--no-latest'
