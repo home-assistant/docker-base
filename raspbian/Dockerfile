@@ -1,8 +1,7 @@
 ARG BUILD_FROM
-FROM tianon/raspbian:${BUILD_FROM}-slim
+# all: tianon/raspbian:${VERSION}-slim
 
-# QEMU for crossbuilds
-COPY qemu-arm-static /usr/bin/qemu-arm-static
+FROM ${BUILD_FROM}
 
 # Default ENV
 ENV \
@@ -15,11 +14,14 @@ ENV \
 # Set shell
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-# Base system
-ARG BASHIO_VERSION=0.13.0
-ARG TEMPIO_VERSION=2021.01.0
-ARG S6_OVERLAY_VERSION=2.2.0.3
+# Version
+ARG \
+    BASHIO_VERSION=0.13.0 \
+    TEMPIO_VERSION=2021.01.0 \
+    S6_OVERLAY_VERSION=2.2.0.3 \
 
+# Base system
+WORKDIR /usr/src
 ARG BUILD_ARCH
 
 RUN \
@@ -49,4 +51,5 @@ RUN \
     && rm -rf /tmp/bashio
 
 # S6-Overlay
+WORKDIR /
 ENTRYPOINT ["/init"]

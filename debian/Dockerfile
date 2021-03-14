@@ -1,21 +1,31 @@
-ARG BUILD_VERSION
-FROM debian:${BUILD_VERSION}-slim
+ARG BUILD_FROM
+# amd64: debian:${VERSION}-slim
+# i386: i386/debian:${VERSION}-slim
+# aarch64: arm64v8/debian:${VERSION}-slim
+# armv7: arm32v7/debian:${VERSION}-slim
+# armhf: arm32v5/debian:${VERSION}-slim
+
+FROM ${BUILD_FROM}
 
 # Default ENV
 ENV \
     LANG="C.UTF-8" \
     DEBIAN_FRONTEND="noninteractive" \
+    CURL_CA_BUNDLE="/etc/ssl/certs/ca-certificates.crt" \
     S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
     S6_CMD_WAIT_FOR_SERVICES=1
 
 # Set shell
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-# Base system
-ARG BASHIO_VERSION=0.13.0
-ARG TEMPIO_VERSION=2021.01.0
-ARG S6_OVERLAY_VERSION=2.2.0.3
+# Version
+ARG \
+    BASHIO_VERSION=0.13.0 \
+    TEMPIO_VERSION=2021.01.0 \
+    S6_OVERLAY_VERSION=2.2.0.3 \
 
+# Base system
+WORKDIR /usr/src
 ARG BUILD_ARCH
 
 RUN \
@@ -29,7 +39,16 @@ RUN \
     && rm -rf /var/lib/apt/lists/* \
     && mkdir -p /usr/share/man/man1 \
     \
-    && curl -L -f -s "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-amd64.tar.gz" \
+    && if [ "${BUILD_ARCH}" = "armv7" ]; \
+        then \
+            export S6_ARCH="arm"; \
+        elif [ "${BUILD_ARCH}" = "i386" ]; \
+            export S6_ARCH="x86"; \
+        else \
+            export S6_ARCH="${BUILD_ARCH}"; \
+        fi \
+    \
+    && curl -L -f -s "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-${S6_ARCH}.tar.gz" \
         | tar zxvf - -C / \
     && mkdir -p /etc/fix-attrs.d \
     && mkdir -p /etc/services.d \
@@ -46,4 +65,5 @@ RUN \
     && rm -rf /tmp/bashio
 
 # S6-Overlay
+WORKDIR /
 ENTRYPOINT ["/init"]

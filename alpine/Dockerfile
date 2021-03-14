@@ -1,8 +1,11 @@
-ARG BUILD_VERSION
-FROM arm64v8/alpine:$BUILD_VERSION
+ARG BUILD_FROM
+# amd64: alpine:${VERSION}
+# i386: i386/alpine:${VERSION}
+# aarch64: arm64v8/alpine:${VERSION}
+# armv7: arm32v7/alpine:${VERSION}
+# armhf: arm32v6/alpine:${VERSION}
 
-# QEMU for crossbuilds
-COPY qemu-aarch64-static /usr/bin/qemu-aarch64-static
+FROM ${BUILD_FROM}
 
 # Default ENV
 ENV \
@@ -14,10 +17,11 @@ ENV \
 SHELL ["/bin/ash", "-o", "pipefail", "-c"]
 
 # Version
-ARG BASHIO_VERSION=0.13.0
-ARG TEMPIO_VERSION=2021.01.0
-ARG S6_OVERLAY_VERSION=2.2.0.3
-ARG JEMALLOC_VERSION=5.2.1
+ARG \
+    BASHIO_VERSION=0.13.0 \
+    TEMPIO_VERSION=2021.01.0 \
+    S6_OVERLAY_VERSION=2.2.0.3 \
+    JEMALLOC_VERSION=5.2.1
 
 # Base system
 WORKDIR /usr/src
@@ -36,7 +40,16 @@ RUN \
     && apk add --no-cache --virtual .build-deps \
         build-base \
     \
-    && curl -L -f -s "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-aarch64.tar.gz" \
+    && if [ "${BUILD_ARCH}" = "armv7" ]; \
+        then \
+            export S6_ARCH="arm"; \
+        elif [ "${BUILD_ARCH}" = "i386" ]; \
+            export S6_ARCH="x86"; \
+        else \
+            export S6_ARCH="${BUILD_ARCH}"; \
+        fi \
+    \
+    && curl -L -f -s "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-${S6_ARCH}.tar.gz" \
         | tar zxvf - -C / \
     && mkdir -p /etc/fix-attrs.d \
     && mkdir -p /etc/services.d \
