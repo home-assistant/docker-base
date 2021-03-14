@@ -16,7 +16,7 @@ ENV \
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Base system
-ARG BASHIO_VERSION=0.12.1
+ARG BASHIO_VERSION=0.13.0
 ARG TEMPIO_VERSION=2021.01.0
 ARG S6_OVERLAY_VERSION=2.2.0.3
 
