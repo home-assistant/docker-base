@@ -19,10 +19,6 @@ jobs:
     name: Initialize build
     runs-on: ubuntu-latest
     outputs:
-      architectures_alpine: ${{ steps.info_alpine.outputs.architectures }}
-      architectures_debian: ${{ steps.info_debian.outputs.architectures }}
-      architectures_ubuntu: ${{ steps.info_ubuntu.outputs.architectures }}
-      architectures_raspbian: ${{ steps.info_raspbian.outputs.architectures }}
       release: ${{ steps.version.outputs.version }}
     steps:
     - name: Checkout the repository
@@ -30,30 +26,6 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Get information Alpine
-      id: info_alpine
-      uses: home-assistant/actions/helpers/info@master
-      with:
-        path: ./alpine
-
-    - name: Get information Debian
-      id: info_debian
-      uses: home-assistant/actions/helpers/info@master
-      with:
-        path: ./debian
-
-    - name: Get information Ubuntu
-      id: info_ubuntu
-      uses: home-assistant/actions/helpers/info@master
-      with:
-        path: "${{ github.workspace }}/ubuntu"
-
-    - name: Get information Raspbian
-      id: info_raspbian
-      uses: home-assistant/actions/helpers/info@master
-      with:
-        path: ./raspbian
-      
     - name: Get version
       id: version
       uses: home-assistant/actions/helpers/version@master
@@ -66,7 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        arch: ${{ fromJson(needs.init.outputs.architectures_alpine) }}
+        arch: ["amd64", "i386", "aarch64", "armv7", "armhf"]
         version: ["3.10", "3.11", "3.12", "3.13"] 
     steps:
     - name: Checkout the repository
@@ -116,7 +88,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        arch: ${{ fromJson(needs.init.outputs.architectures_debian) }}
+        arch: ["amd64", "i386", "aarch64", "armv7", "armhf"]
         version: ["stretch", "buster", "bullseye"] 
     steps:
     - name: Checkout the repository
@@ -167,7 +139,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        arch: ${{ fromJson(needs.init.outputs.architectures_ubuntu) }}
+        arch: ["amd64", "aarch64", "armv7"]
         version: ["16.04", "18.04", "20.04"] 
     steps:
     - name: Checkout the repository
@@ -217,7 +189,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        arch: ${{ fromJson(needs.init.outputs.architectures_debian) }}
+        arch: ["armhf"]
         version: ["stretch", "buster", "bullseye"] 
     steps:
     - name: Checkout the repository
@@ -268,7 +240,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        arch: ${{ fromJson(needs.init.outputs.architectures_alpine) }}
+        arch: ["amd64", "i386", "aarch64", "armv7", "armhf"]
         version: ["3.11", "3.12", "3.13"]
         python: ["3.7", "3.8", "3.9"]
     steps:
