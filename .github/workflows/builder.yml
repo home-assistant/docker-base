@@ -151,7 +151,7 @@ jobs:
         args: |
           $BUILD_ARGS \
           --${{ matrix.arch }} \
-          --target /data/alpine \
+          --target /data/debian \
           --with-codenotary \
           --release ${{ needs.init.outputs.version }} \
           --version-from ${{ matrix.version }}-slim
@@ -202,7 +202,7 @@ jobs:
         args: |
           $BUILD_ARGS \
           --${{ matrix.arch }} \
-          --target /data/alpine \
+          --target /data/ubuntu \
           --with-codenotary \
           --release ${{ needs.init.outputs.version }} \
           --base ${{ matrix.version }}
@@ -252,7 +252,7 @@ jobs:
         args: |
           $BUILD_ARGS \
           --${{ matrix.arch }} \
-          --target /data/alpine \
+          --target /data/raspbian \
           --with-codenotary \
           --release ${{ needs.init.outputs.version }} \
           --version-from ${{ matrix.version }}-slim
@@ -304,7 +304,7 @@ jobs:
         args: |
           $BUILD_ARGS \
           --${{ matrix.arch }} \
-          --target "/data/alpine/${{ matrix.python }}" \
+          --target "/data/python/${{ matrix.python }}" \
           --with-codenotary \
           --validate-from home-assistant.io \
           --release ${{ needs.init.outputs.version }} \
