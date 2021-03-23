@@ -317,8 +317,9 @@ build_ubuntu:
         args: |
           $BUILD_ARGS \
           --${{ matrix.arch }} \
-          --target /data/alpine \
+          --target "/data/alpine/${{ matrix.python }}" \
           --with-codenotary \
+          --validate-from home-assistant.io \
           --release ${{ needs.init.outputs.version }} \
           --version-from ${{ matrix.version }} \
           --version ${{ matrix.python }} \
