@@ -1,4 +1,4 @@
-ame: Build base images
+name: Build base images
 
 on:
   pull_request:
