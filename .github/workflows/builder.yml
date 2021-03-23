@@ -29,7 +29,6 @@ jobs:
       architectures_debian: ${{ steps.info_debian.outputs.architectures }}
       architectures_ubuntu: ${{ steps.info_ubuntu.outputs.architectures }}
       architectures_raspbian: ${{ steps.info_raspbian.outputs.architectures }}
-      architectures_python: ${{ steps.info_python.outputs.architectures }}
       release: ${{ steps.version.outputs.version }}
     steps:
     - name: Checkout the repository
@@ -61,12 +60,6 @@ jobs:
       with:
         path: "${{ github.workspace }}/raspbian"
       
-    - name: Get information Python
-      id: info_python
-      uses: home-assistant/actions/helpers/info@master
-      with:
-        path: "${{ github.workspace }}/python"
-
     - name: Get version
       id: version
       uses: home-assistant/actions/helpers/version@master
