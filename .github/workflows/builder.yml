@@ -205,7 +205,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        arch: ${{ fromJson(needs.init.outputs.architectures_debian) }}
+        arch: ${{ fromJson(needs.init.outputs.architectures_raspbian) }}
         version: ["stretch", "buster", "bullseye"] 
     steps:
     - name: Checkout the repository

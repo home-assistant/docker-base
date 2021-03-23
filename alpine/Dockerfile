@@ -40,10 +40,9 @@ RUN \
     && apk add --no-cache --virtual .build-deps \
         build-base \
     \
-    && if [ "${BUILD_ARCH}" = "armv7" ]; \
-        then \
+    && if [ "${BUILD_ARCH}" = "armv7" ]; then \
             export S6_ARCH="arm"; \
-        elif [ "${BUILD_ARCH}" = "i386" ]; \
+        elif [ "${BUILD_ARCH}" = "i386" ]; then \
             export S6_ARCH="x86"; \
         else \
             export S6_ARCH="${BUILD_ARCH}"; \
