@@ -8,16 +8,16 @@ on:
 
 env:
   BUILD_TYPE: base
-  ALPINE_VERSIONS: ["3.10", "3.11", "3.12", "3.13"]
+  ALPINE_VERSIONS: '["3.10", "3.11", "3.12", "3.13"]'
   ALPINE_LATEST: "3.13"
-  DEBIAN_VERSIONS: ["stretch", "buster", "bullseye"]
+  DEBIAN_VERSIONS: '["stretch", "buster", "bullseye"]'
   DEBIAN_LATEST: "buster"
-  UBUNTU_VERSIONS: ["16.04", "18.04", "20.04"]
+  UBUNTU_VERSIONS: '["16.04", "18.04", "20.04"]'
   UBUNTU_LATEST: "20.4"
-  RASPBIAN_VERSIONS: ["stretch", "buster", "bullseye"]
+  RASPBIAN_VERSIONS: '["stretch", "buster", "bullseye"]'
   RASPBIAN_LATEST: "buster"
-  PYTHON_ALPINE_VERSIONS: ["3.11", "3.12", "3.13"]
-  PYTHON_VESIONS: ["3.7", "3.8", "3.9"]
+  PYTHON_ALPINE_VERSIONS: '["3.11", "3.12", "3.13"]'
+  PYTHON_VESIONS: '["3.7", "3.8", "3.9"]'
   PYTHON_LATEST: "3.9"
 
 jobs:
@@ -73,7 +73,7 @@ jobs:
     strategy:
       matrix:
         arch: ${{ fromJson(needs.init.outputs.architectures_alpine) }}
-        version: ${{ env.ALPINE_VERSIONS }} 
+        version: ${{ fromJson(env.ALPINE_VERSIONS) }} 
     steps:
     - name: Checkout the repository
       uses: actions/checkout@v2
@@ -123,7 +123,7 @@ jobs:
     strategy:
       matrix:
         arch: ${{ fromJson(needs.init.outputs.architectures_debian) }}
-        version: ${{ env.DEBIAN_VERSIONS }} 
+        version: ${{ fromJson(env.DEBIAN_VERSIONS) }} 
     steps:
     - name: Checkout the repository
       uses: actions/checkout@v2
@@ -174,7 +174,7 @@ jobs:
     strategy:
       matrix:
         arch: ${{ fromJson(needs.init.outputs.architectures_ubuntu) }}
-        version: ${{ env.UBUNTU_VERSIONS }} 
+        version: ${{ fromJson(env.UBUNTU_VERSIONS) }} 
     steps:
     - name: Checkout the repository
       uses: actions/checkout@v2
@@ -224,7 +224,7 @@ jobs:
     strategy:
       matrix:
         arch: ${{ fromJson(needs.init.outputs.architectures_debian) }}
-        version: ${{ env.RASPBIAN_VERSIONS }} 
+        version: ${{ fromJson(env.RASPBIAN_VERSIONS) }} 
     steps:
     - name: Checkout the repository
       uses: actions/checkout@v2
@@ -275,8 +275,8 @@ jobs:
     strategy:
       matrix:
         arch: ${{ fromJson(needs.init.outputs.architectures_alpine) }}
-        version: ${{ env.PYTHON_ALPINE_VERSIONS }}
-        python: ${{ env.PYTHON_VERSIONS }}
+        version: ${{ fromJson(env.PYTHON_ALPINE_VERSIONS) }}
+        python: ${{ fromJson(env.PYTHON_VERSIONS) }}
     steps:
     - name: Checkout the repository
       uses: actions/checkout@v2
