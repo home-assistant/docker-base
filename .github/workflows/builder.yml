@@ -277,7 +277,7 @@ build_ubuntu:
 
   build_python:
     name: Build ${{ matrix.arch }} alpine ${{ matrix.version }} - python ${{ matrix.python }} base image
-    needs: init
+    needs: [init, build_alpine]
     runs-on: ubuntu-latest
     strategy:
       matrix:
