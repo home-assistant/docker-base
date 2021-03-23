@@ -34,13 +34,13 @@ jobs:
       id: info_alpine
       uses: home-assistant/actions/helpers/info@master
       with:
-        path: "${{ github.workspace }}/alpine"
+        path: ./alpine
 
     - name: Get information Debian
       id: info_debian
       uses: home-assistant/actions/helpers/info@master
       with:
-        path: "${{ github.workspace }}/debian"
+        path: ./debian
 
     - name: Get information Ubuntu
       id: info_ubuntu
@@ -52,7 +52,7 @@ jobs:
       id: info_raspbian
       uses: home-assistant/actions/helpers/info@master
       with:
-        path: "${{ github.workspace }}/raspbian"
+        path: ./raspbian"
       
     - name: Get version
       id: version
