@@ -167,7 +167,7 @@ jobs:
         VCN_PASSWORD: ${{ secrets.VCN_PASSWORD }}
         VCN_NOTARIZATION_PASSWORD: ${{ secrets.VCN_PASSWORD }}
 
-build_ubuntu:
+  build_ubuntu:
     name: Build ${{ matrix.arch }} ubuntu ${{ matrix.version }} base image
     needs: init
     runs-on: ubuntu-latest
