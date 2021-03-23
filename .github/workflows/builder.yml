@@ -52,7 +52,7 @@ jobs:
       id: info_raspbian
       uses: home-assistant/actions/helpers/info@master
       with:
-        path: ./raspbian"
+        path: ./raspbian
       
     - name: Get version
       id: version
