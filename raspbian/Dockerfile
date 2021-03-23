@@ -1,5 +1,5 @@
 ARG BUILD_FROM
-# all: tianon/raspbian:${VERSION}-slim
+# armhf: tianon/raspbian:${VERSION}-slim
 
 FROM ${BUILD_FROM}
 
@@ -16,13 +16,12 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Version
 ARG \
-    BASHIO_VERSION=0.13.0 \
-    TEMPIO_VERSION=2021.01.0 \
-    S6_OVERLAY_VERSION=2.2.0.3 \
+    BASHIO_VERSION \
+    TEMPIO_VERSION \
+    S6_OVERLAY_VERSION
 
 # Base system
 WORKDIR /usr/src
-ARG BUILD_ARCH
 
 RUN \
     set -x \
@@ -40,7 +39,7 @@ RUN \
     && mkdir -p /etc/services.d \
     \
     && curl -L -f -s -o /usr/bin/tempio \
-        "https://github.com/home-assistant/tempio/releases/download/${TEMPIO_VERSION}/tempio_${BUILD_ARCH}" \
+        "https://github.com/home-assistant/tempio/releases/download/${TEMPIO_VERSION}/tempio_armhf" \
     && chmod a+x /usr/bin/tempio \
     \
     && mkdir -p /tmp/bashio \

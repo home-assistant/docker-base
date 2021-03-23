@@ -18,10 +18,10 @@ SHELL ["/bin/ash", "-o", "pipefail", "-c"]
 
 # Version
 ARG \
-    BASHIO_VERSION=0.13.0 \
-    TEMPIO_VERSION=2021.01.0 \
-    S6_OVERLAY_VERSION=2.2.0.3 \
-    JEMALLOC_VERSION=5.2.1
+    BASHIO_VERSION \
+    TEMPIO_VERSION \
+    S6_OVERLAY_VERSION \
+    JEMALLOC_VERSION
 
 # Base system
 WORKDIR /usr/src
