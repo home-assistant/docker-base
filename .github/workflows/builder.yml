@@ -97,8 +97,8 @@ jobs:
       uses: docker/login-action@v1
       with:
         registry: ghcr.io
-        username: ${{ secrets.GITHUB_USER }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+        username: ${{ secrets.GIT_USER }}
+        password: ${{ secrets.GIT_TOKEN }}
 
     - name: Set build arguments
       if: github.event_name != 'release'
@@ -147,8 +147,8 @@ jobs:
       uses: docker/login-action@v1
       with:
         registry: ghcr.io
-        username: ${{ secrets.GITHUB_USER }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+        username: ${{ secrets.GIT_USER }}
+        password: ${{ secrets.GIT_TOKEN }}
 
     - name: Set build arguments
       if: github.event_name != 'release'
@@ -198,8 +198,8 @@ build_ubuntu:
       uses: docker/login-action@v1
       with:
         registry: ghcr.io
-        username: ${{ secrets.GITHUB_USER }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+        username: ${{ secrets.GIT_USER }}
+        password: ${{ secrets.GIT_TOKEN }}
 
     - name: Set build arguments
       if: github.event_name != 'release'
@@ -248,8 +248,8 @@ build_ubuntu:
       uses: docker/login-action@v1
       with:
         registry: ghcr.io
-        username: ${{ secrets.GITHUB_USER }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+        username: ${{ secrets.GIT_USER }}
+        password: ${{ secrets.GIT_TOKEN }}
 
     - name: Set build arguments
       if: github.event_name != 'release'
@@ -300,8 +300,8 @@ build_ubuntu:
       uses: docker/login-action@v1
       with:
         registry: ghcr.io
-        username: ${{ secrets.GITHUB_USER }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+        username: ${{ secrets.GIT_USER }}
+        password: ${{ secrets.GIT_TOKEN }}
 
     - name: Set build arguments
       if: github.event_name != 'release'
