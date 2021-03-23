@@ -4,7 +4,7 @@
     "build_from": {
         "aarch64": "arm64v8/ubuntu:",
         "armv7": "arm32v7/ubuntu:",
-        "amd64": "ubuntu:",
+        "amd64": "ubuntu:"
     },
     "args": {
         "BASHIO_VERSION": "0.13.0",
