@@ -1,8 +1,7 @@
 ARG BUILD_FROM
-FROM tianon/raspbian:${BUILD_FROM}-slim
+# armhf: tianon/raspbian:${VERSION}-slim
 
-# QEMU for crossbuilds
-COPY qemu-arm-static /usr/bin/qemu-arm-static
+FROM ${BUILD_FROM}
 
 # Default ENV
 ENV \
@@ -15,12 +14,14 @@ ENV \
 # Set shell
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-# Base system
-ARG BASHIO_VERSION=0.13.0
-ARG TEMPIO_VERSION=2021.01.0
-ARG S6_OVERLAY_VERSION=2.2.0.3
+# Version
+ARG \
+    BASHIO_VERSION \
+    TEMPIO_VERSION \
+    S6_OVERLAY_VERSION
 
-ARG BUILD_ARCH
+# Base system
+WORKDIR /usr/src
 
 RUN \
     set -x \
@@ -38,7 +39,7 @@ RUN \
     && mkdir -p /etc/services.d \
     \
     && curl -L -f -s -o /usr/bin/tempio \
-        "https://github.com/home-assistant/tempio/releases/download/${TEMPIO_VERSION}/tempio_${BUILD_ARCH}" \
+        "https://github.com/home-assistant/tempio/releases/download/${TEMPIO_VERSION}/tempio_armhf" \
     && chmod a+x /usr/bin/tempio \
     \
     && mkdir -p /tmp/bashio \
@@ -49,4 +50,5 @@ RUN \
     && rm -rf /tmp/bashio
 
 # S6-Overlay
+WORKDIR /
 ENTRYPOINT ["/init"]

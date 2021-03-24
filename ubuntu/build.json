@@ -1,0 +1,17 @@
+{
+    "image": "homeassistant/{arch}-base-ubuntu",
+    "shadow_repository": "ghcr.io/home-assistant",
+    "build_from": {
+        "aarch64": "arm64v8/ubuntu:",
+        "armv7": "arm32v7/ubuntu:",
+        "amd64": "ubuntu:"
+    },
+    "args": {
+        "BASHIO_VERSION": "0.13.0",
+        "TEMPIO_VERSION": "2021.01.0",
+        "S6_OVERLAY_VERSION": "2.2.0.3"
+    },
+    "labels": {
+        "io.hass.base.name": "ubuntu"
+    }
+}

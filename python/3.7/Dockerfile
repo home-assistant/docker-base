@@ -1,6 +1,10 @@
 ARG BUILD_FROM
 FROM $BUILD_FROM
 
+ARG \
+    PYTHON_VERSION \
+    PIP_VERSION
+
 # ensure local python is preferred over distribution python
 ENV PATH /usr/local/bin:$PATH
 
@@ -12,7 +16,7 @@ SHELL ["/bin/ash", "-o", "pipefail", "-c"]
 RUN apk add --no-cache ca-certificates
 
 ENV GPG_KEY 0D96DF4D4110E5C43FBFB17F2D347EA6AA65421D
-ENV PYTHON_VERSION 3.7.10
+ENV PYTHON_VERSION ${PYTHON_VERSION} 
 
 COPY *.patch /usr/src/
 RUN set -ex \
@@ -152,7 +156,7 @@ RUN cd /usr/local/bin \
     && ln -s python3-config python-config
 
 # if this is called "PIP_VERSION", pip explodes with "ValueError: invalid truth value '<VERSION>'"
-ENV PYTHON_PIP_VERSION 20.2.4
+ENV PYTHON_PIP_VERSION ${PIP_VERSION}
 
 RUN set -ex; \
     \

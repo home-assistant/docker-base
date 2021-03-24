@@ -1,0 +1,18 @@
+{
+    "image": "homeassistant/{arch}-base-python",
+    "shadow_repository": "ghcr.io/home-assistant",
+    "build_from": {
+        "aarch64": "homeassistant/aarch64-base:",
+        "armv7": "homeassistant/armv7-base:",
+        "armhf": "homeassistant/armhf-base:",
+        "amd64": "homeassistant/amd64-base:",
+        "i386": "homeassistant/i386-base:"
+    },
+    "args": {
+        "PYTHON_VERSION": "3.9.2",
+        "PIP_VERSION": "20.2.4"
+    },
+    "labels": {
+        "io.hass.base.name": "python"
+    }
+}

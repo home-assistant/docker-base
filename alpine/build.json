@@ -1,0 +1,20 @@
+{
+    "image": "homeassistant/{arch}-base",
+    "shadow_repository": "ghcr.io/home-assistant",
+    "build_from": {
+        "aarch64": "arm64v8/alpine:",
+        "armv7": "arm32v7/alpine:",
+        "armhf": "arm32v6/alpine:",
+        "amd64": "alpine:",
+        "i386": "i386/alpine:"
+    },
+    "args": {
+        "BASHIO_VERSION": "0.13.0",
+        "TEMPIO_VERSION": "2021.01.0",
+        "S6_OVERLAY_VERSION": "2.2.0.3",
+        "JEMALLOC_VERSION": "5.2.1"
+    },
+    "labels": {
+        "io.hass.base.name": "alpine"
+    }
+}

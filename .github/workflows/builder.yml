@@ -1,0 +1,302 @@
+name: Build base images
+
+on:
+  pull_request:
+    branches: ["master"]
+  release:
+    types: ["published"]
+
+env:
+  BUILD_TYPE: base
+  ALPINE_LATEST: "3.13"
+  DEBIAN_LATEST: "buster"
+  UBUNTU_LATEST: "20.4"
+  RASPBIAN_LATEST: "buster"
+  PYTHON_LATEST: "3.9"
+
+jobs:
+  init:
+    name: Initialize build
+    runs-on: ubuntu-latest
+    outputs:
+      architectures_alpine: ${{ steps.info_alpine.outputs.architectures }}
+      architectures_debian: ${{ steps.info_debian.outputs.architectures }}
+      architectures_ubuntu: ${{ steps.info_ubuntu.outputs.architectures }}
+      architectures_raspbian: ${{ steps.info_raspbian.outputs.architectures }}
+      release: ${{ steps.version.outputs.version }}
+    steps:
+    - name: Checkout the repository
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Get information Alpine
+      id: info_alpine
+      uses: home-assistant/actions/helpers/info@master
+      with:
+        path: "${{ github.workspace }}/alpine"
+
+    - name: Get information Debian
+      id: info_debian
+      uses: home-assistant/actions/helpers/info@master
+      with:
+        path: "${{ github.workspace }}/debian"
+
+    - name: Get information Ubuntu
+      id: info_ubuntu
+      uses: home-assistant/actions/helpers/info@master
+      with:
+        path: "${{ github.workspace }}/ubuntu"
+
+    - name: Get information Raspbian
+      id: info_raspbian
+      uses: home-assistant/actions/helpers/info@master
+      with:
+        path: "${{ github.workspace }}/raspbian"
+      
+    - name: Get version
+      id: version
+      uses: home-assistant/actions/helpers/version@master
+      with:
+        type: ${{ env.BUILD_TYPE }}
+  
+  build_alpine:
+    name: Build ${{ matrix.arch }} alpine ${{ matrix.version }} base image
+    needs: init
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch: ${{ fromJson(needs.init.outputs.architectures_alpine) }}
+        version: ["3.10", "3.11", "3.12", "3.13"] 
+    steps:
+    - name: Checkout the repository
+      uses: actions/checkout@v2
+
+    - name: Login to DockerHub
+      if: github.event_name == 'release'
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Login to GitHub Container Registry
+      if: github.event_name == 'release'
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ secrets.GIT_USER }}
+        password: ${{ secrets.GIT_TOKEN }}
+
+    - name: Set build arguments
+      shell: bash
+      run: |
+        if [[ "${{ github.event_name }}" != "release" ]]; then
+          echo "BUILD_ARGS=--test" >> $GITHUB_ENV
+        elif [[ "${{ env.ALPINE_LATEST }}" != "${{ matrix.version }}" ]]; then
+          echo "BUILD_ARGS=--no-latest" >> $GITHUB_ENV
+        fi
+    
+    - name: Build base image
+      uses: home-assistant/builder@2021.03.2
+      with:
+        args: |
+          $BUILD_ARGS \
+          --${{ matrix.arch }} \
+          --target /data/alpine \
+          --with-codenotary "${{ secrets.VCN_USER }}" "${{ secrets.VCN_PASSWORD }}" \
+          --release ${{ needs.init.outputs.release }} \
+          --base ${{ matrix.version }}
+
+  build_debian:
+    name: Build ${{ matrix.arch }} debian ${{ matrix.version }} base image
+    needs: init
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch: ${{ fromJson(needs.init.outputs.architectures_debian) }}
+        version: ["stretch", "buster", "bullseye"] 
+    steps:
+    - name: Checkout the repository
+      uses: actions/checkout@v2
+
+    - name: Login to DockerHub
+      if: github.event_name == 'release'
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Login to GitHub Container Registry
+      if: github.event_name == 'release'
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ secrets.GIT_USER }}
+        password: ${{ secrets.GIT_TOKEN }}
+
+    - name: Set build arguments
+      shell: bash
+      run: |
+        if [[ "${{ github.event_name }}" != "release" ]]; then
+          echo "BUILD_ARGS=--test" >> $GITHUB_ENV
+        elif [[ "${{ env.DEBIAN_LATEST }}" != "${{ matrix.version }}" ]]; then
+          echo "BUILD_ARGS=--no-latest" >> $GITHUB_ENV
+        fi
+    
+    - name: Build base image
+      uses: home-assistant/builder@2021.03.2
+      with:
+        args: |
+          $BUILD_ARGS \
+          --${{ matrix.arch }} \
+          --target /data/debian \
+          --with-codenotary "${{ secrets.VCN_USER }}" "${{ secrets.VCN_PASSWORD }}" \
+          --release ${{ needs.init.outputs.release }} \
+          --version-from ${{ matrix.version }}-slim \
+          --base ${{ matrix.version }}
+
+  build_ubuntu:
+    name: Build ${{ matrix.arch }} ubuntu ${{ matrix.version }} base image
+    needs: init
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch: ${{ fromJson(needs.init.outputs.architectures_ubuntu) }}
+        version: ["16.04", "18.04", "20.04"] 
+    steps:
+    - name: Checkout the repository
+      uses: actions/checkout@v2
+
+    - name: Login to DockerHub
+      if: github.event_name == 'release'
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Login to GitHub Container Registry
+      if: github.event_name == 'release'
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ secrets.GIT_USER }}
+        password: ${{ secrets.GIT_TOKEN }}
+
+    - name: Set build arguments
+      shell: bash
+      run: |
+        if [[ "${{ github.event_name }}" != "release" ]]; then
+          echo "BUILD_ARGS=--test" >> $GITHUB_ENV
+        elif [[ "${{ env.UBUNTU_LATEST }}" != "${{ matrix.version }}" ]]; then
+          echo "BUILD_ARGS=--no-latest" >> $GITHUB_ENV
+        fi
+    
+    - name: Build base image
+      uses: home-assistant/builder@2021.03.2
+      with:
+        args: |
+          $BUILD_ARGS \
+          --${{ matrix.arch }} \
+          --target /data/ubuntu \
+          --with-codenotary "${{ secrets.VCN_USER }}" "${{ secrets.VCN_PASSWORD }}" \
+          --release ${{ needs.init.outputs.release }} \
+          --base ${{ matrix.version }}
+
+  build_raspbian:
+    name: Build ${{ matrix.arch }} raspbian ${{ matrix.version }} base image
+    needs: init
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch: ${{ fromJson(needs.init.outputs.architectures_raspbian) }}
+        version: ["stretch", "buster", "bullseye"] 
+    steps:
+    - name: Checkout the repository
+      uses: actions/checkout@v2
+
+    - name: Login to DockerHub
+      if: github.event_name == 'release'
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Login to GitHub Container Registry
+      if: github.event_name == 'release'
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ secrets.GIT_USER }}
+        password: ${{ secrets.GIT_TOKEN }}
+
+    - name: Set build arguments
+      shell: bash
+      run: |
+        if [[ "${{ github.event_name }}" != "release" ]]; then
+          echo "BUILD_ARGS=--test" >> $GITHUB_ENV
+        elif [[ "${{ env.RASPBIAN_LATEST }}" != "${{ matrix.version }}" ]]; then
+          echo "BUILD_ARGS=--no-latest" >> $GITHUB_ENV
+        fi
+    
+    - name: Build base image
+      uses: home-assistant/builder@2021.03.2
+      with:
+        args: |
+          $BUILD_ARGS \
+          --${{ matrix.arch }} \
+          --target /data/raspbian \
+          --with-codenotary "${{ secrets.VCN_USER }}" "${{ secrets.VCN_PASSWORD }}" \
+          --release ${{ needs.init.outputs.release }} \
+          --version-from ${{ matrix.version }}-slim \
+          --base ${{ matrix.version }}
+
+  build_python:
+    name: Build ${{ matrix.arch }} alpine ${{ matrix.version }} - python ${{ matrix.python }} base image
+    needs: [init, build_alpine]
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        arch: ${{ fromJson(needs.init.outputs.architectures_alpine) }}
+        version: ["3.11", "3.12", "3.13"]
+        python: ["3.7", "3.8", "3.9"]
+    steps:
+    - name: Checkout the repository
+      uses: actions/checkout@v2
+
+    - name: Login to DockerHub
+      if: github.event_name == 'release'
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: Login to GitHub Container Registry
+      if: github.event_name == 'release'
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ secrets.GIT_USER }}
+        password: ${{ secrets.GIT_TOKEN }}
+
+    - name: Set build arguments
+      shell: bash
+      run: |
+        if [[ "${{ github.event_name }}" != "release" ]]; then
+          echo "BUILD_ARGS=--test" >> $GITHUB_ENV
+        elif [[ "${{ env.ALPINE_LATEST }}" != "${{ matrix.version }}" ]] || [[ "${{ env.PYTHON_LATEST }}" != "${{ matrix.python }}" ]]; then
+          echo "BUILD_ARGS=--no-latest" >> $GITHUB_ENV
+        fi
+    
+    - name: Build base image
+      uses: home-assistant/builder@2021.03.2
+      with:
+        args: |
+          $BUILD_ARGS \
+          --${{ matrix.arch }} \
+          --target "/data/python/${{ matrix.python }}" \
+          --with-codenotary "${{ secrets.VCN_USER }}" "${{ secrets.VCN_PASSWORD }}" \
+          --validate-from home-assistant.io \
+          --release ${{ needs.init.outputs.release }} \
+          --version-from ${{ matrix.version }} \
+          --version ${{ matrix.python }} \
+          --base ${{ matrix.python }}-alpine${{ matrix.version }}
