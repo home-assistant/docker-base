@@ -9,7 +9,7 @@ The image include [S6-Overlay](https://github.com/just-containers/s6-overlay), [
 
 ## Mimalloc
 
-We support on our platforms mimalloc. On application which you want enable it, set as envoriement `LD_PRELOAD="/usr/local/lib/libmimalloc.so"` on your Dockerfile or before you start the application.
+We support on our platforms mimalloc. On the application which you want to enable it, set as environment `LD_PRELOAD="/usr/local/lib/libmimalloc.so"` on your Dockerfile or before you start the application.
 
 ## Base images
 
