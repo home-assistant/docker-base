@@ -56,8 +56,8 @@ RUN \
     && mkdir -p /etc/services.d \
     \
     && git clone --depth 1 -b v${MIMALLOC_VERSION} "https://github.com/microsoft/mimalloc" /usr/src/mimalloc \
-    && mkdir -p /usr/src/mimalloc/out/release \
-    && cmake ../.. \
+    && mkdir -p /usr/src/mimalloc/release \
+    && cmake .. \
     && make -j "$(nproc)" \
     && make install \
     \
