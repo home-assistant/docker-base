@@ -34,7 +34,6 @@ RUN \
         tzdata \
         curl \
         ca-certificates \
-    && rm -rf /var/lib/apt/lists/* \
     \
     && if [ "${BUILD_ARCH}" = "armv7" ]; then \
             export S6_ARCH="arm"; \
@@ -53,12 +52,14 @@ RUN \
         "https://github.com/home-assistant/tempio/releases/download/${TEMPIO_VERSION}/tempio_${BUILD_ARCH}" \
     && chmod a+x /usr/bin/tempio \
     \
-    && mkdir -p /tmp/bashio \
+    && mkdir -p /usr/src/bashio \
     && curl -L -f -s "https://github.com/hassio-addons/bashio/archive/v${BASHIO_VERSION}.tar.gz" \
-        | tar -xzf - --strip 1 -C /tmp/bashio \
-    && mv /tmp/bashio/lib /usr/lib/bashio \
+        | tar -xzf - --strip 1 -C /usr/src/bashio \
+    && mv /usr/src/bashio/lib /usr/lib/bashio \
     && ln -s /usr/lib/bashio/bashio /usr/bin/bashio \
-    && rm -rf /tmp/bashio
+    \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /usr/src/*
 
 # S6-Overlay
 WORKDIR /

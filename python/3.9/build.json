@@ -13,6 +13,7 @@
         "PIP_VERSION": "20.2.4"
     },
     "labels": {
-        "io.hass.base.name": "python"
+        "io.hass.base.name": "python",
+        "org.opencontainers.image.source": "https://github.com/home-assistant/docker-base"
     }
 }

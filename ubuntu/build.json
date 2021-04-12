@@ -12,6 +12,7 @@
         "S6_OVERLAY_VERSION": "2.1.0.2"
     },
     "labels": {
-        "io.hass.base.name": "ubuntu"
+        "io.hass.base.name": "ubuntu",
+        "org.opencontainers.image.source": "https://github.com/home-assistant/docker-base"
     }
 }

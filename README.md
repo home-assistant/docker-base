@@ -19,9 +19,9 @@ We support version that are not EOL: https://alpinelinux.org/releases/
 | amd64-base | Alpine | 3.10, 3.11 3.12 3.13 | 3.13 |
 | i386-base | Alpine | 3.10, 3.11 3.12 3.13 | 3.13 |
 
-### Jemalloc
+### Mimalloc
 
-We support on our platforms jemalloc. On application which you want enable it, set as envoriement `LD_PRELOAD="/usr/local/lib/libmimalloc.so"` on your Dockerfile or before you start the application.
+We support on our platforms mimalloc. On the application which you want to enable it, set as environment `LD_PRELOAD="/usr/local/lib/libmimalloc.so"` on your Dockerfile or before you start the application.
 
 ### Python images
 
