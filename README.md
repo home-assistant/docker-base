@@ -21,7 +21,7 @@ We support version that are not EOL: https://alpinelinux.org/releases/
 
 ### Jemalloc
 
-We support on our platforms jemalloc. On application which you want enable it, set as envoriement `LD_PRELOAD="/usr/local/lib/libjemalloc.so.2"` on your Dockerfile or before you start the application.
+We support on our platforms jemalloc. On application which you want enable it, set as envoriement `LD_PRELOAD="/usr/local/lib/libmimalloc.so"` on your Dockerfile or before you start the application.
 
 ### Python images
 

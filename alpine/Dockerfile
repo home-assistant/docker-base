@@ -21,7 +21,7 @@ ARG \
     BASHIO_VERSION \
     TEMPIO_VERSION \
     S6_OVERLAY_VERSION \
-    JEMALLOC_VERSION
+    MIMALLOC_VERSION
 
 # Base system
 WORKDIR /usr/src
@@ -39,6 +39,8 @@ RUN \
     \
     && apk add --no-cache --virtual .build-deps \
         build-base \
+        cmake \
+        git \
     \
     && if [ "${BUILD_ARCH}" = "armv7" ]; then \
             export S6_ARCH="arm"; \
@@ -53,11 +55,12 @@ RUN \
     && mkdir -p /etc/fix-attrs.d \
     && mkdir -p /etc/services.d \
     \
-    && curl -L -f -s "https://github.com/jemalloc/jemalloc/releases/download/${JEMALLOC_VERSION}/jemalloc-${JEMALLOC_VERSION}.tar.bz2" \
-        | tar -xjf - -C /usr/src \
-    && cd /usr/src/jemalloc-${JEMALLOC_VERSION} \
-    && ./configure \
-    && make \
+    && git clone --depth 1 -b v${MIMALLOC_VERSION} \
+        "https://github.com/microsoft/mimalloc" /usr/src/mimalloc \
+    && mkdir -p /usr/src/mimalloc/build \
+    && cd /usr/src/mimalloc/build \
+    && cmake .. \
+    && make -j "$(nproc)" \
     && make install \
     \
     && mkdir -p /usr/src/bashio \
