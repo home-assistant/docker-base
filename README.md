@@ -7,6 +7,10 @@ Using these images as a base for other Docker projects is, however, not recommen
 
 The image include [S6-Overlay](https://github.com/just-containers/s6-overlay), [Bashio](https://github.com/hassio-addons/bashio) and [TempIO](https://github.com/home-assistant/tempio).
 
+## Mimalloc
+
+We support on our platforms mimalloc. On application which you want enable it, set as envoriement `LD_PRELOAD="/usr/local/lib/libmimalloc.so"` on your Dockerfile or before you start the application.
+
 ## Base images
 
 We support version that are not EOL: https://alpinelinux.org/releases/
@@ -18,10 +22,6 @@ We support version that are not EOL: https://alpinelinux.org/releases/
 | aarch64-base | Alpine | 3.10, 3.11 3.12 3.13 | 3.13 |
 | amd64-base | Alpine | 3.10, 3.11 3.12 3.13 | 3.13 |
 | i386-base | Alpine | 3.10, 3.11 3.12 3.13 | 3.13 |
-
-### Jemalloc
-
-We support on our platforms jemalloc. On application which you want enable it, set as envoriement `LD_PRELOAD="/usr/local/lib/libmimalloc.so"` on your Dockerfile or before you start the application.
 
 ### Python images
 

@@ -22,7 +22,8 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 ARG \
     BASHIO_VERSION \
     TEMPIO_VERSION \
-    S6_OVERLAY_VERSION
+    S6_OVERLAY_VERSION \
+    MIMALLOC_VERSION
 
 # Base system
 WORKDIR /usr/src
@@ -36,7 +37,9 @@ RUN \
         tzdata \
         curl \
         ca-certificates \
-    && rm -rf /var/lib/apt/lists/* \
+        build-essential \
+        cmake \
+        git \
     && mkdir -p /usr/share/man/man1 \
     \
     && if [ "${BUILD_ARCH}" = "armv7" ]; then \
@@ -52,16 +55,30 @@ RUN \
     && mkdir -p /etc/fix-attrs.d \
     && mkdir -p /etc/services.d \
     \
+    && git clone --depth 1 -b v${MIMALLOC_VERSION} \
+        "https://github.com/microsoft/mimalloc" /usr/src/mimalloc \
+    && mkdir -p /usr/src/mimalloc/build \
+    && cd /usr/src/mimalloc/build \
+    && cmake .. \
+    && make -j "$(nproc)" \
+    && make install \
+    \
     && curl -L -f -s -o /usr/bin/tempio \
         "https://github.com/home-assistant/tempio/releases/download/${TEMPIO_VERSION}/tempio_${BUILD_ARCH}" \
     && chmod a+x /usr/bin/tempio \
     \
-    && mkdir -p /tmp/bashio \
+    && mkdir -p /usr/src/bashio \
     && curl -L -f -s "https://github.com/hassio-addons/bashio/archive/v${BASHIO_VERSION}.tar.gz" \
-        | tar -xzf - --strip 1 -C /tmp/bashio \
-    && mv /tmp/bashio/lib /usr/lib/bashio \
+        | tar -xzf - --strip 1 -C /usr/src/bashio \
+    && mv /usr/src/bashio/lib /usr/lib/bashio \
     && ln -s /usr/lib/bashio/bashio /usr/bin/bashio \
-    && rm -rf /tmp/bashio
+    \
+    && apt-get purge -y --auto-remove \
+        build-essential \
+        cmake \
+        git \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /usr/src/*
 
 # S6-Overlay
 WORKDIR /
