@@ -12,7 +12,7 @@
         "BASHIO_VERSION": "0.13.0",
         "TEMPIO_VERSION": "2021.01.0",
         "S6_OVERLAY_VERSION": "2.1.0.2",
-        "JEMALLOC_VERSION": "5.2.1"
+        "MIMALLOC_VERSION": "1.7.1"
     },
     "labels": {
         "io.hass.base.name": "alpine"
