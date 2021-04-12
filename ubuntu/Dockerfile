@@ -35,6 +35,9 @@ RUN \
         tzdata \
         curl \
         ca-certificates \
+        build-essential \
+        cmake \
+        git \
     && rm -rf /var/lib/apt/lists/* \
     \
     && if [ "${BUILD_ARCH}" = "armv7" ]; then \
