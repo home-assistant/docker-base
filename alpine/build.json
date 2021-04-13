@@ -15,6 +15,7 @@
         "MIMALLOC_VERSION": "1.7.1"
     },
     "labels": {
-        "io.hass.base.name": "alpine"
+        "io.hass.base.name": "alpine",
+        "org.opencontainers.image.source": "https://github.com/home-assistant/docker-base"
     }
 }
