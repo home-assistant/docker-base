@@ -9,7 +9,7 @@
         "i386": "homeassistant/i386-base:"
     },
     "args": {
-        "PYTHON_VERSION": "3.8.8",
+        "PYTHON_VERSION": "3.8.9",
         "PIP_VERSION": "20.2.4"
     },
     "labels": {
