@@ -3,7 +3,8 @@ FROM $BUILD_FROM
 
 ARG \
     PYTHON_VERSION \
-    PIP_VERSION
+    PIP_VERSION \
+    GPG_KEY
 
 # ensure local python is preferred over distribution python
 ENV PATH /usr/local/bin:$PATH
@@ -11,15 +12,9 @@ ENV PATH /usr/local/bin:$PATH
 # Set shell
 SHELL ["/bin/ash", "-o", "pipefail", "-c"]
 
-# install ca-certificates so that HTTPS works consistently
-# the other runtime dependencies for Python are installed later
-RUN apk add --no-cache ca-certificates
-
-ENV GPG_KEY E3FF2839C048B25C084DEBE9B26995E310250568
-ENV PYTHON_VERSION ${PYTHON_VERSION} 
-
 COPY *.patch /usr/src/
 RUN set -ex \
+    && export PYTHON_VERSION=${PYTHON_VERSION} \
     && apk add --no-cache --virtual .fetch-deps \
         gnupg \
         openssl \
@@ -30,7 +25,7 @@ RUN set -ex \
     && curl -L -o python.tar.xz.asc "https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz.asc" \
     && export GNUPGHOME="$(mktemp -d)" \
     && echo "disable-ipv6" >> "$GNUPGHOME/dirmngr.conf" \
-    && gpg --batch --keyserver ha.pool.sks-keyservers.net --recv-keys "$GPG_KEY" \
+    && gpg --batch --keyserver ha.pool.sks-keyservers.net --recv-keys "${GPG_KEY}" \
     && gpg --batch --verify python.tar.xz.asc python.tar.xz \
     && { command -v gpgconf > /dev/null && gpgconf --kill all || :; } \
     && rm -rf "$GNUPGHOME" python.tar.xz.asc \
@@ -111,9 +106,6 @@ RUN cd /usr/local/bin \
     && ln -s python3 python \
     && ln -s python3-config python-config
 
-# if this is called "PIP_VERSION", pip explodes with "ValueError: invalid truth value '<VERSION>'"
-ENV PYTHON_PIP_VERSION ${PIP_VERSION}
-
 RUN set -ex; \
     \
     apk add --no-cache --virtual .fetch-deps openssl; \
@@ -125,7 +117,7 @@ RUN set -ex; \
     python get-pip.py \
         --disable-pip-version-check \
         --no-cache-dir \
-        "pip==$PYTHON_PIP_VERSION" \
+        pip==${PIP_VERSION} \
     ; \
     pip --version; \
     \
