@@ -21,7 +21,7 @@ ARG \
     BASHIO_VERSION \
     TEMPIO_VERSION \
     S6_OVERLAY_VERSION \
-    MIMALLOC_VERSION
+    JEMALLOC_VERSION
 
 # Base system
 WORKDIR /usr/src
@@ -39,7 +39,7 @@ RUN \
     \
     && apk add --no-cache --virtual .build-deps \
         build-base \
-        cmake \
+        autoconf \
         git \
     \
     && if [ "${BUILD_ARCH}" = "armv7" ]; then \
@@ -55,11 +55,10 @@ RUN \
     && mkdir -p /etc/fix-attrs.d \
     && mkdir -p /etc/services.d \
     \
-    && git clone --depth 1 -b v${MIMALLOC_VERSION} \
-        "https://github.com/microsoft/mimalloc" /usr/src/mimalloc \
-    && mkdir -p /usr/src/mimalloc/build \
-    && cd /usr/src/mimalloc/build \
-    && cmake .. \
+    && git clone "https://github.com/jemalloc/jemalloc" /usr/src/jemalloc \
+    && cd /usr/src/jemalloc \
+    && git checkout ${JEMALLOC_VERSION} \
+    && ./autogen.sh \
     && make -j "$(nproc)" \
     && make install \
     \
