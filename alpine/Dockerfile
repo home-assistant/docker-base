@@ -56,8 +56,8 @@ RUN \
     && mkdir -p /etc/services.d \
     \
     && git clone "https://github.com/jemalloc/jemalloc" /usr/src/jemalloc \
-    && git checkout ${JEMALLOC_VERSION} \
     && cd /usr/src/jemalloc \
+    && git checkout ${JEMALLOC_VERSION} \
     && ./autogen.sh \
     && make -j "$(nproc)" \
     && make install \
