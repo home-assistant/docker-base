@@ -11,7 +11,7 @@
     "args": {
         "BASHIO_VERSION": "0.13.0",
         "TEMPIO_VERSION": "2021.01.0",
-        "S6_OVERLAY_VERSION": "2.1.0.2",
+        "S6_OVERLAY_VERSION": "2.2.0.3",
         "JEMALLOC_VERSION": "5.2.1"
     },
     "labels": {
