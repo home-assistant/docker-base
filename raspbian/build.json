@@ -5,7 +5,7 @@
         "armhf": "tianon/raspbian:"
     },
     "args": {
-        "BASHIO_VERSION": "0.13.0",
+        "BASHIO_VERSION": "0.13.1",
         "TEMPIO_VERSION": "2021.05.0",
         "S6_OVERLAY_VERSION": "2.1.0.2"
     },
