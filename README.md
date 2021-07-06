@@ -25,15 +25,15 @@ We support on our platforms jemalloc. On the application which you want to enabl
 
 ### Python images
 
-We support the latest 3 release with the latest 2 Alpine version.
+We support the latest 3 release with the latest 3 Alpine version.
 
 | Image | OS | Tags | latest |
 |-------|----|------|--------|
-| armhf-base-python | Alpine | 3.7, 3.8, 3.9, 3.7-alpine.3.13, 3.7-alpine.3.14, 3.8-alpine3.13, 3.8-alpine3.14, 3.9-alpine3.13, 3.9-alpine3.14 | 3.9-alpine.3.14 |
-| armv7-base-python | Alpine | 3.7, 3.8, 3.9, 3.7-alpine.3.13, 3.7-alpine.3.14, 3.8-alpine3.13, 3.8-alpine3.14, 3.9-alpine3.13, 3.9-alpine3.14 | 3.9-alpine.3.14 |
-| aarch64-base-python | Alpine | 3.7, 3.8, 3.9, 3.7-alpine.3.13, 3.7-alpine.3.14, 3.8-alpine3.13, 3.8-alpine3.14, 3.9-alpine3.13, 3.9-alpine3.14 | 3.9-alpine.3.14 |
-| amd64-base-python | Alpine | 3.7, 3.8, 3.9, 3.7-alpine.3.13, 3.7-alpine.3.14, 3.8-alpine3.13, 3.8-alpine3.14, 3.9-alpine3.13, 3.9-alpine3.14 | 3.9-alpine.3.14 |
-| i386-base-python | Alpine | 3.7, 3.8, 3.9, 3.7-alpine.3.13, 3.7-alpine.3.14, 3.8-alpine3.13, 3.8-alpine3.14, 3.9-alpine3.13, 3.9-alpine3.14 | 3.9-alpine.3.14 |
+| armhf-base-python | Alpine | 3.7, 3.8, 3.9, 3.7-alpine.3.12, 3.7-alpine.3.13, 3.7-alpine.3.14, 3.8-alpine.3.12, 3.8-alpine3.13, 3.8-alpine3.14, 3.9-alpine3.12, 3.9-alpine3.13, 3.9-alpine3.14 | 3.9-alpine.3.14 |
+| armv7-base-python | Alpine | 3.7, 3.8, 3.9, 3.7-alpine.3.12, 3.7-alpine.3.13, 3.7-alpine.3.14, 3.8-alpine.3.12, 3.8-alpine3.13, 3.8-alpine3.14, 3.9-alpine3.12, 3.9-alpine3.13, 3.9-alpine3.14 | 3.9-alpine.3.14 |
+| aarch64-base-python | Alpine | 3.7, 3.8, 3.9, 3.7-alpine.3.12, 3.7-alpine.3.13, 3.7-alpine.3.14, 3.8-alpine.3.12, 3.8-alpine3.13, 3.8-alpine3.14, 3.9-alpine3.12, 3.9-alpine3.13, 3.9-alpine3.14 | 3.9-alpine.3.14 |
+| amd64-base-python | Alpine | 3.7, 3.8, 3.9, 3.7-alpine.3.12, 3.7-alpine.3.13, 3.7-alpine.3.14, 3.8-alpine.3.12, 3.8-alpine3.13, 3.8-alpine3.14, 3.9-alpine3.12, 3.9-alpine3.13, 3.9-alpine3.14 | 3.9-alpine.3.14 |
+| i386-base-python | Alpine | 3.7, 3.8, 3.9, 3.7-alpine.3.12, 3.7-alpine.3.13, 3.7-alpine.3.14, 3.8-alpine.3.12, 3.8-alpine3.13, 3.8-alpine3.14, 3.9-alpine3.12, 3.9-alpine3.13, 3.9-alpine3.14 | 3.9-alpine.3.14 |
 
 ## Others
 
