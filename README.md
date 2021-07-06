@@ -1,6 +1,6 @@
 # Home Assistant Base Images
 
-These base images are designed as Docker base images for use with building Hass.io containers and add-ons.
+These base images are designed as Docker base images for use with building Home Assistant containers and add-ons.
 It is recommended to use these as a base for your own Home Assistant Add-ons. 
 
 Using these images as a base for other Docker projects is, however, not recommended.
@@ -65,7 +65,3 @@ We support the latest 3 release with the latest 3 Alpine version.
 | Image | OS | Tags | latest |
 |-------|----|------|--------|
 | armhf-base-raspbian | Raspbian | stretch, buster, bullseye | buster |
-
-## Thanks
-
-We use https://github.com/multiarch/qemu-user-static to provide a multiarch image. 
