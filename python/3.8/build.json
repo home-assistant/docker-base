@@ -9,7 +9,7 @@
         "i386": "homeassistant/i386-base:"
     },
     "args": {
-        "PYTHON_VERSION": "3.8.11",
+        "PYTHON_VERSION": "3.8.12",
         "PIP_VERSION": "20.2.4",
         "GPG_KEY": "E3FF2839C048B25C084DEBE9B26995E310250568"
     },
