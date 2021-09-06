@@ -50,7 +50,6 @@ RUN set -ex \
         libtirpc-dev \
         linux-headers \
         make \
-        mpdecimal-dev \
         ncurses-dev \
         pax-utils \
         readline-dev \
@@ -77,7 +76,6 @@ RUN set -ex \
         --with-lto \
         --with-system-expat \
         --with-system-ffi \
-        --with-system-libmpdec \
         --without-ensurepip \
     && make -j "$(nproc)" \
         LDFLAGS="-Wl,--strip-all" \
