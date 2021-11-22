@@ -1,9 +1,9 @@
 image: homeassistant/{arch}-base-ubuntu
 shadow_repository: ghcr.io/home-assistant
 build_from:
-  aarch64: 'arm64v8/ubuntu:'
-  armv7: 'arm32v7/ubuntu:'
-  amd64: 'ubuntu:'
+  aarch64: "arm64v8/ubuntu:"
+  armv7: "arm32v7/ubuntu:"
+  amd64: "ubuntu:"
 codenotary:
   signer: notary@home-assistant.io
 args:
