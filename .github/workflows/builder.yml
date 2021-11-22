@@ -9,9 +9,9 @@ on:
 env:
   BUILD_TYPE: base
   ALPINE_LATEST: "3.14"
-  DEBIAN_LATEST: "buster"
+  DEBIAN_LATEST: "bullseye"
   UBUNTU_LATEST: "20.4"
-  RASPBIAN_LATEST: "buster"
+  RASPBIAN_LATEST: "bullseye"
   PYTHON_LATEST: "3.9"
 
 jobs:
@@ -115,7 +115,7 @@ jobs:
     strategy:
       matrix:
         arch: ${{ fromJson(needs.init.outputs.architectures_debian) }}
-        version: ["stretch", "buster", "bullseye"] 
+        version: ["buster", "bullseye", "bookworm"] 
     steps:
     - name: Checkout the repository
       uses: actions/checkout@v2
@@ -212,7 +212,7 @@ jobs:
     strategy:
       matrix:
         arch: ${{ fromJson(needs.init.outputs.architectures_raspbian) }}
-        version: ["stretch", "buster", "bullseye"] 
+        version: ["buster", "bullseye", "bookworm"] 
     steps:
     - name: Checkout the repository
       uses: actions/checkout@v2
