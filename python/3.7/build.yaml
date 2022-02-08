@@ -11,7 +11,7 @@ codenotary:
   base_image: notary@home-assistant.io
 args:
   PYTHON_VERSION: 3.7.12
-  PIP_VERSION: 20.2.4
+  PIP_VERSION: 22.0.3
   GPG_KEY: 0D96DF4D4110E5C43FBFB17F2D347EA6AA65421D
 labels:
   io.hass.base.name: python
