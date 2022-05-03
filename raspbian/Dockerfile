@@ -31,9 +31,16 @@ RUN \
         tzdata \
         curl \
         ca-certificates \
+        xz-utils \
     \
     && curl -L -f -s "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-armhf.tar.xz" \
-        | tar xvf - -C / \
+        | tar Jxvf - -C / \
+    && curl -L -f -s "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-noarch.tar.xz" \
+        | tar Jxvf - -C / \
+    && curl -L -f -s "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-symlinks-arch.tar.xz" \
+        | tar Jxvf - -C / \
+    && curl -L -f -s "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-symlinks-noarch.tar.xz" \
+        | tar Jxvf - -C / \
     && mkdir -p /etc/fix-attrs.d \
     && mkdir -p /etc/services.d \
     \

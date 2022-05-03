@@ -34,6 +34,7 @@ RUN \
         tzdata \
         curl \
         ca-certificates \
+        xz-utils \
     \
     && if [ "${BUILD_ARCH}" = "armv7" ]; then \
             export S6_ARCH="arm"; \
@@ -46,7 +47,13 @@ RUN \
         fi \
     \
     && curl -L -f -s "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-${S6_ARCH}.tar.xz" \
-        | tar xvf - -C / \
+        | tar Jxvf - -C / \
+    && curl -L -f -s "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-noarch.tar.xz" \
+        | tar Jxvf - -C / \
+    && curl -L -f -s "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-symlinks-arch.tar.xz" \
+        | tar Jxvf - -C / \
+    && curl -L -f -s "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-symlinks-noarch.tar.xz" \
+        | tar Jxvf - -C / \
     && mkdir -p /etc/fix-attrs.d \
     && mkdir -p /etc/services.d \
     \
