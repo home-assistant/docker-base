@@ -41,7 +41,9 @@ RUN \
     && if [ "${BUILD_ARCH}" = "armv7" ]; then \
             export S6_ARCH="arm"; \
         elif [ "${BUILD_ARCH}" = "i386" ]; then \
-            export S6_ARCH="x86"; \
+            export S6_ARCH="i686"; \
+        elif [ "${BUILD_ARCH}" = "amd64" ]; then \
+            export S6_ARCH="x86_64"; \
         else \
             export S6_ARCH="${BUILD_ARCH}"; \
         fi \
