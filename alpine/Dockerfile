@@ -11,6 +11,7 @@ FROM ${BUILD_FROM}
 ENV \
     LANG="C.UTF-8" \
     S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
+    S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0 \
     S6_CMD_WAIT_FOR_SERVICES=1
 
 # Set shell
@@ -36,6 +37,7 @@ RUN \
         curl \
         jq \
         tzdata \
+        xz \
     \
     && apk add --no-cache --virtual .build-deps \
         build-base \
@@ -45,13 +47,21 @@ RUN \
     && if [ "${BUILD_ARCH}" = "armv7" ]; then \
             export S6_ARCH="arm"; \
         elif [ "${BUILD_ARCH}" = "i386" ]; then \
-            export S6_ARCH="x86"; \
+            export S6_ARCH="i686"; \
+        elif [ "${BUILD_ARCH}" = "amd64" ]; then \
+            export S6_ARCH="x86_64"; \
         else \
             export S6_ARCH="${BUILD_ARCH}"; \
         fi \
     \
-    && curl -L -f -s "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-${S6_ARCH}.tar.gz" \
-        | tar zxvf - -C / \
+    && curl -L -f -s "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-${S6_ARCH}.tar.xz" \
+        | tar Jxvf - -C / \
+    && curl -L -f -s "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-noarch.tar.xz" \
+        | tar Jxvf - -C / \
+    && curl -L -f -s "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-symlinks-arch.tar.xz" \
+        | tar Jxvf - -C / \
+    && curl -L -f -s "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-symlinks-noarch.tar.xz" \
+        | tar Jxvf - -C / \
     && mkdir -p /etc/fix-attrs.d \
     && mkdir -p /etc/services.d \
     \
