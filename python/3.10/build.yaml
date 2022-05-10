@@ -12,7 +12,7 @@ codenotary:
 args:
   PYTHON_VERSION: 3.10.4
   PIP_VERSION: 22.0.3
-  GPG_KEY: E3FF2839C048B25C084DEBE9B26995E310250568
+  GPG_KEY: A035C8C19219BA821ECEA86B64E628F8D684696D
 labels:
   io.hass.base.name: python
   org.opencontainers.image.source: https://github.com/home-assistant/docker-base
