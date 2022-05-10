@@ -10,9 +10,9 @@ codenotary:
   signer: notary@home-assistant.io
   base_image: notary@home-assistant.io
 args:
-  PYTHON_VERSION: 3.7.12
+  PYTHON_VERSION: 3.10.4
   PIP_VERSION: 22.0.3
-  GPG_KEY: 0D96DF4D4110E5C43FBFB17F2D347EA6AA65421D
+  GPG_KEY: A035C8C19219BA821ECEA86B64E628F8D684696D
 labels:
   io.hass.base.name: python
   org.opencontainers.image.source: https://github.com/home-assistant/docker-base
