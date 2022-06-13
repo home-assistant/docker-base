@@ -19,11 +19,12 @@ ENV \
 # Set shell
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-# Version
+# Build Args
 ARG \
     BASHIO_VERSION \
     TEMPIO_VERSION \
-    S6_OVERLAY_VERSION
+    S6_OVERLAY_VERSION \
+    QEMU_CPU
 
 # Base system
 WORKDIR /usr/src
