@@ -51,6 +51,7 @@ RUN set -ex \
         libtirpc-dev \
         linux-headers \
         make \
+        mpdecimal-dev \
         ncurses-dev \
         pax-utils \
         readline-dev \
@@ -75,6 +76,7 @@ RUN set -ex \
         --enable-option-checking=fatal \
         --enable-shared \
         --with-lto \
+        --with-system-libmpdec \
         --with-system-expat \
         --with-system-ffi \
         --without-ensurepip \

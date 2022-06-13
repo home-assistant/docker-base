@@ -13,11 +13,11 @@ We support version that are not EOL: https://alpinelinux.org/releases/
 
 | Image | OS | Tags | latest |
 |-------|----|------|--------|
-| armhf-base | Alpine | 3.12 3.13 3.14, 3.15 | 3.15 |
-| armv7-base | Alpine | 3.12 3.13 3.14, 3.15 | 3.15 |
-| aarch64-base | Alpine | 3.12 3.13 3.14, 3.15 | 3.15 |
-| amd64-base | Alpine | 3.12 3.13 3.14, 3.15 | 3.15 |
-| i386-base | Alpine | 3.12 3.13 3.14, 3.15 | 3.15 |
+| armhf-base | Alpine | 3.13 3.14, 3.15, 3.16 | 3.16 |
+| armv7-base | Alpine | 3.13 3.14, 3.15, 3.16 | 3.16 |
+| aarch64-base | Alpine | 3.13 3.14, 3.15, 3.16 | 3.16 |
+| amd64-base | Alpine | 3.13 3.14, 3.15, 3.16 | 3.16 |
+| i386-base | Alpine | 3.13 3.14, 3.15, 3.16 | 3.16 |
 
 ### jemalloc
 
@@ -29,11 +29,11 @@ We support the latest 3 release with the latest 3 Alpine version.
 
 | Image | OS | Tags | latest |
 |-------|----|------|--------|
-| armhf-base-python | Alpine | 3.8, 3.9, 3.10, 3.8-alpine.3.13, 3.8-alpine.3.14, 3.8-alpine.3.15, 3.9-alpine.3.13, 3.9-alpine3.14, 3.9-alpine3.15, 3.10-alpine3.13, 3.10-alpine3.14, 3.10-alpine3.15 | 3.10-alpine.3.15 |
-| armv7-base-python | Alpine | 3.8, 3.9, 3.10, 3.8-alpine.3.13, 3.8-alpine.3.14, 3.8-alpine.3.15, 3.9-alpine.3.13, 3.9-alpine3.14, 3.9-alpine3.15, 3.10-alpine3.13, 3.10-alpine3.14, 3.10-alpine3.15 | 3.10-alpine.3.15 |
-| aarch64-base-python | Alpine | 3.8, 3.9, 3.10, 3.8-alpine.3.13, 3.8-alpine.3.14, 3.8-alpine.3.15, 3.9-alpine.3.13, 3.9-alpine3.14, 3.9-alpine3.15, 3.10-alpine3.13, 3.10-alpine3.14, 3.10-alpine3.15 | 3.10-alpine.3.15 |
-| amd64-base-python | Alpine | 3.8, 3.9, 3.10, 3.8-alpine.3.13, 3.8-alpine.3.14, 3.8-alpine.3.15, 3.9-alpine.3.13, 3.9-alpine3.14, 3.9-alpine3.15, 3.10-alpine3.13, 3.10-alpine3.14, 3.10-alpine3.15 | 3.10-alpine.3.15 |
-| i386-base-python | Alpine | 3.8, 3.9, 3.10, 3.8-alpine.3.13, 3.8-alpine.3.14, 3.8-alpine.3.15, 3.9-alpine.3.13, 3.9-alpine3.14, 3.9-alpine3.15, 3.10-alpine3.13, 3.10-alpine3.14, 3.10-alpine3.15 | 3.10-alpine.3.15 |
+| armhf-base-python | Alpine | 3.8, 3.9, 3.10, 3.8-alpine3.14, 3.8-alpine3.15, 3.8-alpine3.16, 3.9-alpine3.14, 3.9-alpine3.15, 3.9-alpine3.16, 3.10-alpine3.14, 3.10-alpine3.15, 3.10-alpine3.16 | 3.10-alpine.3.16 |
+| armv7-base-python | Alpine | 3.8, 3.9, 3.10, 3.8-alpine3.14, 3.8-alpine3.15, 3.8-alpine3.16, 3.9-alpine3.14, 3.9-alpine3.15, 3.9-alpine3.16, 3.10-alpine3.14, 3.10-alpine3.15, 3.10-alpine3.16 | 3.10-alpine.3.16 |
+| aarch64-base-python | Alpine | 3.8, 3.9, 3.10, 3.8-alpine3.14, 3.8-alpine3.15, 3.8-alpine3.16, 3.9-alpine3.14, 3.9-alpine3.15, 3.9-alpine3.16, 3.10-alpine3.14, 3.10-alpine3.15, 3.10-alpine3.16 | 3.10-alpine.3.16 |
+| amd64-base-python | Alpine | 3.8, 3.9, 3.10, 3.8-alpine3.14, 3.8-alpine3.15, 3.8-alpine3.16, 3.9-alpine3.14, 3.9-alpine3.15, 3.9-alpine3.16, 3.10-alpine3.14, 3.10-alpine3.15, 3.10-alpine3.16 | 3.10-alpine.3.16 |
+| i386-base-python | Alpine | 3.8, 3.9, 3.10, 3.8-alpine3.14, 3.8-alpine3.15, 3.8-alpine3.16, 3.9-alpine3.14, 3.9-alpine3.15, 3.9-alpine3.16, 3.10-alpine3.14, 3.10-alpine3.15, 3.10-alpine3.16 | 3.10-alpine.3.16 |
 
 ## Others
 
