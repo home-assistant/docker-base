@@ -17,12 +17,13 @@ ENV \
 # Set shell
 SHELL ["/bin/ash", "-o", "pipefail", "-c"]
 
-# Version
+# Build Args
 ARG \
     BASHIO_VERSION \
     TEMPIO_VERSION \
     S6_OVERLAY_VERSION \
-    JEMALLOC_VERSION
+    JEMALLOC_VERSION \
+    QEMU_CPU
 
 # Base system
 WORKDIR /usr/src

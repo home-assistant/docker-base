@@ -4,7 +4,8 @@ FROM $BUILD_FROM
 ARG \
     PYTHON_VERSION \
     PIP_VERSION \
-    GPG_KEY
+    GPG_KEY \
+    QEMU_CPU
 
 # ensure local python is preferred over distribution python
 ENV PATH /usr/local/bin:$PATH
