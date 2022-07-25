@@ -97,7 +97,7 @@ jobs:
         fi
     
     - name: Build base image
-      uses: home-assistant/builder@2022.06.1
+      uses: home-assistant/builder@2022.07.0
       with:
         args: |
           $BUILD_ARGS \
@@ -145,7 +145,7 @@ jobs:
         fi
     
     - name: Build base image
-      uses: home-assistant/builder@2022.06.1
+      uses: home-assistant/builder@2022.07.0
       with:
         args: |
           $BUILD_ARGS \
@@ -194,7 +194,7 @@ jobs:
         fi
     
     - name: Build base image
-      uses: home-assistant/builder@2022.06.1
+      uses: home-assistant/builder@2022.07.0
       with:
         args: |
           $BUILD_ARGS \
@@ -242,7 +242,7 @@ jobs:
         fi
     
     - name: Build base image
-      uses: home-assistant/builder@2022.06.1
+      uses: home-assistant/builder@2022.07.0
       with:
         args: |
           $BUILD_ARGS \
@@ -292,7 +292,7 @@ jobs:
         fi
     
     - name: Build base image
-      uses: home-assistant/builder@2022.06.1
+      uses: home-assistant/builder@2022.07.0
       with:
         args: |
           $BUILD_ARGS \
