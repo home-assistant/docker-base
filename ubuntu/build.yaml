@@ -9,7 +9,7 @@ codenotary:
 args:
   BASHIO_VERSION: 0.14.3
   TEMPIO_VERSION: 2021.09.0
-  S6_OVERLAY_VERSION: 3.1.0.1
+  S6_OVERLAY_VERSION: 3.1.2.1
 labels:
   io.hass.base.name: ubuntu
   org.opencontainers.image.source: https://github.com/home-assistant/docker-base
