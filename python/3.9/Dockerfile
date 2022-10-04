@@ -80,7 +80,6 @@ RUN set -ex \
         --with-system-expat \
         --with-system-ffi \
         --without-ensurepip \
-        --without-static-libpython \
     && make -j "$(nproc)" \
         LDFLAGS="-Wl,--strip-all" \
         CFLAGS="-fno-semantic-interposition -fno-builtin-malloc -fno-builtin-calloc -fno-builtin-realloc -fno-builtin-free" \
