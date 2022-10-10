@@ -14,7 +14,8 @@ ENV \
     CURL_CA_BUNDLE="/etc/ssl/certs/ca-certificates.crt" \
     S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
     S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0 \
-    S6_CMD_WAIT_FOR_SERVICES=1
+    S6_CMD_WAIT_FOR_SERVICES=1 \
+    S6_SERVICES_READYTIME=50
 
 # Set shell
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
