@@ -29,11 +29,11 @@ We support the latest 3 release with the latest 3 Alpine version.
 
 | Image | OS | Tags | latest |
 |-------|----|------|--------|
-| armhf-base-python | Alpine | 3.8, 3.9, 3.10, 3.11 3.8-alpine3.14, 3.8-alpine3.15, 3.8-alpine3.16, 3.9-alpine3.14, 3.9-alpine3.15, 3.9-alpine3.16, 3.10-alpine3.14, 3.10-alpine3.15, 3.10-alpine3.16, 3.11-alpine3.14, 3.11-alpine3.15, 3.11-alpine3.16 | 3.10-alpine.3.16 |
-| armv7-base-python | Alpine | 3.8, 3.9, 3.10, 3.11 3.8-alpine3.14, 3.8-alpine3.15, 3.8-alpine3.16, 3.9-alpine3.14, 3.9-alpine3.15, 3.9-alpine3.16, 3.10-alpine3.14, 3.10-alpine3.15, 3.10-alpine3.16, 3.11-alpine3.14, 3.11-alpine3.15, 3.11-alpine3.16 | 3.10-alpine.3.16 |
-| aarch64-base-python | Alpine | 3.8, 3.9, 3.10, 3.11 3.8-alpine3.14, 3.8-alpine3.15, 3.8-alpine3.16, 3.9-alpine3.14, 3.9-alpine3.15, 3.9-alpine3.16, 3.10-alpine3.14, 3.10-alpine3.15, 3.10-alpine3.16, 3.11-alpine3.14, 3.11-alpine3.15, 3.11-alpine3.16 | 3.10-alpine.3.16 |
-| amd64-base-python | Alpine | 3.8, 3.9, 3.10, 3.11 3.8-alpine3.14, 3.8-alpine3.15, 3.8-alpine3.16, 3.9-alpine3.14, 3.9-alpine3.15, 3.9-alpine3.16, 3.10-alpine3.14, 3.10-alpine3.15, 3.10-alpine3.16, 3.11-alpine3.14, 3.11-alpine3.15, 3.11-alpine3.16 | 3.10-alpine.3.16 |
-| i386-base-python | Alpine | 3.8, 3.9, 3.10, 3.11, 3.8-alpine3.14, 3.8-alpine3.15, 3.8-alpine3.16, 3.9-alpine3.14, 3.9-alpine3.15, 3.9-alpine3.16, 3.10-alpine3.14, 3.10-alpine3.15, 3.10-alpine3.16, 3.11-alpine3.14, 3.11-alpine3.15, 3.11-alpine3.16 | 3.10-alpine.3.16 |
+| armhf-base-python | Alpine | 3.9, 3.10, 3.11, 3.9-alpine3.14, 3.9-alpine3.15, 3.9-alpine3.16, 3.10-alpine3.14, 3.10-alpine3.15, 3.10-alpine3.16, 3.11-alpine3.14, 3.11-alpine3.15, 3.11-alpine3.16 | 3.10-alpine.3.16 |
+| armv7-base-python | Alpine | 3.9, 3.10, 3.11, 3.9-alpine3.14, 3.9-alpine3.15, 3.9-alpine3.16, 3.10-alpine3.14, 3.10-alpine3.15, 3.10-alpine3.16, 3.11-alpine3.14, 3.11-alpine3.15, 3.11-alpine3.16 | 3.10-alpine.3.16 |
+| aarch64-base-python | Alpine | 3.9, 3.10, 3.11, 3.9-alpine3.14, 3.9-alpine3.15, 3.9-alpine3.16, 3.10-alpine3.14, 3.10-alpine3.15, 3.10-alpine3.16, 3.11-alpine3.14, 3.11-alpine3.15, 3.11-alpine3.16 | 3.10-alpine.3.16 |
+| amd64-base-python | Alpine | 3.9, 3.10, 3.11, 3.9-alpine3.14, 3.9-alpine3.15, 3.9-alpine3.16, 3.10-alpine3.14, 3.10-alpine3.15, 3.10-alpine3.16, 3.11-alpine3.14, 3.11-alpine3.15, 3.11-alpine3.16 | 3.10-alpine.3.16 |
+| i386-base-python | Alpine | 3.9, 3.10, 3.11, 3.9-alpine3.14, 3.9-alpine3.15, 3.9-alpine3.16, 3.10-alpine3.14, 3.10-alpine3.15, 3.10-alpine3.16, 3.11-alpine3.14, 3.11-alpine3.15, 3.11-alpine3.16 | 3.10-alpine.3.16 |
 
 ## Others
 
