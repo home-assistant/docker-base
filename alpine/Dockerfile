@@ -46,8 +46,10 @@ RUN \
         autoconf \
         git \
     \
-    && if [ "${BUILD_ARCH}" = "armv7" ]; then \
+    && if [ "${BUILD_ARCH}" = "armv7" || "${BUILD_ARCH}" = "arm/v7" ]; then \
             export S6_ARCH="arm"; \
+        elif [ "${BUILD_ARCH}" = "armv6" ]; then \
+            export S6_ARCH="armhf"; \            
         elif [ "${BUILD_ARCH}" = "i386" ]; then \
             export S6_ARCH="i686"; \
         elif [ "${BUILD_ARCH}" = "amd64" ]; then \
