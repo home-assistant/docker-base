@@ -1,7 +1,7 @@
 # Home Assistant Base Images
 
 These base images are designed as Docker base images for use with building Home Assistant containers and add-ons.
-It is recommended to use these as a base for your own Home Assistant Add-ons. 
+It is recommended to use these as a base for your own Home Assistant Add-ons.
 
 Using these images as a base for other Docker projects is, however, not recommended.
 
@@ -29,11 +29,11 @@ We support the latest 3 release with the latest 3 Alpine version.
 
 | Image | OS | Tags | latest |
 |-------|----|------|--------|
-| armhf-base-python | Alpine | 3.9, 3.10, 3.11, 3.9-alpine3.14, 3.9-alpine3.15, 3.9-alpine3.16, 3.10-alpine3.14, 3.10-alpine3.15, 3.10-alpine3.16, 3.11-alpine3.14, 3.11-alpine3.15, 3.11-alpine3.16 | 3.10-alpine3.16 |
-| armv7-base-python | Alpine | 3.9, 3.10, 3.11, 3.9-alpine3.14, 3.9-alpine3.15, 3.9-alpine3.16, 3.10-alpine3.14, 3.10-alpine3.15, 3.10-alpine3.16, 3.11-alpine3.14, 3.11-alpine3.15, 3.11-alpine3.16 | 3.10-alpine3.16 |
-| aarch64-base-python | Alpine | 3.9, 3.10, 3.11, 3.9-alpine3.14, 3.9-alpine3.15, 3.9-alpine3.16, 3.10-alpine3.14, 3.10-alpine3.15, 3.10-alpine3.16, 3.11-alpine3.14, 3.11-alpine3.15, 3.11-alpine3.16 | 3.10-alpine3.16 |
-| amd64-base-python | Alpine | 3.9, 3.10, 3.11, 3.9-alpine3.14, 3.9-alpine3.15, 3.9-alpine3.16, 3.10-alpine3.14, 3.10-alpine3.15, 3.10-alpine3.16, 3.11-alpine3.14, 3.11-alpine3.15, 3.11-alpine3.16 | 3.10-alpine3.16 |
-| i386-base-python | Alpine | 3.9, 3.10, 3.11, 3.9-alpine3.14, 3.9-alpine3.15, 3.9-alpine3.16, 3.10-alpine3.14, 3.10-alpine3.15, 3.10-alpine3.16, 3.11-alpine3.14, 3.11-alpine3.15, 3.11-alpine3.16 | 3.10-alpine3.16 |
+| armhf-base-python | Alpine | 3.9, 3.10, 3.11, 3.9-alpine3.15, 3.9-alpine3.16, 3.10-alpine3.14, 3.10-alpine3.15, 3.10-alpine3.16, 3.11-alpine3.14, 3.11-alpine3.15, 3.11-alpine3.16, 3.11-alpine3.17 | 3.10-alpine3.17 |
+| armv7-base-python | Alpine | 3.9, 3.10, 3.11, 3.9-alpine3.15, 3.9-alpine3.16, 3.10-alpine3.14, 3.10-alpine3.15, 3.10-alpine3.16, 3.11-alpine3.14, 3.11-alpine3.15, 3.11-alpine3.16, 3.11-alpine3.17 | 3.10-alpine3.17 |
+| aarch64-base-python | Alpine | 3.9, 3.10, 3.11, 3.9-alpine3.15, 3.9-alpine3.16, 3.10-alpine3.14, 3.10-alpine3.15, 3.10-alpine3.16, 3.11-alpine3.14, 3.11-alpine3.15, 3.11-alpine3.16, 3.11-alpine3.17 | 3.10-alpine3.17 |
+| amd64-base-python | Alpine | 3.9, 3.10, 3.11, 3.9-alpine3.15, 3.9-alpine3.16, 3.10-alpine3.14, 3.10-alpine3.15, 3.10-alpine3.16, 3.11-alpine3.14, 3.11-alpine3.15, 3.11-alpine3.16, 3.11-alpine3.17 | 3.10-alpine3.17 |
+| i386-base-python | Alpine | 3.9, 3.10, 3.11, 3.9-alpine3.15, 3.9-alpine3.16, 3.10-alpine3.14, 3.10-alpine3.15, 3.10-alpine3.16, 3.11-alpine3.14, 3.11-alpine3.15, 3.11-alpine3.16, 3.11-alpine3.17 | 3.10-alpine3.17 |
 
 ## Others
 
