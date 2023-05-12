@@ -9,7 +9,7 @@ build_from:
 codenotary:
   signer: notary@home-assistant.io
 args:
-  BASHIO_VERSION: 0.14.3
+  BASHIO_VERSION: 0.15.0
   TEMPIO_VERSION: 2021.09.0
   S6_OVERLAY_VERSION: 3.1.4.2
 labels:
