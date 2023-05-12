@@ -7,7 +7,7 @@ codenotary:
 args:
   BASHIO_VERSION: 0.14.3
   TEMPIO_VERSION: 2021.09.0
-  S6_OVERLAY_VERSION: 3.1.4.2
+  S6_OVERLAY_VERSION: 3.1.5.0
 labels:
   io.hass.base.name: raspbian
   org.opencontainers.image.source: https://github.com/home-assistant/docker-base
