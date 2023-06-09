@@ -1,5 +1,4 @@
-image: homeassistant/{arch}-base-raspbian
-shadow_repository: ghcr.io/home-assistant
+image: ghcr.io/home-assistant/{arch}-base-raspbian
 build_from:
   armhf: "tianon/raspbian:"
 codenotary:

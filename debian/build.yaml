@@ -1,5 +1,4 @@
-image: homeassistant/{arch}-base-debian
-shadow_repository: ghcr.io/home-assistant
+image: ghcr.io/home-assistant/{arch}-base-debian
 build_from:
   aarch64: "arm64v8/debian:"
   armv7: "arm32v7/debian:"

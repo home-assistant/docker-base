@@ -64,6 +64,10 @@ jobs:
     name: Build ${{ matrix.arch }} alpine ${{ matrix.version }} base image
     needs: init
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+      packages: write
     strategy:
       matrix:
         arch: ${{ fromJson(needs.init.outputs.architectures_alpine) }}
@@ -71,13 +75,6 @@ jobs:
     steps:
     - name: Checkout the repository
       uses: actions/checkout@v3
-
-    - name: Login to DockerHub
-      if: github.event_name == 'release'
-      uses: docker/login-action@v2
-      with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
 
     - name: Login to GitHub Container Registry
       if: github.event_name == 'release'
@@ -97,12 +94,13 @@ jobs:
         fi
     
     - name: Build base image
-      uses: home-assistant/builder@2023.03.0
+      uses: home-assistant/builder@2023.06.0
       with:
         args: |
           $BUILD_ARGS \
           --${{ matrix.arch }} \
           --target /data/alpine \
+          --cosign \
           --release ${{ needs.init.outputs.release }} \
           --base ${{ matrix.version }}
       env:
@@ -112,6 +110,10 @@ jobs:
     name: Build ${{ matrix.arch }} debian ${{ matrix.version }} base image
     needs: init
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+      packages: write
     strategy:
       matrix:
         arch: ${{ fromJson(needs.init.outputs.architectures_debian) }}
@@ -119,13 +121,6 @@ jobs:
     steps:
     - name: Checkout the repository
       uses: actions/checkout@v3
-
-    - name: Login to DockerHub
-      if: github.event_name == 'release'
-      uses: docker/login-action@v2
-      with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
 
     - name: Login to GitHub Container Registry
       if: github.event_name == 'release'
@@ -145,12 +140,13 @@ jobs:
         fi
     
     - name: Build base image
-      uses: home-assistant/builder@2023.03.0
+      uses: home-assistant/builder@2023.06.0
       with:
         args: |
           $BUILD_ARGS \
           --${{ matrix.arch }} \
           --target /data/debian \
+          --cosign \
           --release ${{ needs.init.outputs.release }} \
           --version-from ${{ matrix.version }}-slim \
           --base ${{ matrix.version }}
@@ -161,6 +157,10 @@ jobs:
     name: Build ${{ matrix.arch }} ubuntu ${{ matrix.version }} base image
     needs: init
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+      packages: write
     strategy:
       matrix:
         arch: ${{ fromJson(needs.init.outputs.architectures_ubuntu) }}
@@ -168,13 +168,6 @@ jobs:
     steps:
     - name: Checkout the repository
       uses: actions/checkout@v3
-
-    - name: Login to DockerHub
-      if: github.event_name == 'release'
-      uses: docker/login-action@v2
-      with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
 
     - name: Login to GitHub Container Registry
       if: github.event_name == 'release'
@@ -194,12 +187,13 @@ jobs:
         fi
     
     - name: Build base image
-      uses: home-assistant/builder@2023.03.0
+      uses: home-assistant/builder@2023.06.0
       with:
         args: |
           $BUILD_ARGS \
           --${{ matrix.arch }} \
           --target /data/ubuntu \
+          --cosign \
           --release ${{ needs.init.outputs.release }} \
           --base ${{ matrix.version }}
       env:
@@ -209,6 +203,10 @@ jobs:
     name: Build ${{ matrix.arch }} raspbian ${{ matrix.version }} base image
     needs: init
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+      packages: write
     strategy:
       matrix:
         arch: ${{ fromJson(needs.init.outputs.architectures_raspbian) }}
@@ -216,13 +214,6 @@ jobs:
     steps:
     - name: Checkout the repository
       uses: actions/checkout@v3
-
-    - name: Login to DockerHub
-      if: github.event_name == 'release'
-      uses: docker/login-action@v2
-      with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
 
     - name: Login to GitHub Container Registry
       if: github.event_name == 'release'
@@ -242,12 +233,13 @@ jobs:
         fi
     
     - name: Build base image
-      uses: home-assistant/builder@2023.03.0
+      uses: home-assistant/builder@2023.06.0
       with:
         args: |
           $BUILD_ARGS \
           --${{ matrix.arch }} \
           --target /data/raspbian \
+          --cosign \
           --release ${{ needs.init.outputs.release }} \
           --version-from ${{ matrix.version }}-slim \
           --base ${{ matrix.version }}
@@ -258,6 +250,10 @@ jobs:
     name: Build ${{ matrix.arch }} alpine ${{ matrix.version }} - python ${{ matrix.python }} base image
     needs: [init, build_alpine]
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+      packages: write
     strategy:
       matrix:
         arch: ${{ fromJson(needs.init.outputs.architectures_alpine) }}
@@ -266,13 +262,6 @@ jobs:
     steps:
     - name: Checkout the repository
       uses: actions/checkout@v3
-
-    - name: Login to DockerHub
-      if: github.event_name == 'release'
-      uses: docker/login-action@v2
-      with:
-        username: ${{ secrets.DOCKERHUB_USERNAME }}
-        password: ${{ secrets.DOCKERHUB_TOKEN }}
 
     - name: Login to GitHub Container Registry
       if: github.event_name == 'release'
@@ -292,12 +281,13 @@ jobs:
         fi
     
     - name: Build base image
-      uses: home-assistant/builder@2023.03.0
+      uses: home-assistant/builder@2023.06.0
       with:
         args: |
           $BUILD_ARGS \
           --${{ matrix.arch }} \
           --target "/data/python/${{ matrix.python }}" \
+          --cosign \
           --release ${{ needs.init.outputs.release }} \
           --version-from ${{ matrix.version }} \
           --version ${{ matrix.python }} \
