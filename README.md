@@ -39,15 +39,15 @@ We support the latest 3 release with the latest 3 Alpine version.
 
 ### Debian images
 
-**Note**: We prefer the alpine based version because it's more IoT friendly. In some case, you need a glibc system like this.
+**Note**: We prefer the Alpine based version because it's more IoT friendly. In some case, you need a glibc system like this.
 
 | Image | OS | Tags | latest |
 |-------|----|------|--------|
-| armv7-base-debian | Debian | buster, bullseye, bookworm | bullseye |
-| armhf-base-debian | Debian | buster, bullseye, bookworm | bullseye |
-| aarch64-base-debian | Debain | buster, bullseye, bookworm | bullseye |
-| amd64-base-debian | Debain | buster, bullseye, bookworm | bullseye |
-| i386-base-debian | Debain | buster, bullseye, bookworm | bullseye |
+| armv7-base-debian | Debian | buster, bullseye, bookworm | bookworm |
+| armhf-base-debian | Debian | buster, bullseye, bookworm | bookworm |
+| aarch64-base-debian | Debain | buster, bullseye, bookworm | bookworm |
+| amd64-base-debian | Debain | buster, bullseye, bookworm | bookworm |
+| i386-base-debian | Debain | buster, bullseye, bookworm | bookworm |
 
 ### Ubuntu images
 
