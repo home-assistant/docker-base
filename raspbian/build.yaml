@@ -3,6 +3,8 @@ build_from:
   armhf: "tianon/raspbian:"
 codenotary:
   signer: notary@home-assistant.io
+cosign:
+  identity: https://github.com/home-assistant/docker-base/.*
 args:
   BASHIO_VERSION: 0.15.0
   TEMPIO_VERSION: 2021.09.0
