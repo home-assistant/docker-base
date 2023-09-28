@@ -5,8 +5,6 @@ build_from:
   armhf: "arm32v5/debian:"
   amd64: "debian:"
   i386: "i386/debian:"
-codenotary:
-  signer: notary@home-assistant.io
 cosign:
   identity: https://github.com/home-assistant/docker-base/.*
 args:

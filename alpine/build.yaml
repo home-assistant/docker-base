@@ -5,8 +5,6 @@ build_from:
   armhf: "arm32v6/alpine:"
   amd64: "alpine:"
   i386: "i386/alpine:"
-codenotary:
-  signer: notary@home-assistant.io
 cosign:
   identity: https://github.com/home-assistant/docker-base/.*
 args:
