@@ -103,8 +103,6 @@ jobs:
             --cosign \
             --release ${{ needs.init.outputs.release }} \
             --base ${{ matrix.version }}
-        env:
-          CAS_API_KEY: ${{ secrets.CAS_TOKEN }}
 
   build_debian:
     name: Build ${{ matrix.arch }} debian ${{ matrix.version }} base image
@@ -150,8 +148,6 @@ jobs:
             --release ${{ needs.init.outputs.release }} \
             --version-from ${{ matrix.version }}-slim \
             --base ${{ matrix.version }}
-        env:
-          CAS_API_KEY: ${{ secrets.CAS_TOKEN }}
 
   build_ubuntu:
     name: Build ${{ matrix.arch }} ubuntu ${{ matrix.version }} base image
@@ -196,8 +192,6 @@ jobs:
             --cosign \
             --release ${{ needs.init.outputs.release }} \
             --base ${{ matrix.version }}
-        env:
-          CAS_API_KEY: ${{ secrets.CAS_TOKEN }}
 
   build_raspbian:
     name: Build ${{ matrix.arch }} raspbian ${{ matrix.version }} base image
@@ -243,8 +237,6 @@ jobs:
             --release ${{ needs.init.outputs.release }} \
             --version-from ${{ matrix.version }}-slim \
             --base ${{ matrix.version }}
-        env:
-          CAS_API_KEY: ${{ secrets.CAS_TOKEN }}
 
   build_python:
     name: Build ${{ matrix.arch }} alpine ${{ matrix.version }} - python ${{ matrix.python }} base image
@@ -292,5 +284,3 @@ jobs:
             --version-from ${{ matrix.version }} \
             --version ${{ matrix.python }} \
             --base ${{ matrix.python }}-alpine${{ matrix.version }}
-        env:
-          CAS_API_KEY: ${{ secrets.CAS_TOKEN }}
