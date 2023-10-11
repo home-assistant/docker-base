@@ -1,0 +1,31 @@
+From 86a112f61954dede0a777544e59068c0b01c8439 Mon Sep 17 00:00:00 2001
+From: "J. Nick Koston" <nick@koston.org>
+Date: Wed, 11 Oct 2023 08:34:01 -1000
+Subject: [PATCH] gh-110733: Optimize _run_once for many iterations of the
+ event loop
+
+---
+ Lib/asyncio/base_events.py | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/Lib/asyncio/base_events.py b/Lib/asyncio/base_events.py
+index b092c93436..956864e424 100644
+--- a/Lib/asyncio/base_events.py
++++ b/Lib/asyncio/base_events.py
+@@ -1907,8 +1907,11 @@ def _run_once(self):
+             timeout = 0
+         elif self._scheduled:
+             # Compute the desired timeout.
+-            when = self._scheduled[0]._when
+-            timeout = min(max(0, when - self.time()), MAXIMUM_SELECT_TIMEOUT)
++            timeout = self._scheduled[0]._when - self.time()
++            if timeout > MAXIMUM_SELECT_TIMEOUT:
++                timeout = MAXIMUM_SELECT_TIMEOUT
++            elif timeout < 0:
++                timeout = 0
+ 
+         event_list = self._selector.select(timeout)
+         self._process_events(event_list)
+-- 
+2.39.3 (Apple Git-145)
+
