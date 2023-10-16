@@ -10,7 +10,7 @@ cosign:
   identity: https://github.com/home-assistant/docker-base/.*
 args:
   PYTHON_VERSION: 3.12.0
-  PIP_VERSION: 23.2.1
+  PIP_VERSION: 23.3
   GPG_KEY: 7169605F62C751356D054A26A821E680E5FA6305
 labels:
   io.hass.base.name: python
