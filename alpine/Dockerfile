@@ -87,6 +87,9 @@ RUN \
     && apk del .build-deps \
     && rm -rf /usr/src/*
 
+# Root filesystem
+COPY rootfs /
+
 # S6-Overlay
 WORKDIR /
 ENTRYPOINT ["/init"]
