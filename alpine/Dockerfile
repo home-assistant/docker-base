@@ -71,6 +71,7 @@ RUN \
     && cd /usr/src/jemalloc \
     && git checkout ${JEMALLOC_VERSION} \
     && ./autogen.sh \
+        --with-lg-page=16 \
     && make -j "$(nproc)" \
     && make install \
     \
