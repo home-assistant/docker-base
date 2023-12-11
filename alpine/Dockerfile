@@ -38,6 +38,7 @@ RUN \
         ca-certificates \
         curl \
         jq \
+        libstdc++ \
         tzdata \
         xz \
     \
@@ -73,7 +74,7 @@ RUN \
     && ./autogen.sh \
         --with-lg-page=16 \
     && make -j "$(nproc)" \
-    && make install \
+    && make install_lib_shared install_bin \
     \
     && mkdir -p /usr/src/bashio \
     && curl -L -f -s "https://github.com/hassio-addons/bashio/archive/v${BASHIO_VERSION}.tar.gz" \
