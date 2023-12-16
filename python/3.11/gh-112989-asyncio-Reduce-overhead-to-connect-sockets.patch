@@ -1,0 +1,48 @@
+From 7e2d93f30b157e414924c32232bb748c8f66c828 Mon Sep 17 00:00:00 2001
+From: "J. Nick Koston" <nick@koston.org>
+Date: Tue, 12 Dec 2023 14:29:21 -1000
+Subject: [PATCH] gh-112989: asyncio: Reduce overhead to connect sockets with
+ SelectorEventLoop (#112991)
+
+_ensure_fd_no_transport had a KeyError in the success path
+---
+ Lib/asyncio/selector_events.py                     | 14 +++++---------
+ .../2023-12-12-05-48-17.gh-issue-112989.ZAa_eq.rst |  1 +
+ 2 files changed, 6 insertions(+), 9 deletions(-)
+ create mode 100644 Misc/NEWS.d/next/Library/2023-12-12-05-48-17.gh-issue-112989.ZAa_eq.rst
+
+diff --git a/Lib/asyncio/selector_events.py b/Lib/asyncio/selector_events.py
+index d521b4e2e2..dcd5e0aa34 100644
+--- a/Lib/asyncio/selector_events.py
++++ b/Lib/asyncio/selector_events.py
+@@ -261,15 +261,11 @@ def _ensure_fd_no_transport(self, fd):
+             except (AttributeError, TypeError, ValueError):
+                 # This code matches selectors._fileobj_to_fd function.
+                 raise ValueError(f"Invalid file object: {fd!r}") from None
+-        try:
+-            transport = self._transports[fileno]
+-        except KeyError:
+-            pass
+-        else:
+-            if not transport.is_closing():
+-                raise RuntimeError(
+-                    f'File descriptor {fd!r} is used by transport '
+-                    f'{transport!r}')
++        transport = self._transports.get(fileno)
++        if transport and not transport.is_closing():
++            raise RuntimeError(
++                f'File descriptor {fd!r} is used by transport '
++                f'{transport!r}')
+ 
+     def _add_reader(self, fd, callback, *args):
+         self._check_closed()
+diff --git a/Misc/NEWS.d/next/Library/2023-12-12-05-48-17.gh-issue-112989.ZAa_eq.rst b/Misc/NEWS.d/next/Library/2023-12-12-05-48-17.gh-issue-112989.ZAa_eq.rst
+new file mode 100644
+index 0000000000..ceeab8cc7d
+--- /dev/null
++++ b/Misc/NEWS.d/next/Library/2023-12-12-05-48-17.gh-issue-112989.ZAa_eq.rst
+@@ -0,0 +1 @@
++Reduce overhead to connect sockets with :mod:`asyncio` SelectorEventLoop.
+-- 
+2.39.3 (Apple Git-145)
+
