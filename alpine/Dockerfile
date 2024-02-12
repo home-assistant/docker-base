@@ -37,6 +37,7 @@ RUN \
         bind-tools \
         ca-certificates \
         curl \
+        iputils-ping \
         jq \
         libstdc++ \
         tzdata \
