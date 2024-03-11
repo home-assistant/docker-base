@@ -13,7 +13,7 @@ ARG \
 # set uv index url
 ENV \
     PATH="/usr/local/bin:$PATH:/root/.cargo/bin" \
-    UV_EXTRA_INDEX_URL="https://wheels.home-assistant.io/musllinux-index/" \
+    UV_EXTRA_INDEX_URL="https://wheels.home-assistant.io/musllinux-index/"
 
 # Set shell
 SHELL ["/bin/ash", "-o", "pipefail", "-c"]
