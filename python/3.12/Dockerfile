@@ -5,15 +5,10 @@ ARG \
     PYTHON_VERSION \
     PIP_VERSION \
     GPG_KEY \
-    QEMU_CPU \
-    UV_VERSION
+    QEMU_CPU
 
 # ensure local python is preferred over distribution python
-# add cargo to path to run rust tools like uv
-# set uv index url
-ENV \
-    PATH="/usr/local/bin:$PATH:/root/.cargo/bin" \
-    UV_EXTRA_INDEX_URL="https://wheels.home-assistant.io/musllinux-index/"
+ENV PATH /usr/local/bin:$PATH
 
 # Set shell
 SHELL ["/bin/ash", "-o", "pipefail", "-c"]
@@ -134,7 +129,3 @@ RUN set -ex; \
             -type d -a \( -name test -o -name tests \) \
         \) -exec rm -rf '{}' +; \
     rm -f get-pip.py
-
-# install uv
-RUN set -ex; \
-    curl -LsSf https://github.com/astral-sh/uv/releases/download/${UV_VERSION}/uv-installer.sh | sh
