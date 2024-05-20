@@ -26,7 +26,7 @@ jobs:
       release: ${{ steps.version.outputs.version }}
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v4.1.5
+        uses: actions/checkout@v4.1.6
         with:
           fetch-depth: 0
 
@@ -74,7 +74,7 @@ jobs:
         version: ["3.16", "3.17", "3.18", "3.19"]
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v4.1.5
+        uses: actions/checkout@v4.1.6
 
       - name: Login to GitHub Container Registry
         if: github.event_name == 'release'
@@ -118,7 +118,7 @@ jobs:
         version: ["buster", "bullseye", "bookworm"]
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v4.1.5
+        uses: actions/checkout@v4.1.6
 
       - name: Login to GitHub Container Registry
         if: github.event_name == 'release'
@@ -163,7 +163,7 @@ jobs:
         version: ["16.04", "18.04", "20.04"]
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v4.1.5
+        uses: actions/checkout@v4.1.6
 
       - name: Login to GitHub Container Registry
         if: github.event_name == 'release'
@@ -207,7 +207,7 @@ jobs:
         version: ["buster", "bullseye", "bookworm"]
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v4.1.5
+        uses: actions/checkout@v4.1.6
 
       - name: Login to GitHub Container Registry
         if: github.event_name == 'release'
@@ -253,7 +253,7 @@ jobs:
         python: ["3.10", "3.11", "3.12"]
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v4.1.5
+        uses: actions/checkout@v4.1.6
 
       - name: Login to GitHub Container Registry
         if: github.event_name == 'release'
