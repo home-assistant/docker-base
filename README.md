@@ -43,11 +43,11 @@ We support the latest 3 release with the latest 3 Alpine version.
 
 | Image | OS | Tags | latest |
 |-------|----|------|--------|
-| armv7-base-debian | Debian | buster, bullseye, bookworm | bookworm |
-| armhf-base-debian | Debian | buster, bullseye, bookworm | bookworm |
-| aarch64-base-debian | Debian | buster, bullseye, bookworm | bookworm |
-| amd64-base-debian | Debian | buster, bullseye, bookworm | bookworm |
-| i386-base-debian | Debian | buster, bullseye, bookworm | bookworm |
+| armv7-base-debian | Debian | bullseye, bookworm | bookworm |
+| armhf-base-debian | Debian | bullseye, bookworm | bookworm |
+| aarch64-base-debian | Debian | bullseye, bookworm | bookworm |
+| amd64-base-debian | Debian | bullseye, bookworm | bookworm |
+| i386-base-debian | Debian | bullseye, bookworm | bookworm |
 
 ### Ubuntu images
 
@@ -64,5 +64,5 @@ We support the latest 3 release with the latest 3 Alpine version.
 
 | Image | OS | Tags | latest |
 |-------|----|------|--------|
-| armhf-base-raspbian | Raspbian | buster, bullseye, bookworm | bullseye |
+| armhf-base-raspbian | Raspbian | bullseye, bookworm | bullseye |
 
