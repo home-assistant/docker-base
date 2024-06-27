@@ -115,7 +115,7 @@ jobs:
     strategy:
       matrix:
         arch: ${{ fromJson(needs.init.outputs.architectures_debian) }}
-        version: ["bullseye", "bookworm"]
+        version: ["bullseye", "bookworm", "trixie"]
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v4.1.7
@@ -204,7 +204,7 @@ jobs:
     strategy:
       matrix:
         arch: ${{ fromJson(needs.init.outputs.architectures_raspbian) }}
-        version: ["bullseye", "bookworm"]
+        version: ["bullseye", "bookworm", "trixie"]
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v4.1.7
