@@ -12,7 +12,7 @@ env:
   DEBIAN_LATEST: "bookworm"
   UBUNTU_LATEST: "20.4"
   RASPBIAN_LATEST: "bullseye"
-  PYTHON_LATEST: "3.12"
+  PYTHON_LATEST: "3.13"
 
 jobs:
   init:
@@ -250,7 +250,7 @@ jobs:
       matrix:
         arch: ${{ fromJson(needs.init.outputs.architectures_alpine) }}
         version: ["3.18", "3.19", "3.20"]
-        python: ["3.10", "3.11", "3.12"]
+        python: ["3.11", "3.12", "3.13"]
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v4.2.0
