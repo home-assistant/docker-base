@@ -1,0 +1,70 @@
+commit 5e047972f7c80e95c2baecc9da86ee049df0b9c1
+Author: Marc Mueller <30130371+cdce8p@users.noreply.github.com>
+Date:   2024-10-11 20:11:47 +0200
+
+    Skip failing tests on musl
+
+diff --git a/Lib/test/support/__init__.py b/Lib/test/support/__init__.py
+index ed23f73e3cf..ccc36f7e774 100644
+--- a/Lib/test/support/__init__.py
++++ b/Lib/test/support/__init__.py
+@@ -561,6 +561,7 @@ def skip_if_suppress_immortalization():
+ # have subprocess or fork support.
+ is_emscripten = sys.platform == "emscripten"
+ is_wasi = sys.platform == "wasi"
++is_musl = sys.platform = "linux"
+ 
+ is_apple_mobile = sys.platform in {"ios", "tvos", "watchos"}
+ is_apple = is_apple_mobile or sys.platform == "darwin"
+diff --git a/Lib/test/test_math.py b/Lib/test/test_math.py
+index 541ccdb3d09..4d5f8e982c8 100644
+--- a/Lib/test/test_math.py
++++ b/Lib/test/test_math.py
+@@ -1,7 +1,7 @@
+ # Python test set -- math module
+ # XXXX Should not do tests around zero only
+ 
+-from test.support import verbose, requires_IEEE_754
++from test.support import is_musl, verbose, requires_IEEE_754
+ from test import support
+ import unittest
+ import fractions
+@@ -2706,7 +2706,7 @@ def test_fma_infinities(self):
+     # gh-73468: On some platforms, libc fma() doesn't implement IEE 754-2008
+     # properly: it doesn't use the right sign when the result is zero.
+     @unittest.skipIf(
+-        sys.platform.startswith(("freebsd", "wasi"))
++        sys.platform.startswith(("freebsd", "wasi")) or is_musl
+         or (sys.platform == "android" and platform.machine() == "x86_64"),
+         f"this platform doesn't implement IEE 754-2008 properly")
+     def test_fma_zero_result(self):
+diff --git a/Lib/test/test_re.py b/Lib/test/test_re.py
+index 2a46e058e95..a630f79a702 100644
+--- a/Lib/test/test_re.py
++++ b/Lib/test/test_re.py
+@@ -1,6 +1,6 @@
+ from test.support import (gc_collect, bigmemtest, _2G,
+                           cpython_only, captured_stdout,
+-                          check_disallow_instantiation, is_emscripten, is_wasi,
++                          check_disallow_instantiation, is_emscripten, is_musl, is_wasi,
+                           warnings_helper, SHORT_TIMEOUT, CPUStopwatch, requires_resource)
+ import locale
+ import re
+@@ -2016,7 +2016,7 @@ def test_bug_20998(self):
+         self.assertEqual(re.fullmatch('[a-c]+', 'ABC', re.I).span(), (0, 3))
+ 
+     @unittest.skipIf(
+-        is_emscripten or is_wasi,
++        is_emscripten or is_wasi or is_musl,
+         "musl libc issue on Emscripten/WASI, bpo-46390"
+     )
+     def test_locale_caching(self):
+@@ -2056,7 +2056,7 @@ def check_en_US_utf8(self):
+         self.assertIsNone(re.match(b'(?Li)\xe5', b'\xc5'))
+ 
+     @unittest.skipIf(
+-        is_emscripten or is_wasi,
++        is_emscripten or is_wasi or is_musl,
+         "musl libc issue on Emscripten/WASI, bpo-46390"
+     )
+     def test_locale_compiled(self):
