@@ -62,7 +62,7 @@ RUN set -ex \
         xz-dev \
         zlib-dev \
         bluez-dev \
-# add build deps before removing fetch deps in case there's overlap
+    # add build deps before removing fetch deps in case there's overlap
     && apk del .fetch-deps \
     \
     && for i in /usr/src/*.patch; do \
@@ -78,7 +78,6 @@ RUN set -ex \
         --with-lto \
         --with-system-libmpdec \
         --with-system-expat \
-        --with-system-ffi \
         --without-ensurepip \
         --without-static-libpython \
     && make -j "$(nproc)" \
