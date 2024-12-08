@@ -8,7 +8,7 @@ on:
 
 env:
   BUILD_TYPE: base
-  ALPINE_LATEST: "3.20"
+  ALPINE_LATEST: "3.21"
   DEBIAN_LATEST: "bookworm"
   UBUNTU_LATEST: "20.4"
   RASPBIAN_LATEST: "bullseye"
@@ -71,7 +71,7 @@ jobs:
     strategy:
       matrix:
         arch: ${{ fromJson(needs.init.outputs.architectures_alpine) }}
-        version: ["3.17", "3.18", "3.19", "3.20"]
+        version: ["3.18", "3.19", "3.20", "3.21"]
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v4.2.2
