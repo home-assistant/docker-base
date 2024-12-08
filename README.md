@@ -13,11 +13,11 @@ We support version that are not EOL: https://alpinelinux.org/releases/
 
 | Image | OS | Tags | latest |
 |-------|----|------|--------|
-| armhf-base | Alpine | 3.17 3.18, 3.19, 3.20 | 3.20 |
-| armv7-base | Alpine | 3.17 3.18, 3.19, 3.20 | 3.20 |
-| aarch64-base | Alpine | 3.17 3.18, 3.19, 3.20 | 3.20 |
-| amd64-base | Alpine | 3.17 3.18, 3.19, 3.20 | 3.20 |
-| i386-base | Alpine | 3.17 3.18, 3.19, 3.20 | 3.20 |
+| armhf-base | Alpine | 3.18, 3.19, 3.20, 3.21 | 3.21 |
+| armv7-base | Alpine | 3.18, 3.19, 3.20, 3.21 | 3.21 |
+| aarch64-base | Alpine | 3.18, 3.19, 3.20, 3.21 | 3.21 |
+| amd64-base | Alpine | 3.18, 3.19, 3.20, 3.21 | 3.21 |
+| i386-base | Alpine | 3.18, 3.19, 3.20, 3.21 | 3.21 |
 
 ### jemalloc
 
@@ -65,4 +65,3 @@ We support the latest 3 release with the latest 3 Alpine version.
 | Image | OS | Tags | latest |
 |-------|----|------|--------|
 | armhf-base-raspbian | Raspbian | bullseye, bookworm | bullseye |
-
