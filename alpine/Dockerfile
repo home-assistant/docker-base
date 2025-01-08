@@ -47,6 +47,7 @@ RUN \
         build-base \
         autoconf \
         git \
+        go \
     \
     && if [ "${BUILD_ARCH}" = "armv7" ]; then \
             export S6_ARCH="arm"; \
@@ -83,9 +84,11 @@ RUN \
     && mv /usr/src/bashio/lib /usr/lib/bashio \
     && ln -s /usr/lib/bashio/bashio /usr/bin/bashio \
     \
-    && curl -L -f -s -o /usr/bin/tempio \
-        "https://github.com/home-assistant/tempio/releases/download/${TEMPIO_VERSION}/tempio_${BUILD_ARCH}" \
-    && chmod a+x /usr/bin/tempio \
+    && mkdir -p /usr/src/tempio \
+    && curl -L -f -s "https://github.com/home-assistant/tempio/archive/refs/tags/${TEMPIO_VERSION}.tar.gz" \
+        | tar zxvf - --strip 1 -C /usr/src/tempio \
+    && go build -C /usr/src/tempio \
+    && install -m 775 /usr/src/tempio/tempio /usr/bin/tempio \
     \
     && apk del .build-deps \
     && rm -rf /usr/src/*
