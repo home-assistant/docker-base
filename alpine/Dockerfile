@@ -91,6 +91,8 @@ RUN \
     && install -m 775 /usr/src/tempio/tempio /usr/bin/tempio \
     \
     && apk del .build-deps \
+    && rm -rf /root/.cache/go-build \
+    && rm -rf /root/go \
     && rm -rf /usr/src/*
 
 # Root filesystem
