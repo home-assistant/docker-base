@@ -92,8 +92,6 @@ jobs:
           elif [[ "${{ env.ALPINE_LATEST }}" != "${{ matrix.version }}" ]]; then
             echo "BUILD_ARGS=--no-latest" >> $GITHUB_ENV
           fi
-          # Disable KSLR for QEMU aarch64 to work
-          sudo su -c "echo 0 > /proc/sys/kernel/randomize_va_space"
 
       - name: Build base image
         uses: home-assistant/builder@2024.08.2
@@ -138,8 +136,6 @@ jobs:
           elif [[ "${{ env.DEBIAN_LATEST }}" != "${{ matrix.version }}" ]]; then
             echo "BUILD_ARGS=--no-latest" >> $GITHUB_ENV
           fi
-          # Disable KSLR for QEMU aarch64 to work
-          sudo su -c "echo 0 > /proc/sys/kernel/randomize_va_space"
 
       - name: Build base image
         uses: home-assistant/builder@2024.08.2
@@ -185,8 +181,6 @@ jobs:
           elif [[ "${{ env.UBUNTU_LATEST }}" != "${{ matrix.version }}" ]]; then
             echo "BUILD_ARGS=--no-latest" >> $GITHUB_ENV
           fi
-          # Disable KSLR for QEMU aarch64 to work
-          sudo su -c "echo 0 > /proc/sys/kernel/randomize_va_space"
 
       - name: Build base image
         uses: home-assistant/builder@2024.08.2
@@ -231,8 +225,6 @@ jobs:
           elif [[ "${{ env.RASPBIAN_LATEST }}" != "${{ matrix.version }}" ]]; then
             echo "BUILD_ARGS=--no-latest" >> $GITHUB_ENV
           fi
-          # Disable KSLR for QEMU aarch64 to work
-          sudo su -c "echo 0 > /proc/sys/kernel/randomize_va_space"
 
       - name: Build base image
         uses: home-assistant/builder@2024.08.2
@@ -279,8 +271,6 @@ jobs:
           elif [[ "${{ env.ALPINE_LATEST }}" != "${{ matrix.version }}" ]] || [[ "${{ env.PYTHON_LATEST }}" != "${{ matrix.python }}" ]]; then
             echo "BUILD_ARGS=--no-latest" >> $GITHUB_ENV
           fi
-          # Disable KSLR for QEMU aarch64 to work
-          sudo su -c "echo 0 > /proc/sys/kernel/randomize_va_space"
 
       - name: Build base image
         uses: home-assistant/builder@2024.08.2
