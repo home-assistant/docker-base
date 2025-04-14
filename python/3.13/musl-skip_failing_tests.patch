@@ -1,78 +1,39 @@
-From 24e0dd64b30f81e8bb8266c17243d79235d1a3c6 Mon Sep 17 00:00:00 2001
-From: Marc Mueller <30130371+cdce8p@users.noreply.github.com>
-Date: Fri, 11 Oct 2024 20:11:47 +0200
-Subject: [PATCH] Skip failing tests on musl
+From c4355fe059aad95122cae9747ec9e34b934a2a3a Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Jan=20=C4=8Cerm=C3=A1k?= <sairon@sairon.cz>
+Date: Fri, 11 Apr 2025 13:20:37 +0200
+Subject: [PATCH] Skip test_re tests failing on musl
 
 ---
- Lib/test/support/__init__.py | 1 +
- Lib/test/test_math.py        | 4 ++--
- Lib/test/test_re.py          | 6 +++---
- 3 files changed, 6 insertions(+), 5 deletions(-)
+ Lib/test/test_re.py | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/Lib/test/support/__init__.py b/Lib/test/support/__init__.py
-index 7938b46012c..318fd3f8381 100644
---- a/Lib/test/support/__init__.py
-+++ b/Lib/test/support/__init__.py
-@@ -555,6 +555,7 @@ def skip_if_suppress_immortalization():
- # have subprocess or fork support.
- is_emscripten = sys.platform == "emscripten"
- is_wasi = sys.platform == "wasi"
-+is_musl = sys.platform = "linux"
- 
- is_apple_mobile = sys.platform in {"ios", "tvos", "watchos"}
- is_apple = is_apple_mobile or sys.platform == "darwin"
-diff --git a/Lib/test/test_math.py b/Lib/test/test_math.py
-index 96ec55a09b0..401ab70cf2a 100644
---- a/Lib/test/test_math.py
-+++ b/Lib/test/test_math.py
-@@ -1,7 +1,7 @@
- # Python test set -- math module
- # XXXX Should not do tests around zero only
- 
--from test.support import verbose, requires_IEEE_754
-+from test.support import is_musl, verbose, requires_IEEE_754
- from test import support
- import unittest
- import fractions
-@@ -2706,7 +2706,7 @@ def test_fma_infinities(self):
-     # gh-73468: On some platforms, libc fma() doesn't implement IEE 754-2008
-     # properly: it doesn't use the right sign when the result is zero.
-     @unittest.skipIf(
--        sys.platform.startswith(("freebsd", "wasi", "netbsd"))
-+        sys.platform.startswith(("freebsd", "wasi", "netbsd")) or is_musl
-         or (sys.platform == "android" and platform.machine() == "x86_64"),
-         f"this platform doesn't implement IEE 754-2008 properly")
-     def test_fma_zero_result(self):
 diff --git a/Lib/test/test_re.py b/Lib/test/test_re.py
-index 813cb4a3f54..19713539fae 100644
+index 813cb4a..0b5877a 100644
 --- a/Lib/test/test_re.py
 +++ b/Lib/test/test_re.py
 @@ -1,6 +1,6 @@
  from test.support import (gc_collect, bigmemtest, _2G,
                            cpython_only, captured_stdout,
 -                          check_disallow_instantiation, is_emscripten, is_wasi,
-+                          check_disallow_instantiation, is_emscripten, is_musl, is_wasi,
++                          check_disallow_instantiation, is_emscripten, is_wasi, linked_to_musl,
                            warnings_helper, SHORT_TIMEOUT, CPUStopwatch, requires_resource)
  import locale
  import re
-@@ -2177,7 +2177,7 @@ def test_bug_20998(self):
+@@ -2177,7 +2177,7 @@ class ReTests(unittest.TestCase):
          self.assertEqual(re.fullmatch('[a-c]+', 'ABC', re.I).span(), (0, 3))
  
      @unittest.skipIf(
 -        is_emscripten or is_wasi,
-+        is_emscripten or is_wasi or is_musl,
++        is_emscripten or is_wasi or linked_to_musl,
          "musl libc issue on Emscripten/WASI, bpo-46390"
      )
      def test_locale_caching(self):
-@@ -2217,7 +2217,7 @@ def check_en_US_utf8(self):
+@@ -2217,7 +2217,7 @@ class ReTests(unittest.TestCase):
          self.assertIsNone(re.match(b'(?Li)\xe5', b'\xc5'))
  
      @unittest.skipIf(
 -        is_emscripten or is_wasi,
-+        is_emscripten or is_wasi or is_musl,
++        is_emscripten or is_wasi or linked_to_musl,
          "musl libc issue on Emscripten/WASI, bpo-46390"
      )
      def test_locale_compiled(self):
--- 
-2.47.1
-
