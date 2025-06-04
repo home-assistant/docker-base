@@ -9,7 +9,7 @@ ARG \
     QEMU_CPU
 
 # ensure local python is preferred over distribution python
-ENV PATH /usr/local/bin:$PATH
+ENV PATH=/usr/local/bin:$PATH
 
 # Set shell
 SHELL ["/bin/ash", "-o", "pipefail", "-c"]
