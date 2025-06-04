@@ -11,7 +11,8 @@ cosign:
 args:
   PYTHON_VERSION: 3.13.3
   PIP_VERSION: 25.0.1
-  GPG_KEY: 7169605F62C751356D054A26A821E680E5FA6305
+  CERT_IDENTITY: thomas@python.org
+  CERT_OIDC_ISSUER: https://accounts.google.com
 labels:
   io.hass.base.name: python
   org.opencontainers.image.source: https://github.com/home-assistant/docker-base

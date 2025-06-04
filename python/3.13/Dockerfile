@@ -4,7 +4,8 @@ FROM $BUILD_FROM
 ARG \
     PYTHON_VERSION \
     PIP_VERSION \
-    GPG_KEY \
+    CERT_IDENTITY \
+    CERT_OIDC_ISSUER \
     QEMU_CPU
 
 # ensure local python is preferred over distribution python
@@ -17,19 +18,18 @@ COPY *.patch /usr/src/
 RUN set -ex \
     && export PYTHON_VERSION=${PYTHON_VERSION} \
     && apk add --no-cache --virtual .fetch-deps \
-        gnupg \
+        cosign \
         openssl \
         tar \
         xz \
     \
     && curl -L -o python.tar.xz "https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz" \
-    && curl -L -o python.tar.xz.asc "https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz.asc" \
-    && export GNUPGHOME="$(mktemp -d)" \
-    && echo "disable-ipv6" >> "$GNUPGHOME/dirmngr.conf" \
-    && gpg --batch --keyserver hkps://keys.openpgp.org --recv-keys "${GPG_KEY}" \
-    && gpg --batch --verify python.tar.xz.asc python.tar.xz \
-    && { command -v gpgconf > /dev/null && gpgconf --kill all || :; } \
-    && rm -rf "$GNUPGHOME" python.tar.xz.asc \
+    && curl -L -o python.tar.xz.sigstore "https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz.sigstore" \
+    && cosign verify-blob \
+        --certificate-identity "${CERT_IDENTITY}" \
+        --certificate-oidc-issuer "${CERT_OIDC_ISSUER}" \
+        --bundle python.tar.xz.sigstore \
+        python.tar.xz \
     && mkdir -p /usr/src/python \
     && tar -xJC /usr/src/python --strip-components=1 -f python.tar.xz \
     && rm python.tar.xz \
