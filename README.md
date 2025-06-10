@@ -13,11 +13,11 @@ We support version that are not EOL: https://alpinelinux.org/releases/
 
 | Image | OS | Tags | latest |
 |-------|----|------|--------|
-| armhf-base | Alpine | 3.18, 3.19, 3.20, 3.21 | 3.21 |
-| armv7-base | Alpine | 3.18, 3.19, 3.20, 3.21 | 3.21 |
-| aarch64-base | Alpine | 3.18, 3.19, 3.20, 3.21 | 3.21 |
-| amd64-base | Alpine | 3.18, 3.19, 3.20, 3.21 | 3.21 |
-| i386-base | Alpine | 3.18, 3.19, 3.20, 3.21 | 3.21 |
+| armhf-base | Alpine | 3.19, 3.20, 3.21, 3.22 | 3.22 |
+| armv7-base | Alpine | 3.19, 3.20, 3.21, 3.22 | 3.22 |
+| aarch64-base | Alpine | 3.19, 3.20, 3.21, 3.22 | 3.22 |
+| amd64-base | Alpine | 3.19, 3.20, 3.21, 3.22 | 3.22 |
+| i386-base | Alpine | 3.19, 3.20, 3.21, 3.22 | 3.22 |
 
 ### jemalloc
 
