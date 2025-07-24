@@ -85,9 +85,10 @@ RUN set -ex \
     && make -j "$(nproc)" \
         LDFLAGS="-Wl,--strip-all" \
         CFLAGS="-fno-semantic-interposition -fno-builtin-malloc -fno-builtin-calloc -fno-builtin-realloc -fno-builtin-free" \
-# set thread stack size to 1MB so we don't segfault before we hit sys.getrecursionlimit()
+# set thread stack size to 2MB so we don't segfault before we hit sys.getrecursionlimit()
 # https://github.com/alpinelinux/aports/commit/2026e1259422d4e0cf92391ca2d3844356c649d0
-        EXTRA_CFLAGS="-DTHREAD_STACK_SIZE=0x100000" \
+# https://github.com/alpinelinux/aports/commit/675f1babb7ac89068d32b8f4b4e8bbfbb04c96ac
+        EXTRA_CFLAGS="-DTHREAD_STACK_SIZE=0x200000" \
     && make install \
     \
 	&& find /usr/local -type f -executable -not \( -name '*tkinter*' \) -exec scanelf --needed --nobanner --format '%n#p' '{}' ';' \
