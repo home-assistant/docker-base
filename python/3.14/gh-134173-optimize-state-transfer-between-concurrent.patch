@@ -1,0 +1,89 @@
+From 53da1e8c8ccbe3161ebc42e8b8b7ebd1ab70e05b Mon Sep 17 00:00:00 2001
+From: "J. Nick Koston" <nick@koston.org>
+Date: Sun, 18 May 2025 11:56:20 -0400
+Subject: [PATCH] gh-134173: optimize state transfer between
+ `concurrent.futures.Future` and `asyncio.Future` (#134174)
+
+Co-authored-by: Kumar Aditya <kumaraditya@python.org>
+---
+ Lib/asyncio/futures.py                        | 17 +++---
+ Lib/concurrent/futures/_base.py               | 27 +++++++++
+ Lib/test/test_asyncio/test_futures.py         | 58 +++++++++++++++++--
+ .../test_concurrent_futures/test_future.py    | 57 ++++++++++++++++++
+ ...-05-18-07-25-15.gh-issue-134173.53oOoF.rst |  3 +
+ 5 files changed, 148 insertions(+), 14 deletions(-)
+ create mode 100644 Misc/NEWS.d/next/Library/2025-05-18-07-25-15.gh-issue-134173.53oOoF.rst
+
+diff --git a/Lib/asyncio/futures.py b/Lib/asyncio/futures.py
+index d1df6707302..6bd00a64478 100644
+--- a/Lib/asyncio/futures.py
++++ b/Lib/asyncio/futures.py
+@@ -351,22 +351,19 @@ def _set_concurrent_future_state(concurrent, source):
+ def _copy_future_state(source, dest):
+     """Internal helper to copy state from another Future.
+ 
+-    The other Future may be a concurrent.futures.Future.
++    The other Future must be a concurrent.futures.Future.
+     """
+-    assert source.done()
+     if dest.cancelled():
+         return
+     assert not dest.done()
+-    if source.cancelled():
++    done, cancelled, result, exception = source._get_snapshot()
++    assert done
++    if cancelled:
+         dest.cancel()
++    elif exception is not None:
++        dest.set_exception(_convert_future_exc(exception))
+     else:
+-        exception = source.exception()
+-        if exception is not None:
+-            dest.set_exception(_convert_future_exc(exception))
+-        else:
+-            result = source.result()
+-            dest.set_result(result)
+-
++        dest.set_result(result)
+ 
+ def _chain_future(source, destination):
+     """Chain two futures so that when one completes, so does the other.
+diff --git a/Lib/concurrent/futures/_base.py b/Lib/concurrent/futures/_base.py
+index d98b1ebdd58..f506ce68aea 100644
+--- a/Lib/concurrent/futures/_base.py
++++ b/Lib/concurrent/futures/_base.py
+@@ -558,6 +558,33 @@ def set_exception(self, exception):
+             self._condition.notify_all()
+         self._invoke_callbacks()
+ 
++    def _get_snapshot(self):
++        """Get a snapshot of the future's current state.
++
++        This method atomically retrieves the state in one lock acquisition,
++        which is significantly faster than multiple method calls.
++
++        Returns:
++            Tuple of (done, cancelled, result, exception)
++            - done: True if the future is done (cancelled or finished)
++            - cancelled: True if the future was cancelled
++            - result: The result if available and not cancelled
++            - exception: The exception if available and not cancelled
++        """
++        # Fast path: check if already finished without lock
++        if self._state == FINISHED:
++            return True, False, self._result, self._exception
++
++        # Need lock for other states since they can change
++        with self._condition:
++            # We have to check the state again after acquiring the lock
++            # because it may have changed in the meantime.
++            if self._state == FINISHED:
++                return True, False, self._result, self._exception
++            if self._state in {CANCELLED, CANCELLED_AND_NOTIFIED}:
++                return True, True, None, None
++            return False, False, None, None
++
+     __class_getitem__ = classmethod(types.GenericAlias)
+ 
+ class Executor(object):
+
