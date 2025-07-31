@@ -12,7 +12,7 @@ env:
   DEBIAN_LATEST: "trixie"
   UBUNTU_LATEST: "24.04"
   RASPBIAN_LATEST: "trixie"
-  PYTHON_LATEST: "3.14"
+  PYTHON_LATEST: "3.13"
 
 jobs:
   init:
