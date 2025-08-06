@@ -1,0 +1,65 @@
+From 583b3fa5d253142f122e908ca3f6916a3c370077 Mon Sep 17 00:00:00 2001
+From: Marc Mueller <30130371+cdce8p@users.noreply.github.com>
+Date: Wed, 4 Jun 2025 14:26:16 +0200
+Subject: [PATCH] Skip recursion tests
+
+
+diff --git a/Lib/test/test_functools.py b/Lib/test/test_functools.py
+index f7e09fd771e..b2d03917001 100644
+--- a/Lib/test/test_functools.py
++++ b/Lib/test/test_functools.py
+@@ -434,6 +434,7 @@ def test_setstate_subclasses(self):
+         self.assertEqual(r, ((1, 2), {}))
+         self.assertIs(type(r[0]), tuple)
+ 
++    @unittest.skipIf(support.linked_to_musl(), "skip on musl")
+     @support.skip_if_sanitizer("thread sanitizer crashes in __tsan::FuncEntry", thread=True)
+     @support.skip_emscripten_stack_overflow()
+     def test_recursive_pickle(self):
+@@ -2135,6 +2136,7 @@ def orig(a: int) -> nonexistent: ...
+ 
+     @support.skip_on_s390x
+     @unittest.skipIf(support.is_wasi, "WASI has limited C stack")
++    @unittest.skipIf(support.linked_to_musl(), "skip on musl")
+     @support.skip_if_sanitizer("requires deep stack", ub=True, thread=True)
+     @support.skip_emscripten_stack_overflow()
+     def test_lru_recursion(self):
+diff --git a/Lib/test/test_json/test_recursion.py b/Lib/test/test_json/test_recursion.py
+index 5d7b56ff9ad..3e0438a66a8 100644
+--- a/Lib/test/test_json/test_recursion.py
++++ b/Lib/test/test_json/test_recursion.py
+@@ -1,3 +1,5 @@
++import unittest
++
+ from test import support
+ from test.test_json import PyTest, CTest
+ 
+@@ -68,6 +70,7 @@ def default(self, o):
+             self.fail("didn't raise ValueError on default recursion")
+ 
+ 
++    @unittest.skipIf(support.linked_to_musl(), "skip on musl")
+     @support.skip_emscripten_stack_overflow()
+     @support.skip_wasi_stack_overflow()
+     def test_highly_nested_objects_decoding(self):
+@@ -99,6 +102,7 @@ def test_highly_nested_objects_encoding(self):
+             with support.infinite_recursion(5000):
+                 self.dumps(d)
+ 
++    @unittest.skipIf(support.linked_to_musl(), "skip on musl")
+     @support.skip_emscripten_stack_overflow()
+     @support.skip_wasi_stack_overflow()
+     def test_endless_recursion(self):
+diff --git a/Lib/test/test_xml_etree_c.py b/Lib/test/test_xml_etree_c.py
+index 270b9d6da8e..a469ddb582f 100644
+--- a/Lib/test/test_xml_etree_c.py
++++ b/Lib/test/test_xml_etree_c.py
+@@ -57,6 +57,7 @@ def test_del_attribute(self):
+             del element.attrib
+         self.assertEqual(element.attrib, {'A': 'B', 'C': 'D'})
+ 
++    @unittest.skipIf(support.linked_to_musl(), "skip on musl")
+     @support.skip_wasi_stack_overflow()
+     @support.skip_emscripten_stack_overflow()
+     def test_trashcan(self):
+
