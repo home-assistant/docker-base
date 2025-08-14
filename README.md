@@ -29,14 +29,16 @@ We support the latest 3 release with the latest 3 Alpine version.
 
 > [!NOTE]
 > Python 3.14 is build from the release candidate. It's only recommended for wheel builds at the moment.
+> Furthermore, 3.14 will only be available on `aarch64` and `amd64` following the deprecation of `armhf`, `armv7` and `i386`.
+> See https://www.home-assistant.io/blog/2025/05/22/deprecating-core-and-supervised-installation-methods-and-32-bit-systems/
 
 | Image | OS | Python versions | Tags | latest |
-|-------|----|----------------|------|--------|
-| armhf-base-python | Alpine | 3.12, 3.13, 3.14 | 3.12-alpine3.20, 3.12-alpine3.21, 3.12-alpine3.22, 3.13-alpine3.20, 3.13-alpine3.21, 3.13-alpine3.22, 3.14-alpine3.20, 3.14-alpine3.21, 3.14-alpine3.22 | 3.13-alpine3.22 |
-| armv7-base-python | Alpine | 3.12, 3.13, 3.14 | 3.12-alpine3.20, 3.12-alpine3.21, 3.12-alpine3.22, 3.13-alpine3.20, 3.13-alpine3.21, 3.13-alpine3.22, 3.14-alpine3.20, 3.14-alpine3.21, 3.14-alpine3.22 | 3.13-alpine3.22 |
+|-------|----|-----------------|------|--------|
+| armhf-base-python | Alpine | 3.12, 3.13 | 3.12-alpine3.20, 3.12-alpine3.21, 3.12-alpine3.22, 3.13-alpine3.20, 3.13-alpine3.21, 3.13-alpine3.22 | 3.13-alpine3.22 |
+| armv7-base-python | Alpine | 3.12, 3.13 | 3.12-alpine3.20, 3.12-alpine3.21, 3.12-alpine3.22, 3.13-alpine3.20, 3.13-alpine3.21, 3.13-alpine3.22 | 3.13-alpine3.22 |
 | aarch64-base-python | Alpine | 3.12, 3.13, 3.14 | 3.12-alpine3.20, 3.12-alpine3.21, 3.12-alpine3.22, 3.13-alpine3.20, 3.13-alpine3.21, 3.13-alpine3.22, 3.14-alpine3.20, 3.14-alpine3.21, 3.14-alpine3.22 | 3.13-alpine3.22 |
 | amd64-base-python | Alpine | 3.12, 3.13, 3.14 | 3.12-alpine3.20, 3.12-alpine3.21, 3.12-alpine3.22, 3.13-alpine3.20, 3.13-alpine3.21, 3.13-alpine3.22, 3.14-alpine3.20, 3.14-alpine3.21, 3.14-alpine3.22 | 3.13-alpine3.22 |
-| i386-base-python | Alpine | 3.12, 3.13, 3.14 | 3.12-alpine3.20, 3.12-alpine3.21, 3.12-alpine3.22, 3.13-alpine3.20, 3.13-alpine3.21, 3.13-alpine3.22, 3.14-alpine3.20, 3.14-alpine3.21, 3.14-alpine3.22 | 3.13-alpine3.22 |
+| i386-base-python | Alpine | 3.12, 3.13 | 3.12-alpine3.20, 3.12-alpine3.21, 3.12-alpine3.22, 3.13-alpine3.20, 3.13-alpine3.21, 3.13-alpine3.22 | 3.13-alpine3.22 |
 
 ## Others
 
