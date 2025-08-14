@@ -9,7 +9,7 @@ on:
 env:
   BUILD_TYPE: base
   ALPINE_LATEST: "3.22"
-  DEBIAN_LATEST: "bookworm"
+  DEBIAN_LATEST: "trixie"
   UBUNTU_LATEST: "20.4"
   RASPBIAN_LATEST: "bookworm"
   PYTHON_LATEST: "3.13"
@@ -115,7 +115,7 @@ jobs:
     strategy:
       matrix:
         arch: ${{ fromJson(needs.init.outputs.architectures_debian) }}
-        version: ["bookworm"]
+        version: ["bookworm", "trixie"]
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v4.2.2
