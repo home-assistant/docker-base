@@ -43,11 +43,11 @@ We support the latest 3 release with the latest 3 Alpine version.
 
 | Image | OS | Tags | latest |
 |-------|----|------|--------|
-| armv7-base-debian | Debian | bookworm | bookworm |
-| armhf-base-debian | Debian | bookworm | bookworm |
-| aarch64-base-debian | Debian | bookworm | bookworm |
-| amd64-base-debian | Debian | bookworm | bookworm |
-| i386-base-debian | Debian | bookworm | bookworm |
+| armv7-base-debian | Debian | bookworm, trixie | trixie |
+| armhf-base-debian | Debian | bookworm, trixie | trixie |
+| aarch64-base-debian | Debian | bookworm, trixie | trixie |
+| amd64-base-debian | Debian | bookworm, trixie | trixie |
+| i386-base-debian | Debian | bookworm, trixie | trixie |
 
 ### Ubuntu images
 
