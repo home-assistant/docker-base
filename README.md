@@ -64,4 +64,4 @@ We support the latest 3 release with the latest 3 Alpine version.
 
 | Image | OS | Tags | latest |
 |-------|----|------|--------|
-| armhf-base-raspbian | Raspbian | bookworm | bookworm |
+| armhf-base-raspbian | Raspbian | bookworm, trixie | trixie |
