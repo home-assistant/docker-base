@@ -10,7 +10,7 @@ env:
   BUILD_TYPE: base
   ALPINE_LATEST: "3.22"
   DEBIAN_LATEST: "trixie"
-  UBUNTU_LATEST: "20.4"
+  UBUNTU_LATEST: "20.04"
   RASPBIAN_LATEST: "bookworm"
   PYTHON_LATEST: "3.13"
 
