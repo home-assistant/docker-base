@@ -10,7 +10,7 @@ env:
   BUILD_TYPE: base
   ALPINE_LATEST: "3.22"
   DEBIAN_LATEST: "trixie"
-  UBUNTU_LATEST: "20.04"
+  UBUNTU_LATEST: "24.04"
   RASPBIAN_LATEST: "trixie"
   PYTHON_LATEST: "3.13"
 
@@ -160,7 +160,7 @@ jobs:
     strategy:
       matrix:
         arch: ${{ fromJson(needs.init.outputs.architectures_ubuntu) }}
-        version: ["16.04", "18.04", "20.04"]
+        version: ["16.04", "18.04", "20.04", "22.04", "24.04"]
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v5.0.0
