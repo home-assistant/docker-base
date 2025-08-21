@@ -55,9 +55,9 @@ We support the latest 3 release with the latest 3 Alpine version.
 
 | Image | OS | Tags | latest |
 |-------|----|------|--------|
-| armv7-base-ubuntu | Ubuntu | 14.04, 16.04, 18.04 20.04 | 20.04 |
-| aarch64-base-ubuntu | Ubuntu | 14.04, 16.04, 18.04 20.04 | 20.04 |
-| amd64-base-ubuntu | Ubuntu | 14.04, 16.04, 18.04 20.04 | 20.04 |
+| armv7-base-ubuntu | Ubuntu | 14.04, 16.04, 18.04, 20.04, 22.04, 24.04 | 24.04 |
+| aarch64-base-ubuntu | Ubuntu | 14.04, 16.04, 18.04, 20.04, 22.04, 24.04 | 24.04 |
+| amd64-base-ubuntu | Ubuntu | 14.04, 16.04, 18.04, 20.04, 22.04, 24.04 | 24.04 |
 | i386-base-ubuntu | Ubuntu | 14.04, 16.04, 18.04 | |
 
 ### Raspbian images
