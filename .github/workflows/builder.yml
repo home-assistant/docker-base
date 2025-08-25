@@ -17,7 +17,7 @@ env:
 jobs:
   init:
     name: Initialize build
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     outputs:
       architectures_alpine: ${{ steps.info_alpine.outputs.architectures }}
       architectures_debian: ${{ steps.info_debian.outputs.architectures }}
@@ -63,7 +63,7 @@ jobs:
   build_alpine:
     name: Build ${{ matrix.arch }} alpine ${{ matrix.version }} base image
     needs: init
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
       id-token: write
@@ -107,7 +107,7 @@ jobs:
   build_debian:
     name: Build ${{ matrix.arch }} debian ${{ matrix.version }} base image
     needs: init
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
       id-token: write
@@ -152,7 +152,7 @@ jobs:
   build_ubuntu:
     name: Build ${{ matrix.arch }} ubuntu ${{ matrix.version }} base image
     needs: init
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
       id-token: write
@@ -196,7 +196,7 @@ jobs:
   build_raspbian:
     name: Build ${{ matrix.arch }} raspbian ${{ matrix.version }} base image
     needs: init
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
       id-token: write
@@ -241,7 +241,7 @@ jobs:
   build_python:
     name: Build ${{ matrix.arch }} alpine ${{ matrix.version }} - python ${{ matrix.python }} base image
     needs: [init, build_alpine]
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     permissions:
       contents: read
       id-token: write
