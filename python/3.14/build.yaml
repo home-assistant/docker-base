@@ -9,7 +9,7 @@ cosign:
   base_identity: https://github.com/home-assistant/docker-base/.*
   identity: https://github.com/home-assistant/docker-base/.*
 args:
-  PYTHON_VERSION: "3.14.0rc3"
+  PYTHON_VERSION: "3.14.0"
   PIP_VERSION: "25.2"
   CERT_IDENTITY: hugo@python.org
   CERT_OIDC_ISSUER: https://github.com/login/oauth
