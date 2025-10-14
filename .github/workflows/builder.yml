@@ -217,7 +217,14 @@ jobs:
       matrix:
         arch: ${{ fromJson(needs.init.outputs.architectures_alpine) }}
         version: ["3.20", "3.21", "3.22"]
-        python: ["3.11", "3.12", "3.13"]
+        python: ["3.12", "3.13", "3.14"]
+        exclude:
+          - python: "3.14"
+            arch: "armv7"
+          - python: "3.14"
+            arch: "armhf"
+          - python: "3.14"
+            arch: "i386"
     steps:
       - *checkout
       - *login-container-registry
