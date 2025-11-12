@@ -71,7 +71,7 @@ jobs:
     strategy:
       matrix:
         arch: ${{ fromJson(needs.init.outputs.architectures_alpine) }}
-        version: ["3.19", "3.20", "3.21", "3.22"]
+        version: ["3.20", "3.21", "3.22"]
     steps:
       - &checkout
         name: Checkout the repository
