@@ -113,7 +113,6 @@ RUN \
 ARG PIP_VERSION
 
 RUN set -ex; \
-    python -m ensurepip --upgrade; \
+    python -m ensurepip --upgrade --default-pip; \
     pip3 install --no-cache-dir --upgrade pip=="${PIP_VERSION}"; \
-    ln -s /usr/local/bin/pip3 /usr/local/bin/pip; \
     pip --version
