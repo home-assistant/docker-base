@@ -112,22 +112,7 @@ RUN \
 ARG PIP_VERSION
 
 RUN set -ex; \
-    \
-    apk add --no-cache --virtual .fetch-deps openssl; \
-    \
-    curl -L -o get-pip.py 'https://bootstrap.pypa.io/get-pip.py'; \
-    \
-    apk del .fetch-deps; \
-    \
-    python get-pip.py \
-        --disable-pip-version-check \
-        --no-cache-dir \
-        pip==${PIP_VERSION} \
-    ; \
-    pip --version; \
-    \
-    find /usr/local -depth \
-        \( \
-            -type d -a \( -name test -o -name tests \) \
-        \) -exec rm -rf '{}' +; \
-    rm -f get-pip.py
+    python -m ensurepip --upgrade; \
+    pip3 install --no-cache-dir --upgrade pip=="${PIP_VERSION}"; \
+    ln -s /usr/local/bin/pip3 /usr/local/bin/pip; \
+    pip --version
