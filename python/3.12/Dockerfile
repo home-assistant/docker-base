@@ -102,10 +102,9 @@ RUN \
         \( \
             -type d -a \( -name test -o -name tests \) \
         \) -exec rm -rf '{}' + \
-    && rm -rf /usr/src/python
-
+    && rm -rf /usr/src/python \
 # make some useful symlinks that are expected to exist
-RUN cd /usr/local/bin \
+    && cd /usr/local/bin \
     && ln -s idle3 idle \
     && ln -s pydoc3 pydoc \
     && ln -s python3 python \
