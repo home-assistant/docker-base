@@ -14,8 +14,9 @@ ENV PATH=/usr/local/bin:$PATH
 # Set shell
 SHELL ["/bin/ash", "-o", "pipefail", "-c"]
 
-COPY *.patch /usr/src/
-RUN set -ex \
+RUN \
+    --mount=type=bind,source=./patches,target=/usr/src/patches \
+    set -ex \
     && export PYTHON_VERSION=${PYTHON_VERSION} \
     && apk add --no-cache --virtual .fetch-deps \
         openssl \
@@ -67,7 +68,7 @@ RUN set -ex \
     # add build deps before removing fetch deps in case there's overlap
     && apk del .fetch-deps .cosign \
     \
-    && for i in /usr/src/*.patch; do \
+    && for i in /usr/src/patches/*.patch; do \
         patch -d /usr/src/python -p 1 < "${i}"; done \
     && cd /usr/src/python \
     && gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)" \
@@ -101,8 +102,7 @@ RUN set -ex \
         \( \
             -type d -a \( -name test -o -name tests \) \
         \) -exec rm -rf '{}' + \
-    && rm -rf /usr/src/python \
-    && rm -f /usr/src/*.patch
+    && rm -rf /usr/src/python
 
 # make some useful symlinks that are expected to exist
 RUN cd /usr/local/bin \
