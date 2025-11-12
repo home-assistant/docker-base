@@ -3,7 +3,6 @@ FROM $BUILD_FROM
 
 ARG \
     PYTHON_VERSION \
-    PIP_VERSION \
     CERT_IDENTITY \
     CERT_OIDC_ISSUER \
     QEMU_CPU
@@ -14,8 +13,9 @@ ENV PATH=/usr/local/bin:$PATH
 # Set shell
 SHELL ["/bin/ash", "-o", "pipefail", "-c"]
 
-COPY *.patch /usr/src/
-RUN set -ex \
+RUN \
+    --mount=type=bind,source=./patches,target=/usr/src/patches \
+    set -ex \
     && export PYTHON_VERSION=${PYTHON_VERSION} \
     && apk add --no-cache --virtual .fetch-deps \
         openssl \
@@ -67,7 +67,7 @@ RUN set -ex \
     # add build deps before removing fetch deps in case there's overlap
     && apk del .fetch-deps .cosign \
     \
-    && for i in /usr/src/*.patch; do \
+    && for i in /usr/src/patches/*.patch; do \
         patch -d /usr/src/python -p 1 < "${i}"; done \
     && cd /usr/src/python \
     && gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)" \
@@ -102,32 +102,16 @@ RUN set -ex \
             -type d -a \( -name test -o -name tests \) \
         \) -exec rm -rf '{}' + \
     && rm -rf /usr/src/python \
-    && rm -f /usr/src/*.patch
-
 # make some useful symlinks that are expected to exist
-RUN cd /usr/local/bin \
+    && cd /usr/local/bin \
     && ln -s idle3 idle \
     && ln -s pydoc3 pydoc \
     && ln -s python3 python \
     && ln -s python3-config python-config
 
+ARG PIP_VERSION
+
 RUN set -ex; \
-    \
-    apk add --no-cache --virtual .fetch-deps openssl; \
-    \
-    curl -L -o get-pip.py 'https://bootstrap.pypa.io/get-pip.py'; \
-    \
-    apk del .fetch-deps; \
-    \
-    python get-pip.py \
-        --disable-pip-version-check \
-        --no-cache-dir \
-        pip==${PIP_VERSION} \
-    ; \
-    pip --version; \
-    \
-    find /usr/local -depth \
-        \( \
-            -type d -a \( -name test -o -name tests \) \
-        \) -exec rm -rf '{}' +; \
-    rm -f get-pip.py
+    python -m ensurepip --upgrade --default-pip; \
+    pip3 install --no-cache-dir --upgrade pip=="${PIP_VERSION}"; \
+    pip --version
