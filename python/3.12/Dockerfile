@@ -3,7 +3,6 @@ FROM $BUILD_FROM
 
 ARG \
     PYTHON_VERSION \
-    PIP_VERSION \
     CERT_IDENTITY \
     CERT_OIDC_ISSUER \
     QEMU_CPU
@@ -109,6 +108,8 @@ RUN \
     && ln -s pydoc3 pydoc \
     && ln -s python3 python \
     && ln -s python3-config python-config
+
+ARG PIP_VERSION
 
 RUN set -ex; \
     \
