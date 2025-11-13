@@ -16,7 +16,7 @@ env:
 jobs:
   init:
     name: Initialize build
-    runs-on: &runs-on-ubuntu ubuntu-24.04
+    runs-on: ubuntu-24.04
     outputs:
       architectures_alpine: ${{ steps.info_alpine.outputs.architectures }}
       architectures_debian: ${{ steps.info_debian.outputs.architectures }}
@@ -55,7 +55,7 @@ jobs:
   build_alpine:
     name: Build ${{ matrix.arch }} alpine ${{ matrix.version }} base image
     needs: init
-    runs-on: *runs-on-ubuntu
+    runs-on: &builder-runs-on ${{ matrix.arch == 'aarch64' && 'ubuntu-24.04-arm' || 'ubuntu-24.04' }}
     permissions: &permissions
       contents: read
       id-token: write
@@ -90,6 +90,7 @@ jobs:
       - name: Build base image
         uses: home-assistant/builder@2025.09.0
         with:
+          image: ${{ matrix.arch }}
           args: |
             $BUILD_ARGS \
             --${{ matrix.arch }} \
@@ -101,7 +102,7 @@ jobs:
   build_debian:
     name: Build ${{ matrix.arch }} debian ${{ matrix.version }} base image
     needs: init
-    runs-on: *runs-on-ubuntu
+    runs-on: *builder-runs-on
     permissions: *permissions
     strategy:
       matrix:
@@ -127,6 +128,7 @@ jobs:
       - name: Build base image
         uses: home-assistant/builder@2025.09.0
         with:
+          image: ${{ matrix.arch }}
           args: |
             $BUILD_ARGS \
             --${{ matrix.arch }} \
@@ -139,7 +141,7 @@ jobs:
   build_ubuntu:
     name: Build ${{ matrix.arch }} ubuntu ${{ matrix.version }} base image
     needs: init
-    runs-on: *runs-on-ubuntu
+    runs-on: *builder-runs-on
     permissions: *permissions
     strategy:
       matrix:
@@ -165,6 +167,7 @@ jobs:
       - name: Build base image
         uses: home-assistant/builder@2025.09.0
         with:
+          image: ${{ matrix.arch }}
           args: |
             $BUILD_ARGS \
             --${{ matrix.arch }} \
@@ -176,7 +179,7 @@ jobs:
   build_python:
     name: Build ${{ matrix.arch }} alpine ${{ matrix.version }} - python ${{ matrix.python }} base image
     needs: [init, build_alpine]
-    runs-on: *runs-on-ubuntu
+    runs-on: *builder-runs-on
     permissions: *permissions
     strategy:
       fail-fast: false
@@ -204,6 +207,7 @@ jobs:
       - name: Build base image
         uses: home-assistant/builder@2025.09.0
         with:
+          image: ${{ matrix.arch }}
           args: |
             $BUILD_ARGS \
             --${{ matrix.arch }} \
