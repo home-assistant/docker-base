@@ -1,9 +1,6 @@
 ARG BUILD_FROM
 # amd64: alpine:${VERSION}
-# i386: i386/alpine:${VERSION}
 # aarch64: arm64v8/alpine:${VERSION}
-# armv7: arm32v7/alpine:${VERSION}
-# armhf: arm32v6/alpine:${VERSION}
 
 FROM ${BUILD_FROM}
 
@@ -48,11 +45,7 @@ RUN \
         autoconf \
         git \
     \
-    && if [ "${BUILD_ARCH}" = "armv7" ]; then \
-            export S6_ARCH="arm"; \
-        elif [ "${BUILD_ARCH}" = "i386" ]; then \
-            export S6_ARCH="i686"; \
-        elif [ "${BUILD_ARCH}" = "amd64" ]; then \
+    && if [ "${BUILD_ARCH}" = "amd64" ]; then \
             export S6_ARCH="x86_64"; \
         else \
             export S6_ARCH="${BUILD_ARCH}"; \
