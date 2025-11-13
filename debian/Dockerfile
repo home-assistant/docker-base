@@ -1,9 +1,6 @@
 ARG BUILD_FROM
 # amd64: debian:${VERSION}-slim
-# i386: i386/debian:${VERSION}-slim
 # aarch64: arm64v8/debian:${VERSION}-slim
-# armv7: arm32v7/debian:${VERSION}-slim
-# armhf: arm32v5/debian:${VERSION}-slim
 
 FROM ${BUILD_FROM}
 
@@ -42,11 +39,7 @@ RUN \
         xz-utils \
     && mkdir -p /usr/share/man/man1 \
     \
-    && if [ "${BUILD_ARCH}" = "armv7" ]; then \
-            export S6_ARCH="arm"; \
-        elif [ "${BUILD_ARCH}" = "i386" ]; then \
-            export S6_ARCH="i686"; \
-        elif [ "${BUILD_ARCH}" = "amd64" ]; then \
+    && if [ "${BUILD_ARCH}" = "amd64" ]; then \
             export S6_ARCH="x86_64"; \
         else \
             export S6_ARCH="${BUILD_ARCH}"; \
