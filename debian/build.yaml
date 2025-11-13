@@ -1,10 +1,7 @@
 image: ghcr.io/home-assistant/{arch}-base-debian
 build_from:
   aarch64: "arm64v8/debian:"
-  armv7: "arm32v7/debian:"
-  armhf: "arm32v5/debian:"
   amd64: "debian:"
-  i386: "i386/debian:"
 cosign:
   identity: https://github.com/home-assistant/docker-base/.*
 args:
