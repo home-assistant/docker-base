@@ -89,11 +89,16 @@ jobs:
       - name: Set build arguments
         shell: bash
         run: |
-          if [[ "${{ github.event_name }}" != "release" ]]; then
-            echo "BUILD_ARGS=--test" >> $GITHUB_ENV
-          elif [[ "${{ env.ALPINE_LATEST }}" != "${{ matrix.version }}" ]]; then
-            echo "BUILD_ARGS=--no-latest" >> $GITHUB_ENV
+          if [[ "${{ github.event_name }}" == "release" ]]; then
+            BUILD_ARGS="--additional-tag ${{ matrix.version }}-${{ github.event.release.tag_name }}"
+            if [[ "${{ env.ALPINE_LATEST }}" != "${{ matrix.version }}" ]]; then
+              BUILD_ARGS="$BUILD_ARGS --no-latest"
+            fi
+          else
+            BUILD_ARGS="--test"
           fi
+
+          echo "BUILD_ARGS=$BUILD_ARGS" >> $GITHUB_ENV
 
       - name: Build base image
         uses: home-assistant/builder@2025.09.0
@@ -122,11 +127,16 @@ jobs:
       - name: Set build arguments
         shell: bash
         run: |
-          if [[ "${{ github.event_name }}" != "release" ]]; then
-            echo "BUILD_ARGS=--test" >> $GITHUB_ENV
-          elif [[ "${{ env.DEBIAN_LATEST }}" != "${{ matrix.version }}" ]]; then
-            echo "BUILD_ARGS=--no-latest" >> $GITHUB_ENV
+          if [[ "${{ github.event_name }}" == "release" ]]; then
+            BUILD_ARGS="--additional-tag ${{ matrix.version }}-${{ github.event.release.tag_name }}"
+            if [[ "${{ env.DEBIAN_LATEST }}" != "${{ matrix.version }}" ]]; then
+              BUILD_ARGS="$BUILD_ARGS --no-latest"
+            fi
+          else
+            BUILD_ARGS="--test"
           fi
+
+          echo "BUILD_ARGS=$BUILD_ARGS" >> $GITHUB_ENV
 
       - name: Build base image
         uses: home-assistant/builder@2025.09.0
@@ -156,11 +166,16 @@ jobs:
       - name: Set build arguments
         shell: bash
         run: |
-          if [[ "${{ github.event_name }}" != "release" ]]; then
-            echo "BUILD_ARGS=--test" >> $GITHUB_ENV
-          elif [[ "${{ env.UBUNTU_LATEST }}" != "${{ matrix.version }}" ]]; then
-            echo "BUILD_ARGS=--no-latest" >> $GITHUB_ENV
+          if [[ "${{ github.event_name }}" == "release" ]]; then
+            BUILD_ARGS="--additional-tag ${{ matrix.version }}-${{ github.event.release.tag_name }}"
+            if [[ "${{ env.UBUNTU_LATEST }}" != "${{ matrix.version }}" ]]; then
+              BUILD_ARGS="$BUILD_ARGS --no-latest"
+            fi
+          else
+            BUILD_ARGS="--test"
           fi
+
+          echo "BUILD_ARGS=$BUILD_ARGS" >> $GITHUB_ENV
 
       - name: Build base image
         uses: home-assistant/builder@2025.09.0
@@ -189,11 +204,16 @@ jobs:
       - name: Set build arguments
         shell: bash
         run: |
-          if [[ "${{ github.event_name }}" != "release" ]]; then
-            echo "BUILD_ARGS=--test" >> $GITHUB_ENV
-          elif [[ "${{ env.RASPBIAN_LATEST }}" != "${{ matrix.version }}" ]]; then
-            echo "BUILD_ARGS=--no-latest" >> $GITHUB_ENV
+          if [[ "${{ github.event_name }}" == "release" ]]; then
+            BUILD_ARGS="--additional-tag ${{ matrix.version }}-${{ github.event.release.tag_name }}"
+            if [[ "${{ env.RASPBIAN_LATEST }}" != "${{ matrix.version }}" ]]; then
+              BUILD_ARGS="$BUILD_ARGS --no-latest"
+            fi
+          else
+            BUILD_ARGS="--test"
           fi
+
+          echo "BUILD_ARGS=$BUILD_ARGS" >> $GITHUB_ENV
 
       - name: Build base image
         uses: home-assistant/builder@2025.09.0
@@ -232,11 +252,16 @@ jobs:
       - name: Set build arguments
         shell: bash
         run: |
-          if [[ "${{ github.event_name }}" != "release" ]]; then
-            echo "BUILD_ARGS=--test" >> $GITHUB_ENV
-          elif [[ "${{ env.ALPINE_LATEST }}" != "${{ matrix.version }}" ]] || [[ "${{ env.PYTHON_LATEST }}" != "${{ matrix.python }}" ]]; then
-            echo "BUILD_ARGS=--no-latest" >> $GITHUB_ENV
+          if [[ "${{ github.event_name }}" == "release" ]]; then
+            BUILD_ARGS="--additional-tag ${{ matrix.python }}-alpine${{ matrix.version }}-${{ github.event.release.tag_name }}"
+            if [[ "${{ env.ALPINE_LATEST }}" != "${{ matrix.version }}" ]] || [[ "${{ env.PYTHON_LATEST }}" != "${{ matrix.python }}" ]]; then
+              BUILD_ARGS="$BUILD_ARGS --no-latest"
+            fi
+          else
+            BUILD_ARGS="--test"
           fi
+
+          echo "BUILD_ARGS=$BUILD_ARGS" >> $GITHUB_ENV
 
       - name: Build base image
         uses: home-assistant/builder@2025.09.0
