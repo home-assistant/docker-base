@@ -34,7 +34,7 @@ RUN \
         python.tar.xz \
     && mkdir -p /usr/src/python \
     && tar -xJC /usr/src/python --strip-components=1 -f python.tar.xz \
-    && rm python.tar.xz \
+    && rm python.tar.xz python.tar.xz.sigstore \
     \
     && apk add --no-cache --virtual .build-deps  \
         patch \
