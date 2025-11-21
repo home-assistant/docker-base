@@ -1,0 +1,98 @@
+name: Reusable builder
+
+on:
+  workflow_call:
+    inputs:
+      target:
+        description: Target name
+        required: true
+        type: string
+      architectures:
+        description: List of architectures to build
+        required: true
+        type: string
+      version:
+        description: Version to build
+        required: true
+        type: string
+      python:
+        description: Python version to build
+        type: string
+      release_name:
+        description: Release name
+        required: true
+        type: string
+      version_from:
+        description: Version to build image from
+        type: string
+      tag_latest:
+        description: Tag to mark docker image as latest
+        required: true
+        type: string
+      python_latest:
+        description: Python tag to mark docker image as latest
+        type: string
+
+jobs:
+  build:
+    name: Build ${{ matrix.arch }} base image
+    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
+      id-token: write
+      packages: write
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: ${{ fromJson(inputs.architectures) }}
+        include:
+          - os: ubuntu-24.04
+          - arch: aarch64
+            os: ubuntu-24.04-arm
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v5.0.0
+
+      - name: Login to GitHub Container Registry
+        if: github.event_name == 'release'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set build arguments
+        shell: bash
+        run: |
+          if [[ "${{ github.event_name }}" == "release" ]]; then
+            BUILD_ARGS="--additional-tag ${{ inputs.version }}-${{ github.event.release.tag_name }}"
+            if [[ "${{ inputs.tag_latest }}" != "${{ inputs.version }}" ]] \
+              || [[ -n "${{ inputs.python }}" && "${{ inputs.python_latest }}" != "${{ inputs.python }}" ]];
+            then
+              BUILD_ARGS="$BUILD_ARGS --no-latest"
+            fi
+          else
+            BUILD_ARGS="--test"
+          fi
+
+          if [[ -n "${{ inputs.version_from }}" ]]; then
+            BUILD_ARGS="$BUILD_ARGS --version-from ${{ inputs.version_from }}"
+          fi
+          if [[ -n "${{ inputs.python }}" ]]; then
+            BUILD_ARGS="$BUILD_ARGS --version ${{ inputs.python }} --base ${{ inputs.python }}-alpine${{ inputs.version }}"
+          else
+            BUILD_ARGS="$BUILD_ARGS --base ${{ inputs.version }}"
+          fi
+
+          echo "BUILD_ARGS=$BUILD_ARGS" >> $GITHUB_ENV
+
+      - name: Build base image
+        uses: home-assistant/builder@2025.09.0
+        with:
+          image: ${{ matrix.arch }}
+          args: |
+            $BUILD_ARGS \
+            --${{ matrix.arch }} \
+            --target /data/${{ inputs.target }} \
+            --cosign \
+            --release ${{ inputs.release_name }} \
