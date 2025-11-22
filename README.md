@@ -26,8 +26,8 @@ We support the latest 3 release with the latest 3 Alpine version.
 
 | Image | OS | Python versions | Tags | latest |
 |-------|----|-----------------|------|--------|
-| aarch64-base-python | Alpine | 3.12, 3.13, 3.14 | 3.12-alpine3.20, 3.12-alpine3.21, 3.12-alpine3.22, 3.13-alpine3.20, 3.13-alpine3.21, 3.13-alpine3.22, 3.14-alpine3.20, 3.14-alpine3.21, 3.14-alpine3.22 | 3.13-alpine3.22 |
-| amd64-base-python | Alpine | 3.12, 3.13, 3.14 | 3.12-alpine3.20, 3.12-alpine3.21, 3.12-alpine3.22, 3.13-alpine3.20, 3.13-alpine3.21, 3.13-alpine3.22, 3.14-alpine3.20, 3.14-alpine3.21, 3.14-alpine3.22 | 3.13-alpine3.22 |
+| aarch64-base-python | Alpine | 3.12, 3.13, 3.14 | 3.12-alpine3.20, 3.12-alpine3.21, 3.12-alpine3.22, 3.13-alpine3.20, 3.13-alpine3.21, 3.13-alpine3.22, 3.14-alpine3.20, 3.14-alpine3.21, 3.14-alpine3.22 | 3.14-alpine3.22 |
+| amd64-base-python | Alpine | 3.12, 3.13, 3.14 | 3.12-alpine3.20, 3.12-alpine3.21, 3.12-alpine3.22, 3.13-alpine3.20, 3.13-alpine3.21, 3.13-alpine3.22, 3.14-alpine3.20, 3.14-alpine3.21, 3.14-alpine3.22 | 3.14-alpine3.22 |
 
 ## Others
 
