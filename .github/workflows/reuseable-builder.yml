@@ -51,7 +51,7 @@ jobs:
             os: ubuntu-24.04-arm
     steps:
       - name: Checkout the repository
-        uses: actions/checkout@v5.0.0
+        uses: actions/checkout@v6.0.0
 
       - name: Login to GitHub Container Registry
         if: github.event_name == 'release'
