@@ -65,7 +65,11 @@ jobs:
         shell: bash
         run: |
           if [[ "${{ github.event_name }}" == "release" ]]; then
-            BUILD_ARGS="--additional-tag ${{ inputs.version }}-${{ github.event.release.tag_name }}"
+            if [[ -n "${{ inputs.python }}" ]]; then
+              BUILD_ARGS="--additional-tag ${{ inputs.python }}-alpine${{ inputs.version }}-${{ github.event.release.tag_name }}"
+            else
+              BUILD_ARGS="--additional-tag ${{ inputs.version }}-${{ github.event.release.tag_name }}"
+            fi
             if [[ "${{ inputs.tag_latest }}" != "${{ inputs.version }}" ]] \
               || [[ -n "${{ inputs.python }}" && "${{ inputs.python_latest }}" != "${{ inputs.python }}" ]];
             then
