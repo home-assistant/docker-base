@@ -59,10 +59,10 @@ jobs:
       - name: Set latest tags
         id: set-latest
         run: |
-          echo "alpine_latest=${{ env.ALPINE_LATEST }}" >> $GITHUB_ENV
-          echo "debian_latest=${{ env.DEBIAN_LATEST }}" >> $GITHUB_ENV
-          echo "ubuntu_latest=${{ env.UBUNTU_LATEST }}" >> $GITHUB_ENV
-          echo "python_latest=${{ env.PYTHON_LATEST }}" >> $GITHUB_ENV
+          echo "alpine_latest=${{ env.ALPINE_LATEST }}" >> $GITHUB_OUTPUT
+          echo "debian_latest=${{ env.DEBIAN_LATEST }}" >> $GITHUB_OUTPUT
+          echo "ubuntu_latest=${{ env.UBUNTU_LATEST }}" >> $GITHUB_OUTPUT
+          echo "python_latest=${{ env.PYTHON_LATEST }}" >> $GITHUB_OUTPUT
 
   build_alpine:
     name: Alpine ${{ matrix.version }}
