@@ -21,8 +21,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 ARG \
     BASHIO_VERSION \
     TEMPIO_VERSION \
-    S6_OVERLAY_VERSION \
-    QEMU_CPU
+    S6_OVERLAY_VERSION
 
 # Base system
 WORKDIR /usr/src
