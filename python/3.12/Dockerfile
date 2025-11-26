@@ -4,8 +4,7 @@ FROM $BUILD_FROM
 ARG \
     PYTHON_VERSION \
     CERT_IDENTITY \
-    CERT_OIDC_ISSUER \
-    QEMU_CPU
+    CERT_OIDC_ISSUER
 
 # ensure local python is preferred over distribution python
 ENV PATH=/usr/local/bin:$PATH
