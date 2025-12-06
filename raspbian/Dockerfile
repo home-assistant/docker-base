@@ -1,9 +1,5 @@
 ARG BUILD_FROM
-# amd64: debian:${VERSION}-slim
-# i386: i386/debian:${VERSION}-slim
-# aarch64: arm64v8/debian:${VERSION}-slim
-# armv7: arm32v7/debian:${VERSION}-slim
-# armhf: arm32v5/debian:${VERSION}-slim
+# armhf: tianon/raspbian:${VERSION}-slim
 
 FROM ${BUILD_FROM}
 
@@ -24,11 +20,11 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 ARG \
     BASHIO_VERSION \
     TEMPIO_VERSION \
-    S6_OVERLAY_VERSION
+    S6_OVERLAY_VERSION \
+    QEMU_CPU
 
 # Base system
 WORKDIR /usr/src
-ARG BUILD_ARCH
 
 RUN \
     set -x \
@@ -39,19 +35,8 @@ RUN \
         curl \
         ca-certificates \
         xz-utils \
-    && mkdir -p /usr/share/man/man1 \
     \
-    && if [ "${BUILD_ARCH}" = "armv7" ]; then \
-            export S6_ARCH="arm"; \
-        elif [ "${BUILD_ARCH}" = "i386" ]; then \
-            export S6_ARCH="i686"; \
-        elif [ "${BUILD_ARCH}" = "amd64" ]; then \
-            export S6_ARCH="x86_64"; \
-        else \
-            export S6_ARCH="${BUILD_ARCH}"; \
-        fi \
-    \
-    && curl -L -f -s "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-${S6_ARCH}.tar.xz" \
+    && curl -L -f -s "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-armhf.tar.xz" \
         | tar Jxvf - -C / \
     && curl -L -f -s "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-noarch.tar.xz" \
         | tar Jxvf - -C / \
@@ -63,7 +48,7 @@ RUN \
     && mkdir -p /etc/services.d \
     \
     && curl -L -f -s -o /usr/bin/tempio \
-        "https://github.com/home-assistant/tempio/releases/download/${TEMPIO_VERSION}/tempio_${BUILD_ARCH}" \
+        "https://github.com/home-assistant/tempio/releases/download/${TEMPIO_VERSION}/tempio_armhf" \
     && chmod a+x /usr/bin/tempio \
     \
     && mkdir -p /usr/src/bashio \

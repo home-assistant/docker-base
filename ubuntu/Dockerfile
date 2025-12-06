@@ -1,6 +1,8 @@
 ARG BUILD_FROM
 # amd64: ubuntu:${VERSION}
+# i386: i386/ubuntu:${VERSION}
 # aarch64: arm64v8/ubuntu:${VERSION}
+# armv7: arm32v7/ubuntu:${VERSION}
 
 FROM ${BUILD_FROM}
 
@@ -36,7 +38,11 @@ RUN \
         ca-certificates \
         xz-utils \
     \
-    && if [ "${BUILD_ARCH}" = "amd64" ]; then \
+    && if [ "${BUILD_ARCH}" = "armv7" ]; then \
+            export S6_ARCH="arm"; \
+        elif [ "${BUILD_ARCH}" = "i386" ]; then \
+            export S6_ARCH="i686"; \
+        elif [ "${BUILD_ARCH}" = "amd64" ]; then \
             export S6_ARCH="x86_64"; \
         else \
             export S6_ARCH="${BUILD_ARCH}"; \

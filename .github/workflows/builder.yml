@@ -10,6 +10,7 @@ env:
   BUILD_TYPE: base
   ALPINE_LATEST: "3.22"
   DEBIAN_LATEST: "trixie"
+  RASPBIAN_LATEST: "trixie"
   UBUNTU_LATEST: "24.04"
   PYTHON_LATEST: "3.14"
 
@@ -20,6 +21,7 @@ jobs:
     outputs:
       architectures_alpine: ${{ steps.info_alpine.outputs.architectures }}
       architectures_debian: ${{ steps.info_debian.outputs.architectures }}
+      architectures_raspbian: ${{ steps.info_raspbian.outputs.architectures }}
       architectures_ubuntu: ${{ steps.info_ubuntu.outputs.architectures }}
       release: ${{ steps.version.outputs.version }}
       alpine_latest: ${{ steps.set-latest.outputs.alpine_latest}}
@@ -49,6 +51,12 @@ jobs:
         uses: home-assistant/actions/helpers/info@master
         with:
           path: "${{ github.workspace }}/ubuntu"
+      
+      - name: Get information Raspbian
+        id: info_raspbian
+        uses: home-assistant/actions/helpers/info@master
+        with:
+          path: "${{ github.workspace }}/raspbian"
 
       - name: Get version
         id: version
@@ -62,6 +70,7 @@ jobs:
           echo "alpine_latest=${{ env.ALPINE_LATEST }}" >> $GITHUB_OUTPUT
           echo "debian_latest=${{ env.DEBIAN_LATEST }}" >> $GITHUB_OUTPUT
           echo "ubuntu_latest=${{ env.UBUNTU_LATEST }}" >> $GITHUB_OUTPUT
+          echo "raspbian_latest=${{ env.RASPBIAN_LATEST }}" >> $GITHUB_OUTPUT
           echo "python_latest=${{ env.PYTHON_LATEST }}" >> $GITHUB_OUTPUT
 
   build_alpine:
@@ -108,6 +117,21 @@ jobs:
       version: ${{ matrix.version }}
       release_name: ${{ needs.init.outputs.release }}
       tag_latest: ${{ needs.init.outputs.ubuntu_latest }}
+
+  build_raspbian:
+    name: Raspbian ${{ matrix.version }}
+    needs: init
+    strategy:
+      fail-fast: false
+      matrix:
+        version: ["bookworm", "trixie"]
+    uses: ./.github/workflows/reuseable-builder.yml
+    with:
+      target: raspbian
+      architectures: ${{ needs.init.outputs.architectures_raspbian }}
+      version: ${{ matrix.version }}
+      release_name: ${{ needs.init.outputs.release }}
+      tag_latest: ${{ needs.init.outputs.raspbian_latest }}
 
   build_python:
     name: Alpine ${{ matrix.version }} - python ${{ matrix.python }}

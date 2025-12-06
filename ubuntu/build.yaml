@@ -1,6 +1,7 @@
 image: ghcr.io/home-assistant/{arch}-base-ubuntu
 build_from:
   aarch64: "arm64v8/ubuntu:"
+  armv7: "arm32v7/ubuntu:"
   amd64: "ubuntu:"
 cosign:
   identity: https://github.com/home-assistant/docker-base/.*

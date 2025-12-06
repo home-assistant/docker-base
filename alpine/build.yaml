@@ -1,7 +1,10 @@
 image: ghcr.io/home-assistant/{arch}-base
 build_from:
   aarch64: "arm64v8/alpine:"
+  armv7: "arm32v7/alpine:"
+  armhf: "arm32v6/alpine:"
   amd64: "alpine:"
+  i386: "i386/alpine:"
 cosign:
   identity: https://github.com/home-assistant/docker-base/.*
 args:

@@ -1,0 +1,12 @@
+image: ghcr.io/home-assistant/{arch}-base-raspbian
+build_from:
+  armhf: "tianon/raspbian:"
+cosign:
+  identity: https://github.com/home-assistant/docker-base/.*
+args:
+  BASHIO_VERSION: 0.17.5
+  TEMPIO_VERSION: 2024.11.2
+  S6_OVERLAY_VERSION: 3.1.6.2
+labels:
+  io.hass.base.name: raspbian
+  org.opencontainers.image.source: https://github.com/home-assistant/docker-base
