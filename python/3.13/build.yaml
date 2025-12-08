@@ -6,7 +6,7 @@ cosign:
   base_identity: https://github.com/home-assistant/docker-base/.*
   identity: https://github.com/home-assistant/docker-base/.*
 args:
-  PYTHON_VERSION: "3.13.9"
+  PYTHON_VERSION: "3.13.11"
   PIP_VERSION: "25.3"
   CERT_IDENTITY: thomas@python.org
   CERT_OIDC_ISSUER: https://accounts.google.com
