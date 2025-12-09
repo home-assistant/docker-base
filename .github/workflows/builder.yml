@@ -8,7 +8,7 @@ on:
 
 env:
   BUILD_TYPE: base
-  ALPINE_LATEST: "3.22"
+  ALPINE_LATEST: "3.23"
   DEBIAN_LATEST: "trixie"
   UBUNTU_LATEST: "24.04"
   PYTHON_LATEST: "3.14"
@@ -69,7 +69,7 @@ jobs:
     needs: init
     strategy:
       matrix:
-        version: ["3.20", "3.21", "3.22"]
+        version: ["3.21", "3.22", "3.23"]
     uses: ./.github/workflows/reuseable-builder.yml
     with:
       target: alpine

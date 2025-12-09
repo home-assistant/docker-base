@@ -13,8 +13,8 @@ We support version that are not EOL: https://alpinelinux.org/releases/
 
 | Image | OS | Tags | latest |
 |-------|----|------|--------|
-| aarch64-base | Alpine | 3.20, 3.21, 3.22 | 3.22 |
-| amd64-base | Alpine | 3.20, 3.21, 3.22 | 3.22 |
+| aarch64-base | Alpine | 3.21, 3.22, 3.23 | 3.23 |
+| amd64-base | Alpine | 3.21, 3.22, 3.23 | 3.23 |
 
 ### jemalloc
 
