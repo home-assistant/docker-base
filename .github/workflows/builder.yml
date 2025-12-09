@@ -100,7 +100,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        version: ["16.04", "18.04", "20.04", "22.04", "24.04"]
+        version: ["22.04", "24.04"]
     uses: ./.github/workflows/reuseable-builder.yml
     with:
       target: ubuntu
