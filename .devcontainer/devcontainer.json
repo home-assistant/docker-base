@@ -5,8 +5,8 @@
 	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
 	"build": {
 		"dockerfile": "Dockerfile",
-		// Update 'VARIANT' to pick an Alpine version: 3.19, 3.20, 3.21
-		"args": { "VARIANT": "3.21" }
+		// Update 'VARIANT' to pick an Alpine version: 3.20, 3.21, 3.22
+		"args": { "VARIANT": "3.22" }
 	},
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
