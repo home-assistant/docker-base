@@ -115,7 +115,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        version: ["3.20", "3.21", "3.22"]
+        version: ["3.21", "3.22", "3.23"]
         python: ["3.12", "3.13", "3.14"]
     uses: ./.github/workflows/reuseable-builder.yml
     with:
