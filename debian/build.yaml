@@ -7,7 +7,7 @@ cosign:
 args:
   BASHIO_VERSION: 0.17.5
   TEMPIO_VERSION: 2024.11.2
-  S6_OVERLAY_VERSION: 3.1.6.2
+  S6_OVERLAY_VERSION: 3.2.1.0
 labels:
   io.hass.base.name: debian
   org.opencontainers.image.source: https://github.com/home-assistant/docker-base
