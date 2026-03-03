@@ -44,3 +44,50 @@ We support the latest 3 release with the latest 3 Alpine version.
 | Image | OS | Tags | latest |
 |-------|----|------|--------|
 | base-ubuntu | Ubuntu | 22.04, 24.04 | 24.04 |
+
+## Building images locally
+
+Docker BuildKit (`docker buildx`) can be used for building the images locally without any extra tooling. Following are examples of building the images for a single (host) architecture.
+
+Alpine base using the default version from the Dockerfile:
+
+```bash
+docker buildx build -t base alpine/
+```
+
+To use a specific Alpine base version:
+
+```bash
+docker buildx build \
+  --build-arg ALPINE_VERSION=3.21 \
+  -t base:3.21 \
+  alpine/
+```
+
+Debian base:
+
+```bash
+docker buildx build \
+  --build-arg DEBIAN_VERSION=trixie
+  -t debian:trixie \
+  debian/
+```
+
+Ubuntu base:
+
+```bash
+docker buildx build \
+  --build-arg UBUNTU_VERSION=24.04 \
+  -t ubuntu:24.04 \
+  ubuntu/
+```
+
+Python 3.14 image, using the official Alpine 3.23 base image from GHCR:
+
+```bash
+docker buildx build \
+  --build-arg BASE_IMAGE=ghcr.io/home-assistant/base \
+  --build-arg BASE_VERSION=3.23 \
+  -t base-python:3.14-alpine3.23 \
+  python/3.14/
+```
