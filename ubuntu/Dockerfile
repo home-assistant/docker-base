@@ -1,7 +1,6 @@
-ARG BUILD_FROM
-# amd64: ubuntu:${VERSION}
-# aarch64: arm64v8/ubuntu:${VERSION}
-
+ARG BASE_IMAGE=ubuntu
+ARG UBUNTU_VERSION=24.04
+ARG BUILD_FROM=${BASE_IMAGE}:${UBUNTU_VERSION}
 FROM ${BUILD_FROM}
 
 # Default ENV
@@ -16,18 +15,28 @@ ENV \
 # Set shell
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-# Version
-ARG \
-    BASHIO_VERSION \
-    TEMPIO_VERSION \
-    S6_OVERLAY_VERSION
-
 # Base system
 WORKDIR /usr/src
-ARG BUILD_ARCH
+
+ARG TARGETARCH
+ARG BASHIO_VERSION=0.17.5
+ARG TEMPIO_VERSION=2024.11.2
+ARG S6_OVERLAY_VERSION=3.1.6.2
 
 RUN \
     set -x \
+    && if [ -z "${TARGETARCH}" ]; then \
+            case "$(uname -m)" in \
+                x86_64) TARGETARCH="amd64" ;; \
+                aarch64|arm64) TARGETARCH="arm64" ;; \
+                *) echo "Unsupported architecture: $(uname -m)" && exit 1 ;; \
+            esac; \
+        fi \
+    && case "${TARGETARCH}" in \
+            amd64) TEMPIO_ARCH="amd64"; S6_ARCH="x86_64" ;; \
+            arm64) TEMPIO_ARCH="aarch64"; S6_ARCH="aarch64" ;; \
+            *) echo "Unsupported TARGETARCH: ${TARGETARCH}" && exit 1 ;; \
+        esac \
     && apt-get update && apt-get install -y --no-install-recommends \
         bash \
         jq \
@@ -35,12 +44,6 @@ RUN \
         curl \
         ca-certificates \
         xz-utils \
-    \
-    && if [ "${BUILD_ARCH}" = "amd64" ]; then \
-            export S6_ARCH="x86_64"; \
-        else \
-            export S6_ARCH="${BUILD_ARCH}"; \
-        fi \
     \
     && curl -L -f -s "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-${S6_ARCH}.tar.xz" \
         | tar Jxvf - -C / \
@@ -54,7 +57,7 @@ RUN \
     && mkdir -p /etc/services.d \
     \
     && curl -L -f -s -o /usr/bin/tempio \
-        "https://github.com/home-assistant/tempio/releases/download/${TEMPIO_VERSION}/tempio_${BUILD_ARCH}" \
+        "https://github.com/home-assistant/tempio/releases/download/${TEMPIO_VERSION}/tempio_${TEMPIO_ARCH}" \
     && chmod a+x /usr/bin/tempio \
     \
     && mkdir -p /usr/src/bashio \
@@ -69,3 +72,22 @@ RUN \
 # S6-Overlay
 WORKDIR /
 ENTRYPOINT ["/init"]
+
+ARG BUILD_ARCH=amd64
+ARG BUILD_DATE="1970-01-01 00:00:00+00:00"
+ARG BUILD_FROM
+ARG BUILD_NAME="ubuntu"
+ARG BUILD_REPOSITORY
+ARG BUILD_VERSION=0.0.0-local
+
+LABEL \
+    io.hass.type="base" \
+    io.hass.base.name="${BUILD_NAME}" \
+    io.hass.base.version="${BUILD_VERSION}" \
+    io.hass.base.arch="${BUILD_ARCH}" \
+    io.hass.base.image="${BUILD_FROM}" \
+    io.hass.arch="${BUILD_ARCH}" \
+    io.hass.version="${BUILD_VERSION}" \
+    org.opencontainers.image.created="${BUILD_DATE}" \
+    org.opencontainers.image.version="${BUILD_VERSION}" \
+    org.opencontainers.image.source="${BUILD_REPOSITORY}"

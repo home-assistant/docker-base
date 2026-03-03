@@ -13,8 +13,7 @@ We support version that are not EOL: https://alpinelinux.org/releases/
 
 | Image | OS | Tags | latest |
 |-------|----|------|--------|
-| aarch64-base | Alpine | 3.21, 3.22, 3.23 | 3.23 |
-| amd64-base | Alpine | 3.21, 3.22, 3.23 | 3.23 |
+| base | Alpine | 3.21, 3.22, 3.23 | 3.23 |
 
 ### jemalloc
 
@@ -26,8 +25,7 @@ We support the latest 3 release with the latest 3 Alpine version.
 
 | Image | OS | Python versions | Tags | latest |
 |-------|----|-----------------|------|--------|
-| aarch64-base-python | Alpine | 3.12, 3.13, 3.14 | 3.12-alpine3.21, 3.12-alpine3.22, 3.12-alpine3.23, 3.13-alpine3.21, 3.13-alpine3.22, 3.13-alpine3.23, 3.14-alpine3.21, 3.14-alpine3.22, 3.14-alpine3.23 | 3.14-alpine3.23 |
-| amd64-base-python | Alpine | 3.12, 3.13, 3.14 | 3.12-alpine3.21, 3.12-alpine3.22, 3.12-alpine3.23, 3.13-alpine3.21, 3.13-alpine3.22, 3.13-alpine3.23, 3.14-alpine3.21, 3.14-alpine3.22, 3.14-alpine3.23 | 3.14-alpine3.23 |
+| base-python | Alpine | 3.12, 3.13, 3.14 | 3.12-alpine3.21, 3.12-alpine3.22, 3.12-alpine3.23, 3.13-alpine3.21, 3.13-alpine3.22, 3.13-alpine3.23, 3.14-alpine3.21, 3.14-alpine3.22, 3.14-alpine3.23 | 3.14-alpine3.23 |
 
 ## Others
 
@@ -37,8 +35,7 @@ We support the latest 3 release with the latest 3 Alpine version.
 
 | Image | OS | Tags | latest |
 |-------|----|------|--------|
-| aarch64-base-debian | Debian | bookworm, trixie | trixie |
-| amd64-base-debian | Debian | bookworm, trixie | trixie |
+| base-debian | Debian | bookworm, trixie | trixie |
 
 ### Ubuntu images
 
@@ -46,5 +43,4 @@ We support the latest 3 release with the latest 3 Alpine version.
 
 | Image | OS | Tags | latest |
 |-------|----|------|--------|
-| aarch64-base-ubuntu | Ubuntu | 22.04, 24.04 | 24.04 |
-| amd64-base-ubuntu | Ubuntu | 22.04, 24.04 | 24.04 |
+| base-ubuntu | Ubuntu | 22.04, 24.04 | 24.04 |

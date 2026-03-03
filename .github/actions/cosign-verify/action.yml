@@ -1,0 +1,61 @@
+name: Verify a signature on the supplied container image
+description: |
+  Verify Cosign signature of a container image.
+  Requires Cosign to be installed in the runner environment.
+
+inputs:
+  image:
+    description: Container image reference to verify
+  cosign_identity:
+    description: Certificate identity regexp for verifying cache images (defaults to current repo pattern)
+    required: false
+    default: ""
+  cosign_issuer:
+    description: Certificate OIDC issuer regexp for all cosign verification
+  allow_failure:
+    description: Whether to allow failure of this step (defaults to false). Only shows a warning if verification fails.
+    required: false
+    default: "false"
+
+outputs:
+  verified:
+    description: Whether the image was successfully verified with Cosign
+    value: ${{ steps.verify.outputs.verified }}
+
+runs:
+  using: composite
+  steps:
+    - name: Verify the image
+      id: verify
+      shell: bash
+      env:
+        IMAGE_REF: ${{ inputs.image }}
+        COSIGN_IDENTITY: ${{ inputs.cosign_identity }}
+        COSIGN_ISSUER: ${{ inputs.cosign_issuer }}
+        ALLOW_FAILURE: ${{ inputs.allow_failure }}
+      run: |
+        echo "::group::Verifying image: ${IMAGE_REF}"
+
+        for i in {1..5}; do
+          if cosign verify \
+            --certificate-identity-regexp "${COSIGN_IDENTITY}" \
+            --certificate-oidc-issuer-regexp "${COSIGN_ISSUER}" \
+            "${IMAGE_REF}"; then
+            echo "Image verified: ${IMAGE_REF}"
+            echo "verified=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          echo "Verification attempt ${i} failed, retrying..."
+          sleep $((2 ** i))
+        done
+
+        echo "::endgroup::"
+
+        echo "verified=false" >> "$GITHUB_OUTPUT"
+
+        if [[ "${ALLOW_FAILURE}" == "true" ]]; then
+          echo "::warning::Image verification failed for ${IMAGE_REF}, ignoring"
+        else
+          echo "::error::Image verification failed for ${IMAGE_REF}"
+          exit 1
+        fi
