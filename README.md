@@ -88,7 +88,7 @@ docker buildx build \
   ubuntu/
 ```
 
-Python 3.14 image, using the official Alpine 3.23 base image from GHCR:
+Python 3.14 image, using the Home Assistant Alpine 3.23 base image from GHCR:
 
 ```bash
 docker buildx build \
