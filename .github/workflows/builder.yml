@@ -73,7 +73,7 @@ jobs:
       fail-fast: false
       matrix:
         alpine_version: ["3.21", "3.22", "3.23"]
-    uses: ./.github/workflows/reuseable-builder.yml
+    uses: home-assistant/builder/.github/workflows/builder.yml@gha-builder
     with:
       architectures: ${{ needs.init.outputs.architectures }}
       registry_prefix: ${{ needs.init.outputs.registry_prefix }}
@@ -97,7 +97,7 @@ jobs:
       fail-fast: false
       matrix:
         debian_version: ["bookworm", "trixie"]
-    uses: ./.github/workflows/reuseable-builder.yml
+    uses: home-assistant/builder/.github/workflows/builder.yml@gha-builder
     with:
       architectures: ${{ needs.init.outputs.architectures }}
       registry_prefix: ${{ needs.init.outputs.registry_prefix }}
@@ -121,7 +121,7 @@ jobs:
       fail-fast: false
       matrix:
         ubuntu_version: ["22.04", "24.04"]
-    uses: ./.github/workflows/reuseable-builder.yml
+    uses: home-assistant/builder/.github/workflows/builder.yml@gha-builder
     with:
       architectures: ${{ needs.init.outputs.architectures }}
       registry_prefix: ${{ needs.init.outputs.registry_prefix }}
@@ -146,7 +146,7 @@ jobs:
       matrix:
         alpine_version: ["3.21", "3.22", "3.23"]
         python_version: ["3.12", "3.13", "3.14"]
-    uses: ./.github/workflows/reuseable-builder.yml
+    uses: home-assistant/builder/.github/workflows/builder.yml@gha-builder
     with:
       architectures: ${{ needs.init.outputs.architectures }}
       registry_prefix: ${{ needs.init.outputs.registry_prefix }}
