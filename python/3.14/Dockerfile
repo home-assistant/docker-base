@@ -117,8 +117,6 @@ RUN set -ex; \
     pip3 install --no-cache-dir --upgrade pip=="${PIP_VERSION}"; \
     pip --version
 
-ARG BASE_IMAGE=ghcr.io/home-assistant/base
-ARG BASE_VERSION=3.23
 ARG BUILD_ARCH=amd64
 ARG BUILD_DATE="1970-01-01 00:00:00+00:00"
 ARG BUILD_FROM
@@ -128,7 +126,7 @@ ARG BUILD_VERSION=0.0.0-local
 
 LABEL \
     io.hass.type="base" \
-    io.hass.base.name="python" \
+    io.hass.base.name="${BUILD_NAME}" \
     io.hass.base.version="${BUILD_VERSION}" \
     io.hass.base.arch="${BUILD_ARCH}" \
     io.hass.base.image="${BUILD_FROM}" \

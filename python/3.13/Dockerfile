@@ -125,7 +125,7 @@ ARG BUILD_VERSION=0.0.0-local
 
 LABEL \
     io.hass.type="base" \
-    io.hass.base.name="python" \
+    io.hass.base.name="${BUILD_NAME}" \
     io.hass.base.version="${BUILD_VERSION}" \
     io.hass.base.arch="${BUILD_ARCH}" \
     io.hass.base.image="${BUILD_FROM}" \
