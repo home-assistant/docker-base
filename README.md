@@ -7,6 +7,12 @@ Using these images as a base for other Docker projects is, however, not recommen
 
 The image include [S6-Overlay](https://github.com/just-containers/s6-overlay), [Bashio](https://github.com/hassio-addons/bashio) and [TempIO](https://github.com/home-assistant/tempio).
 
+## Supported architectures
+
+Images are built for all platforms officially supported by Home Assistant, which are `amd64` and `arm64`.
+
+Beginning with the 2026.03.0 release, all images are published as multi-arch images for these platforms. The old architecture-prefixed images (`aarch64-*`, `amd64-*`) are still available but preferably the multi-arch images should be used.
+
 ## Base images
 
 We support version that are not EOL: https://alpinelinux.org/releases/
