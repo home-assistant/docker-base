@@ -18,7 +18,9 @@ env:
 
 permissions:
   contents: read
+  # id-token is required for Cosign in the builder workflow
   id-token: write   # zizmor: ignore[excessive-permissions]
+  # write permissions are required to push built images to GHCR in the builder workflow
   packages: write   # zizmor: ignore[excessive-permissions]
 
 jobs:
