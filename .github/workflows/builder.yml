@@ -18,7 +18,7 @@ env:
 
 permissions:
   contents: read
-  # id-token is required for Cosign in the builder workflow
+  # id-token is required for Cosign in the build-base-image workflow
   id-token: write   # zizmor: ignore[excessive-permissions]
   # write permissions are required to push built images to GHCR in the builder workflow
   packages: write   # zizmor: ignore[excessive-permissions]
@@ -75,7 +75,7 @@ jobs:
       fail-fast: false
       matrix:
         alpine_version: ["3.21", "3.22", "3.23"]
-    uses: home-assistant/builder/.github/workflows/builder.yml@gha-builder
+    uses: ./.github/workflows/build-base-image.yml
     with:
       architectures: ${{ needs.init.outputs.architectures }}
       build-args: |
@@ -89,7 +89,6 @@ jobs:
         ${{ matrix.alpine_version }}-${{ needs.init.outputs.version }}
         ${{ matrix.alpine_version == needs.init.outputs.alpine_latest && 'latest' || '' }}
       push: ${{ needs.init.outputs.push == 'true' }}
-      registry-prefix: ${{ needs.init.outputs.registry_prefix }}
       version: ${{ needs.init.outputs.version }}
 
   build_debian:
@@ -99,7 +98,7 @@ jobs:
       fail-fast: false
       matrix:
         debian_version: ["bookworm", "trixie"]
-    uses: home-assistant/builder/.github/workflows/builder.yml@gha-builder
+    uses: ./.github/workflows/build-base-image.yml
     with:
       architectures: ${{ needs.init.outputs.architectures }}
       build-args: |
@@ -113,7 +112,6 @@ jobs:
         ${{ matrix.debian_version }}-${{ needs.init.outputs.version }}
         ${{ matrix.debian_version == needs.init.outputs.debian_latest && 'latest' || '' }}
       push: ${{ needs.init.outputs.push == 'true' }}
-      registry-prefix: ${{ needs.init.outputs.registry_prefix }}
       version: ${{ needs.init.outputs.version }}
 
   build_ubuntu:
@@ -123,7 +121,7 @@ jobs:
       fail-fast: false
       matrix:
         ubuntu_version: ["22.04", "24.04"]
-    uses: home-assistant/builder/.github/workflows/builder.yml@gha-builder
+    uses: ./.github/workflows/build-base-image.yml
     with:
       architectures: ${{ needs.init.outputs.architectures }}
       build-args: |
@@ -137,7 +135,6 @@ jobs:
         ${{ matrix.ubuntu_version }}-${{ needs.init.outputs.version }}
         ${{ matrix.ubuntu_version == needs.init.outputs.ubuntu_latest && 'latest' || '' }}
       push: ${{ needs.init.outputs.push == 'true' }}
-      registry-prefix: ${{ needs.init.outputs.registry_prefix }}
       version: ${{ needs.init.outputs.version }}
 
   build_python:
@@ -148,7 +145,7 @@ jobs:
       matrix:
         alpine_version: ["3.21", "3.22", "3.23"]
         python_version: ["3.12", "3.13", "3.14"]
-    uses: home-assistant/builder/.github/workflows/builder.yml@gha-builder
+    uses: ./.github/workflows/build-base-image.yml
     with:
       architectures: ${{ needs.init.outputs.architectures }}
       build-args: |
@@ -165,5 +162,4 @@ jobs:
         ${{ matrix.python_version }}-alpine${{ matrix.alpine_version }}-${{ needs.init.outputs.version }}
         ${{ matrix.alpine_version == needs.init.outputs.alpine_latest && matrix.python_version == needs.init.outputs.python_latest && 'latest' || '' }}
       push: ${{ needs.init.outputs.push == 'true' }}
-      registry-prefix: ${{ needs.init.outputs.registry_prefix }}
       version: ${{ needs.init.outputs.version }}
