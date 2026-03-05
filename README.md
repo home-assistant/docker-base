@@ -7,14 +7,19 @@ Using these images as a base for other Docker projects is, however, not recommen
 
 The image include [S6-Overlay](https://github.com/just-containers/s6-overlay), [Bashio](https://github.com/hassio-addons/bashio) and [TempIO](https://github.com/home-assistant/tempio).
 
+## Supported architectures
+
+Images are built for all platforms officially supported by Home Assistant, which are `amd64` and `arm64`.
+
+Beginning with the 2026.03.0 release, all images are published as multi-arch images for these platforms. The old architecture-prefixed images (`aarch64-*`, `amd64-*`) are still available but preferably the multi-arch images should be used.
+
 ## Base images
 
 We support version that are not EOL: https://alpinelinux.org/releases/
 
 | Image | OS | Tags | latest |
 |-------|----|------|--------|
-| aarch64-base | Alpine | 3.21, 3.22, 3.23 | 3.23 |
-| amd64-base | Alpine | 3.21, 3.22, 3.23 | 3.23 |
+| base | Alpine | 3.21, 3.22, 3.23 | 3.23 |
 
 ### jemalloc
 
@@ -26,8 +31,7 @@ We support the latest 3 release with the latest 3 Alpine version.
 
 | Image | OS | Python versions | Tags | latest |
 |-------|----|-----------------|------|--------|
-| aarch64-base-python | Alpine | 3.12, 3.13, 3.14 | 3.12-alpine3.21, 3.12-alpine3.22, 3.12-alpine3.23, 3.13-alpine3.21, 3.13-alpine3.22, 3.13-alpine3.23, 3.14-alpine3.21, 3.14-alpine3.22, 3.14-alpine3.23 | 3.14-alpine3.23 |
-| amd64-base-python | Alpine | 3.12, 3.13, 3.14 | 3.12-alpine3.21, 3.12-alpine3.22, 3.12-alpine3.23, 3.13-alpine3.21, 3.13-alpine3.22, 3.13-alpine3.23, 3.14-alpine3.21, 3.14-alpine3.22, 3.14-alpine3.23 | 3.14-alpine3.23 |
+| base-python | Alpine | 3.12, 3.13, 3.14 | 3.12-alpine3.21, 3.12-alpine3.22, 3.12-alpine3.23, 3.13-alpine3.21, 3.13-alpine3.22, 3.13-alpine3.23, 3.14-alpine3.21, 3.14-alpine3.22, 3.14-alpine3.23 | 3.14-alpine3.23 |
 
 ## Others
 
@@ -37,8 +41,7 @@ We support the latest 3 release with the latest 3 Alpine version.
 
 | Image | OS | Tags | latest |
 |-------|----|------|--------|
-| aarch64-base-debian | Debian | bookworm, trixie | trixie |
-| amd64-base-debian | Debian | bookworm, trixie | trixie |
+| base-debian | Debian | bookworm, trixie | trixie |
 
 ### Ubuntu images
 
@@ -46,5 +49,51 @@ We support the latest 3 release with the latest 3 Alpine version.
 
 | Image | OS | Tags | latest |
 |-------|----|------|--------|
-| aarch64-base-ubuntu | Ubuntu | 22.04, 24.04 | 24.04 |
-| amd64-base-ubuntu | Ubuntu | 22.04, 24.04 | 24.04 |
+| base-ubuntu | Ubuntu | 22.04, 24.04 | 24.04 |
+
+## Building images locally
+
+Docker BuildKit (`docker buildx`) can be used for building the images locally without any extra tooling. Following are examples of building the images for a single (host) architecture.
+
+Alpine base using the default version from the Dockerfile:
+
+```bash
+docker buildx build -t base alpine/
+```
+
+To use a specific Alpine base version:
+
+```bash
+docker buildx build \
+  --build-arg ALPINE_VERSION=3.21 \
+  -t base:3.21 \
+  alpine/
+```
+
+Debian base:
+
+```bash
+docker buildx build \
+  --build-arg DEBIAN_VERSION=trixie
+  -t debian:trixie \
+  debian/
+```
+
+Ubuntu base:
+
+```bash
+docker buildx build \
+  --build-arg UBUNTU_VERSION=24.04 \
+  -t ubuntu:24.04 \
+  ubuntu/
+```
+
+Python 3.14 image, using the Home Assistant Alpine 3.23 base image from GHCR:
+
+```bash
+docker buildx build \
+  --build-arg BASE_IMAGE=ghcr.io/home-assistant/base \
+  --build-arg BASE_VERSION=3.23 \
+  -t base-python:3.14-alpine3.23 \
+  python/3.14/
+```
