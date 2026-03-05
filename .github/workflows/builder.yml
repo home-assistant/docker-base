@@ -78,19 +78,19 @@ jobs:
     uses: home-assistant/builder/.github/workflows/builder.yml@gha-builder
     with:
       architectures: ${{ needs.init.outputs.architectures }}
-      registry-prefix: ${{ needs.init.outputs.registry_prefix }}
-      image-name: base
-      image-tag: ${{ matrix.alpine_version }}
-      image-extra-tags: |
-        ${{ matrix.alpine_version }}-${{ needs.init.outputs.version }}
-        ${{ matrix.alpine_version == needs.init.outputs.alpine_latest && 'latest' || '' }}
-      context: alpine
-      version: ${{ needs.init.outputs.version }}
       build-args: |
         ALPINE_VERSION=${{ matrix.alpine_version }}
-      push: ${{ needs.init.outputs.push == 'true' }}
-      cache-scope: alpine-${{ matrix.alpine_version }}
+      cache-gha-scope: alpine-${{ matrix.alpine_version }}
       cache-image-tag: ${{ matrix.alpine_version }}
+      context: alpine
+      image-name: base
+      image-tags: |
+        ${{ matrix.alpine_version }}
+        ${{ matrix.alpine_version }}-${{ needs.init.outputs.version }}
+        ${{ matrix.alpine_version == needs.init.outputs.alpine_latest && 'latest' || '' }}
+      push: ${{ needs.init.outputs.push == 'true' }}
+      registry-prefix: ${{ needs.init.outputs.registry_prefix }}
+      version: ${{ needs.init.outputs.version }}
 
   build_debian:
     name: Debian ${{ matrix.debian_version }}
@@ -102,19 +102,19 @@ jobs:
     uses: home-assistant/builder/.github/workflows/builder.yml@gha-builder
     with:
       architectures: ${{ needs.init.outputs.architectures }}
-      registry-prefix: ${{ needs.init.outputs.registry_prefix }}
-      image-name: debian
-      image-tag: ${{ matrix.debian_version }}
-      image-extra-tags: |
-        ${{ matrix.debian_version }}-${{ needs.init.outputs.version }}
-        ${{ matrix.debian_version == needs.init.outputs.debian_latest && 'latest' || '' }}
-      context: debian
-      version: ${{ needs.init.outputs.version }}
       build-args: |
         DEBIAN_VERSION=${{ matrix.debian_version }}
-      push: ${{ needs.init.outputs.push == 'true' }}
-      cache-scope: debian-${{ matrix.debian_version }}
+      cache-gha-scope: debian-${{ matrix.debian_version }}
       cache-image-tag: ${{ matrix.debian_version }}
+      context: debian
+      image-name: debian
+      image-tags: |
+        ${{ matrix.debian_version }}
+        ${{ matrix.debian_version }}-${{ needs.init.outputs.version }}
+        ${{ matrix.debian_version == needs.init.outputs.debian_latest && 'latest' || '' }}
+      push: ${{ needs.init.outputs.push == 'true' }}
+      registry-prefix: ${{ needs.init.outputs.registry_prefix }}
+      version: ${{ needs.init.outputs.version }}
 
   build_ubuntu:
     name: Ubuntu ${{ matrix.ubuntu_version }}
@@ -126,19 +126,19 @@ jobs:
     uses: home-assistant/builder/.github/workflows/builder.yml@gha-builder
     with:
       architectures: ${{ needs.init.outputs.architectures }}
-      registry-prefix: ${{ needs.init.outputs.registry_prefix }}
-      image-name: ubuntu
-      image-tag: ${{ matrix.ubuntu_version }}
-      image-extra-tags: |
-        ${{ matrix.ubuntu_version }}-${{ needs.init.outputs.version }}
-        ${{ matrix.ubuntu_version == needs.init.outputs.ubuntu_latest && 'latest' || '' }}
-      context: ubuntu
-      version: ${{ needs.init.outputs.version }}
       build-args: |
         UBUNTU_VERSION=${{ matrix.ubuntu_version }}
-      push: ${{ needs.init.outputs.push == 'true' }}
-      cache-scope: ubuntu-${{ matrix.ubuntu_version }}
+      cache-gha-scope: ubuntu-${{ matrix.ubuntu_version }}
       cache-image-tag: ${{ matrix.ubuntu_version }}
+      context: ubuntu
+      image-name: ubuntu
+      image-tags: |
+        ${{ matrix.ubuntu_version }}
+        ${{ matrix.ubuntu_version }}-${{ needs.init.outputs.version }}
+        ${{ matrix.ubuntu_version == needs.init.outputs.ubuntu_latest && 'latest' || '' }}
+      push: ${{ needs.init.outputs.push == 'true' }}
+      registry-prefix: ${{ needs.init.outputs.registry_prefix }}
+      version: ${{ needs.init.outputs.version }}
 
   build_python:
     name: Python ${{ matrix.python_version }} (Alpine ${{ matrix.alpine_version }})
@@ -151,19 +151,19 @@ jobs:
     uses: home-assistant/builder/.github/workflows/builder.yml@gha-builder
     with:
       architectures: ${{ needs.init.outputs.architectures }}
-      registry-prefix: ${{ needs.init.outputs.registry_prefix }}
-      image-name: base-python
-      image-tag: ${{ matrix.python_version }}-alpine${{ matrix.alpine_version }}
-      image-extra-tags: |
-        ${{ matrix.python_version }}-alpine${{ matrix.alpine_version }}-${{ needs.init.outputs.version }}
-        ${{ matrix.alpine_version == needs.init.outputs.alpine_latest && matrix.python_version == needs.init.outputs.python_latest && 'latest' || '' }}
-      context: python/${{ matrix.python_version }}
-      version: ${{ needs.init.outputs.version }}
       build-args: |
         BASE_IMAGE=ghcr.io/${{ github.repository_owner }}/base
         BASE_VERSION=${{ matrix.alpine_version }}
-      push: ${{ needs.init.outputs.push == 'true' }}
-      cache-scope: python-${{ matrix.python_version }}-alpine${{ matrix.alpine_version }}
-      verify-base: ghcr.io/${{ github.repository_owner }}/base:${{ matrix.alpine_version }}
-      cosign-base-identity: "https://github.com/${{ github.repository }}/.*"
+      cache-gha-scope: python-${{ matrix.python_version }}-alpine${{ matrix.alpine_version }}
       cache-image-tag: ${{ matrix.python_version }}-alpine${{ matrix.alpine_version }}
+      context: python/${{ matrix.python_version }}
+      cosign-base-identity: "https://github.com/${{ github.repository }}/.*"
+      cosign-base-verify: ghcr.io/${{ github.repository_owner }}/base:${{ matrix.alpine_version }}
+      image-name: base-python
+      image-tags: |
+        ${{ matrix.python_version }}-alpine${{ matrix.alpine_version }}
+        ${{ matrix.python_version }}-alpine${{ matrix.alpine_version }}-${{ needs.init.outputs.version }}
+        ${{ matrix.alpine_version == needs.init.outputs.alpine_latest && matrix.python_version == needs.init.outputs.python_latest && 'latest' || '' }}
+      push: ${{ needs.init.outputs.push == 'true' }}
+      registry-prefix: ${{ needs.init.outputs.registry_prefix }}
+      version: ${{ needs.init.outputs.version }}
