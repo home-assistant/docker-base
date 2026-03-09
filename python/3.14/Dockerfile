@@ -21,7 +21,7 @@ RUN \
         tar \
         xz \
     && apk add --no-cache --virtual .cosign cosign \
-        --repository="https://dl-cdn.alpinelinux.org/alpine/v3.21/community" \
+        --repository="https://dl-cdn.alpinelinux.org/alpine/v$(. /etc/os-release; echo ${VERSION_ID%.*})/community" \
     \
     && curl -L -o python.tar.xz "https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz" \
     && curl -L -o python.tar.xz.sigstore "https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz.sigstore" \
