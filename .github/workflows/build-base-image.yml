@@ -74,6 +74,11 @@ on:
         description: Image tags, one per line
         required: true
         type: string
+      labels:
+        description: Additional OCI labels (key=value format, one per line)
+        required: false
+        default: ""
+        type: string
       multi-arch:
         description: Prefix per-arch image names with architecture (required for multiple architectures)
         required: false
@@ -141,6 +146,10 @@ jobs:
           file: ${{ inputs.file }}
           image: ${{ matrix.image }}
           image-tags: ${{ inputs.image-tags }}
+          labels: |
+            io.hass.base.arch=${{ matrix.arch }}
+            io.hass.base.version=${{ inputs.version }}
+            ${{ inputs.labels }}
           push: ${{ inputs.push }}
           version: ${{ inputs.version }}
 

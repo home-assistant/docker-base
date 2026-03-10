@@ -116,21 +116,6 @@ RUN set -ex; \
     pip3 install --no-cache-dir --upgrade pip=="${PIP_VERSION}"; \
     pip --version
 
-ARG BUILD_ARCH=amd64
-ARG BUILD_DATE="1970-01-01 00:00:00+00:00"
-ARG BUILD_FROM
-ARG BUILD_NAME="python"
-ARG BUILD_REPOSITORY
-ARG BUILD_VERSION=0.0.0-local
-
 LABEL \
     io.hass.type="base" \
-    io.hass.base.name="${BUILD_NAME}" \
-    io.hass.base.version="${BUILD_VERSION}" \
-    io.hass.base.arch="${BUILD_ARCH}" \
-    io.hass.base.image="${BUILD_FROM}" \
-    io.hass.arch="${BUILD_ARCH}" \
-    io.hass.version="${BUILD_VERSION}" \
-    org.opencontainers.image.created="${BUILD_DATE}" \
-    org.opencontainers.image.version="${BUILD_VERSION}" \
-    org.opencontainers.image.source="${BUILD_REPOSITORY}"
+    io.hass.base.name="python"
