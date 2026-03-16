@@ -79,11 +79,6 @@ on:
         required: false
         default: ""
         type: string
-      multi-arch:
-        description: Prefix per-arch image names with architecture (required for multiple architectures)
-        required: false
-        default: true
-        type: boolean
       push:
         description: Whether to push images to registry
         required: false
@@ -107,7 +102,6 @@ jobs:
         with:
           architectures: ${{ inputs.architectures }}
           image-name: ${{ inputs.image-name }}
-          multi-arch: ${{ inputs.multi-arch }}
 
   build:
     name: Build ${{ matrix.arch }} image
@@ -155,7 +149,7 @@ jobs:
 
   manifest:
     name: Publish multi-arch manifest
-    if: inputs.push && inputs.multi-arch
+    if: inputs.push
     needs: [prepare, build]
     runs-on: ubuntu-latest
     permissions:
