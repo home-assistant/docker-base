@@ -98,7 +98,7 @@ jobs:
     steps:
       - name: Prepare multi-arch matrix
         id: prepare
-        uses: home-assistant/builder/actions/prepare-multi-arch-matrix@537e6bc898a14b5d7201237c3fcd4999f9d3e661 # 2026.03.1
+        uses: home-assistant/builder/actions/prepare-multi-arch-matrix@62a1597b84b3461abad9816d9cd92862a2b542c3 # 2026.03.2
         with:
           architectures: ${{ inputs.architectures }}
           image-name: ${{ inputs.image-name }}
@@ -122,7 +122,7 @@ jobs:
 
       - name: Build image
         id: build
-        uses: home-assistant/builder/actions/build-image@537e6bc898a14b5d7201237c3fcd4999f9d3e661 # 2026.03.1
+        uses: home-assistant/builder/actions/build-image@62a1597b84b3461abad9816d9cd92862a2b542c3 # 2026.03.2
         with:
           arch: ${{ matrix.arch }}
           build-args: ${{ inputs.build-args }}
@@ -157,7 +157,7 @@ jobs:
       packages: write
     steps:
       - name: Publish multi-arch manifest
-        uses: home-assistant/builder/actions/publish-multi-arch-manifest@537e6bc898a14b5d7201237c3fcd4999f9d3e661 # 2026.03.1
+        uses: home-assistant/builder/actions/publish-multi-arch-manifest@62a1597b84b3461abad9816d9cd92862a2b542c3 # 2026.03.2
         with:
           architectures: ${{ inputs.architectures }}
           container-registry-password: ${{ secrets.GITHUB_TOKEN }}
