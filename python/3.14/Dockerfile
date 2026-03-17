@@ -108,7 +108,7 @@ RUN \
     && ln -s python3 python \
     && ln -s python3-config python-config
 
-ARG PIP_VERSION=25.3
+ARG PIP_VERSION=26.0.1
 
 RUN set -ex; \
     python -m ensurepip --upgrade --default-pip; \

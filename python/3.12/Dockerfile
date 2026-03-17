@@ -7,7 +7,7 @@ ARG BASE_IMAGE
 ARG BASE_VERSION
 ARG BUILD_FROM
 
-ARG PYTHON_VERSION=3.12.12
+ARG PYTHON_VERSION=3.12.13
 ARG CERT_IDENTITY=thomas@python.org
 ARG CERT_OIDC_ISSUER=https://accounts.google.com
 
@@ -111,7 +111,7 @@ RUN \
     && ln -s python3 python \
     && ln -s python3-config python-config
 
-ARG PIP_VERSION=25.3
+ARG PIP_VERSION=26.0.1
 
 RUN set -ex; \
     python -m ensurepip --upgrade --default-pip; \
