@@ -109,7 +109,7 @@ jobs:
       cache-gha-scope: debian-${{ matrix.debian_version }}
       cache-image-tag: ${{ matrix.debian_version }}
       context: debian
-      image-name: debian
+      image-name: base-debian
       image-tags: |
         ${{ matrix.debian_version }}
         ${{ matrix.debian_version }}-${{ needs.init.outputs.version }}
@@ -138,7 +138,7 @@ jobs:
       cache-gha-scope: ubuntu-${{ matrix.ubuntu_version }}
       cache-image-tag: ${{ matrix.ubuntu_version }}
       context: ubuntu
-      image-name: ubuntu
+      image-name: base-ubuntu
       image-tags: |
         ${{ matrix.ubuntu_version }}
         ${{ matrix.ubuntu_version }}-${{ needs.init.outputs.version }}
