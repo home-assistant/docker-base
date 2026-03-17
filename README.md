@@ -11,7 +11,7 @@ The image include [S6-Overlay](https://github.com/just-containers/s6-overlay), [
 
 Images are built for all platforms officially supported by Home Assistant, which are `amd64` and `arm64`.
 
-Beginning with the 2026.03.0 release, all images are published as multi-arch images for these platforms. The old architecture-prefixed images (`aarch64-*`, `amd64-*`) are still available but preferably the multi-arch images should be used.
+Beginning with the 2026.03.1 release, all images are published as multi-arch images for these platforms. The old architecture-prefixed images (`aarch64-*`, `amd64-*`) are still available but preferably the multi-arch images should be used.
 
 ## Base images
 
