@@ -1,4 +1,4 @@
-name: Reusable workflow for single multi-arch image build
+name: Reusable workflow building a multi-arch image
 
 on:
   workflow_call:
