@@ -1,13 +1,16 @@
 name: Build base images
 
 on:
+  push:
+    branches: ["master"]
   pull_request:
     branches: ["master"]
   release:
     types: ["published"]
 
 env:
-  BUILD_TYPE: base
+  REGISTRY_PREFIX: ghcr.io/${{ github.repository_owner }}
+  ARCHITECTURES: '["amd64", "aarch64"]'
   ALPINE_LATEST: "3.23"
   DEBIAN_LATEST: "trixie"
   UBUNTU_LATEST: "24.04"
@@ -17,113 +20,163 @@ jobs:
   init:
     name: Initialize build
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     outputs:
-      architectures_alpine: ${{ steps.info_alpine.outputs.architectures }}
-      architectures_debian: ${{ steps.info_debian.outputs.architectures }}
-      architectures_ubuntu: ${{ steps.info_ubuntu.outputs.architectures }}
-      release: ${{ steps.version.outputs.version }}
-      alpine_latest: ${{ steps.set-latest.outputs.alpine_latest}}
-      debian_latest: ${{ steps.set-latest.outputs.debian_latest}}
-      ubuntu_latest: ${{ steps.set-latest.outputs.ubuntu_latest}}
-      python_latest: ${{ steps.set-latest.outputs.python_latest}}
+      architectures: ${{ steps.meta.outputs.architectures }}
+      version: ${{ steps.meta.outputs.version }}
+      alpine_latest: ${{ steps.meta.outputs.alpine_latest }}
+      debian_latest: ${{ steps.meta.outputs.debian_latest }}
+      ubuntu_latest: ${{ steps.meta.outputs.ubuntu_latest }}
+      python_latest: ${{ steps.meta.outputs.python_latest }}
+      registry_prefix: ${{ steps.meta.outputs.registry_prefix }}
+      push: ${{ steps.meta.outputs.push }}
     steps:
-      - name: Checkout the repository
-        uses: actions/checkout@v6.0.2
-        with:
-          fetch-depth: 0
-
-      - name: Get information Alpine
-        id: info_alpine
-        uses: home-assistant/actions/helpers/info@master
-        with:
-          path: "${{ github.workspace }}/alpine"
-
-      - name: Get information Debian
-        id: info_debian
-        uses: home-assistant/actions/helpers/info@master
-        with:
-          path: "${{ github.workspace }}/debian"
-
-      - name: Get information Ubuntu
-        id: info_ubuntu
-        uses: home-assistant/actions/helpers/info@master
-        with:
-          path: "${{ github.workspace }}/ubuntu"
-
-      - name: Get version
-        id: version
-        uses: home-assistant/actions/helpers/version@master
-        with:
-          type: ${{ env.BUILD_TYPE }}
-
-      - name: Set latest tags
-        id: set-latest
+      - name: Set build metadata
+        id: meta
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          REGISTRY_PREFIX: ${{ env.REGISTRY_PREFIX }}
+          ARCHITECTURES: ${{ env.ARCHITECTURES }}
+          ALPINE_LATEST: ${{ env.ALPINE_LATEST }}
+          DEBIAN_LATEST: ${{ env.DEBIAN_LATEST }}
+          UBUNTU_LATEST: ${{ env.UBUNTU_LATEST }}
+          PYTHON_LATEST: ${{ env.PYTHON_LATEST }}
         run: |
-          echo "alpine_latest=${{ env.ALPINE_LATEST }}" >> $GITHUB_OUTPUT
-          echo "debian_latest=${{ env.DEBIAN_LATEST }}" >> $GITHUB_OUTPUT
-          echo "ubuntu_latest=${{ env.UBUNTU_LATEST }}" >> $GITHUB_OUTPUT
-          echo "python_latest=${{ env.PYTHON_LATEST }}" >> $GITHUB_OUTPUT
+          if [[ "${EVENT_NAME}" == "release" ]]; then
+            version="${RELEASE_TAG}"
+            push=true
+          else
+            version="${GITHUB_SHA::7}"
+          fi
+
+          echo "architectures=${ARCHITECTURES}" >> "$GITHUB_OUTPUT"
+          echo "version=${version}" >> "$GITHUB_OUTPUT"
+          echo "push=${push}" >> "$GITHUB_OUTPUT"
+          echo "alpine_latest=${ALPINE_LATEST}" >> "$GITHUB_OUTPUT"
+          echo "debian_latest=${DEBIAN_LATEST}" >> "$GITHUB_OUTPUT"
+          echo "ubuntu_latest=${UBUNTU_LATEST}" >> "$GITHUB_OUTPUT"
+          echo "python_latest=${PYTHON_LATEST}" >> "$GITHUB_OUTPUT"
+          echo "registry_prefix=${REGISTRY_PREFIX}" >> "$GITHUB_OUTPUT"
 
   build_alpine:
-    name: Alpine ${{ matrix.version }}
+    name: Alpine ${{ matrix.alpine_version }}
     needs: init
     strategy:
+      fail-fast: false
       matrix:
-        version: ["3.21", "3.22", "3.23"]
-    uses: ./.github/workflows/reuseable-builder.yml
+        alpine_version: ["3.21", "3.22", "3.23"]
+    permissions:
+      contents: read
+      id-token: write # For cosign signing
+      packages: write # For pushing to registry
+    uses: ./.github/workflows/build-base-image.yml
     with:
-      target: alpine
-      architectures: ${{ needs.init.outputs.architectures_alpine }}
-      version: ${{ matrix.version }}
-      release_name: ${{ needs.init.outputs.release }}
-      tag_latest: ${{ needs.init.outputs.alpine_latest }}
+      architectures: ${{ needs.init.outputs.architectures }}
+      build-args: |
+        ALPINE_VERSION=${{ matrix.alpine_version }}
+      cache-gha-scope: alpine-${{ matrix.alpine_version }}
+      cache-image-tag: ${{ matrix.alpine_version }}
+      context: alpine
+      image-name: base
+      image-tags: |
+        ${{ matrix.alpine_version }}
+        ${{ matrix.alpine_version }}-${{ needs.init.outputs.version }}
+        ${{ matrix.alpine_version == needs.init.outputs.alpine_latest && 'latest' || '' }}
+      labels: |
+        io.hass.base.image=alpine:${{ matrix.alpine_version }}
+      push: ${{ needs.init.outputs.push == 'true' }}
+      version: ${{ needs.init.outputs.version }}
 
   build_debian:
-    name: Debian ${{ matrix.version }}
+    name: Debian ${{ matrix.debian_version }}
     needs: init
     strategy:
       fail-fast: false
       matrix:
-        version: ["bookworm", "trixie"]
-    uses: ./.github/workflows/reuseable-builder.yml
+        debian_version: ["bookworm", "trixie"]
+    permissions:
+      contents: read
+      id-token: write # For cosign signing
+      packages: write # For pushing to registry
+    uses: ./.github/workflows/build-base-image.yml
     with:
-      target: debian
-      architectures: ${{ needs.init.outputs.architectures_debian }}
-      version: ${{ matrix.version }}
-      release_name: ${{ needs.init.outputs.release }}
-      version_from: ${{ matrix.version }}-slim
-      tag_latest: ${{ needs.init.outputs.debian_latest }}
+      architectures: ${{ needs.init.outputs.architectures }}
+      build-args: |
+        DEBIAN_VERSION=${{ matrix.debian_version }}
+      cache-gha-scope: debian-${{ matrix.debian_version }}
+      cache-image-tag: ${{ matrix.debian_version }}
+      context: debian
+      image-name: base-debian
+      image-tags: |
+        ${{ matrix.debian_version }}
+        ${{ matrix.debian_version }}-${{ needs.init.outputs.version }}
+        ${{ matrix.debian_version == needs.init.outputs.debian_latest && 'latest' || '' }}
+      labels: |
+        io.hass.base.image=debian:${{ matrix.debian_version }}-slim
+      push: ${{ needs.init.outputs.push == 'true' }}
+      version: ${{ needs.init.outputs.version }}
 
   build_ubuntu:
-    name: Ubuntu ${{ matrix.version }}
+    name: Ubuntu ${{ matrix.ubuntu_version }}
     needs: init
     strategy:
       fail-fast: false
       matrix:
-        version: ["22.04", "24.04"]
-    uses: ./.github/workflows/reuseable-builder.yml
+        ubuntu_version: ["22.04", "24.04"]
+    permissions:
+      contents: read
+      id-token: write # For cosign signing
+      packages: write # For pushing to registry
+    uses: ./.github/workflows/build-base-image.yml
     with:
-      target: ubuntu
-      architectures: ${{ needs.init.outputs.architectures_ubuntu }}
-      version: ${{ matrix.version }}
-      release_name: ${{ needs.init.outputs.release }}
-      tag_latest: ${{ needs.init.outputs.ubuntu_latest }}
+      architectures: ${{ needs.init.outputs.architectures }}
+      build-args: |
+        UBUNTU_VERSION=${{ matrix.ubuntu_version }}
+      cache-gha-scope: ubuntu-${{ matrix.ubuntu_version }}
+      cache-image-tag: ${{ matrix.ubuntu_version }}
+      context: ubuntu
+      image-name: base-ubuntu
+      image-tags: |
+        ${{ matrix.ubuntu_version }}
+        ${{ matrix.ubuntu_version }}-${{ needs.init.outputs.version }}
+        ${{ matrix.ubuntu_version == needs.init.outputs.ubuntu_latest && 'latest' || '' }}
+      labels: |
+        io.hass.base.image=ubuntu:${{ matrix.ubuntu_version }}
+      push: ${{ needs.init.outputs.push == 'true' }}
+      version: ${{ needs.init.outputs.version }}
 
   build_python:
-    name: Alpine ${{ matrix.version }} - python ${{ matrix.python }}
+    name: Python ${{ matrix.python_version }} (Alpine ${{ matrix.alpine_version }})
     needs: [init, build_alpine]
     strategy:
       fail-fast: false
       matrix:
-        version: ["3.21", "3.22", "3.23"]
-        python: ["3.12", "3.13", "3.14"]
-    uses: ./.github/workflows/reuseable-builder.yml
+        alpine_version: ["3.21", "3.22", "3.23"]
+        python_version: ["3.12", "3.13", "3.14"]
+    permissions:
+      contents: read
+      id-token: write # For cosign signing
+      packages: write # For pushing to registry
+    uses: ./.github/workflows/build-base-image.yml
     with:
-      target: python/${{ matrix.python }}
-      architectures: ${{ needs.init.outputs.architectures_alpine }}
-      version: ${{ matrix.version }}
-      python: ${{ matrix.python }}
-      release_name: ${{ needs.init.outputs.release }}
-      version_from: ${{ matrix.version }}
-      tag_latest: ${{ needs.init.outputs.alpine_latest }}
-      python_latest: ${{ needs.init.outputs.python_latest }}
+      architectures: ${{ needs.init.outputs.architectures }}
+      build-args: |
+        BASE_IMAGE=ghcr.io/${{ github.repository_owner }}/base
+        BASE_VERSION=${{ matrix.alpine_version }}
+      cache-gha-scope: python-${{ matrix.python_version }}-alpine${{ matrix.alpine_version }}
+      cache-image-tag: ${{ matrix.python_version }}-alpine${{ matrix.alpine_version }}
+      context: python/${{ matrix.python_version }}
+      cosign-base-identity: "https://github.com/${{ github.repository }}/.*"
+      cosign-base-verify: ghcr.io/${{ github.repository_owner }}/base:${{ matrix.alpine_version }}
+      image-name: base-python
+      image-tags: |
+        ${{ matrix.python_version }}-alpine${{ matrix.alpine_version }}
+        ${{ matrix.python_version }}-alpine${{ matrix.alpine_version }}-${{ needs.init.outputs.version }}
+        ${{ matrix.alpine_version == needs.init.outputs.alpine_latest && matrix.python_version == needs.init.outputs.python_latest && 'latest' || '' }}
+      labels: |
+        io.hass.base.image=ghcr.io/${{ github.repository_owner }}/base:${{ matrix.alpine_version }}
+      push: ${{ needs.init.outputs.push == 'true' }}
+      version: ${{ needs.init.outputs.version }}

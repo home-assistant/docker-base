@@ -1,7 +1,6 @@
-ARG BUILD_FROM
-# amd64: alpine:${VERSION}
-# aarch64: arm64v8/alpine:${VERSION}
-
+ARG BASE_IMAGE=alpine
+ARG ALPINE_VERSION=3.23
+ARG BUILD_FROM=${BASE_IMAGE}:${ALPINE_VERSION}
 FROM ${BUILD_FROM}
 
 # Default ENV
@@ -16,19 +15,25 @@ ENV \
 # Set shell
 SHELL ["/bin/ash", "-o", "pipefail", "-c"]
 
-# Build Args
-ARG \
-    BASHIO_VERSION \
-    TEMPIO_VERSION \
-    S6_OVERLAY_VERSION \
-    JEMALLOC_VERSION
-
 # Base system
 WORKDIR /usr/src
-ARG BUILD_ARCH
+
+ARG TARGETARCH
+ARG BASHIO_VERSION=0.17.5
+ARG TEMPIO_VERSION=2024.11.2
+ARG S6_OVERLAY_VERSION=3.2.2.0
+ARG JEMALLOC_VERSION=5.3.0
 
 RUN \
     set -x \
+    && if [ -z "${TARGETARCH}" ]; then \
+            echo "TARGETARCH is not set, please use Docker BuildKit for the build." && exit 1; \
+        fi \
+    && case "${TARGETARCH}" in \
+            amd64) TEMPIO_ARCH="amd64"; S6_ARCH="x86_64" ;; \
+            arm64) TEMPIO_ARCH="aarch64"; S6_ARCH="aarch64" ;; \
+            *) echo "Unsupported TARGETARCH: ${TARGETARCH}" && exit 1 ;; \
+        esac \
     && apk add --no-cache \
         bash \
         bind-tools \
@@ -43,12 +48,6 @@ RUN \
         build-base \
         autoconf \
         git \
-    \
-    && if [ "${BUILD_ARCH}" = "amd64" ]; then \
-            export S6_ARCH="x86_64"; \
-        else \
-            export S6_ARCH="${BUILD_ARCH}"; \
-        fi \
     \
     && curl -L -f -s "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-${S6_ARCH}.tar.xz" \
         | tar Jxvf - -C / \
@@ -76,7 +75,7 @@ RUN \
     && ln -s /usr/lib/bashio/bashio /usr/bin/bashio \
     \
     && curl -L -f -s -o /usr/bin/tempio \
-        "https://github.com/home-assistant/tempio/releases/download/${TEMPIO_VERSION}/tempio_${BUILD_ARCH}" \
+        "https://github.com/home-assistant/tempio/releases/download/${TEMPIO_VERSION}/tempio_${TEMPIO_ARCH}" \
     && chmod a+x /usr/bin/tempio \
     \
     && apk del .build-deps \
@@ -88,3 +87,7 @@ COPY rootfs /
 # S6-Overlay
 WORKDIR /
 ENTRYPOINT ["/init"]
+
+LABEL \
+    io.hass.type="base" \
+    io.hass.base.name="alpine"

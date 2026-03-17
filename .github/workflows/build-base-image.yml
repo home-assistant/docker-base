@@ -1,0 +1,166 @@
+name: Reusable workflow building a multi-arch image
+
+on:
+  workflow_call:
+    inputs:
+      architectures:
+        description: Architectures to build (JSON array, e.g., '["amd64", "aarch64"]')
+        required: true
+        type: string
+      build-args:
+        description: Additional build arguments (key=value format, one per line)
+        required: false
+        default: ""
+        type: string
+      cache-gha:
+        description: Whether to use GitHub Actions cache for build caching
+        required: false
+        default: true
+        type: boolean
+      cache-gha-scope:
+        description: Scope for build cache sharing (defaults to architecture, set if building multiple images from a single repo)
+        required: false
+        default: ""
+        type: string
+      cache-image-tag:
+        description: Tag of the image containing BuildKit inline cache metadata
+        required: false
+        default: "latest"
+        type: string
+      context:
+        description: Build context path (usually the directory with Dockerfile)
+        required: true
+        type: string
+      cosign:
+        description: Whether to sign images with Cosign
+        required: false
+        default: true
+        type: boolean
+      cosign-base-identity:
+        description: Certificate identity regexp for verifying the base (FROM) image
+        required: false
+        default: ""
+        type: string
+      cosign-base-issuer:
+        description: Certificate OIDC issuer regexp for base image verification (defaults to cosign-issuer)
+        required: false
+        default: ""
+        type: string
+      cosign-base-verify:
+        description: Base image reference to verify with cosign before building
+        required: false
+        default: ""
+        type: string
+      cosign-identity:
+        description: Certificate identity regexp for verifying cache images (defaults to current repo pattern)
+        required: false
+        default: ""
+        type: string
+      cosign-issuer:
+        description: Certificate OIDC issuer regexp for all cosign verification
+        required: false
+        default: "https://token.actions.githubusercontent.com"
+        type: string
+      file:
+        description: Dockerfile path (defaults to "Dockerfile" in the context directory)
+        required: false
+        default: ""
+        type: string
+      image-name:
+        description: Image name without a tag (e.g., "base-python")
+        required: true
+        type: string
+      image-tags:
+        description: Image tags, one per line
+        required: true
+        type: string
+      labels:
+        description: Additional OCI labels (key=value format, one per line)
+        required: false
+        default: ""
+        type: string
+      push:
+        description: Whether to push images to registry
+        required: false
+        default: false
+        type: boolean
+      version:
+        description: Image version label
+        required: true
+        type: string
+
+jobs:
+  prepare:
+    name: Prepare build matrix
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.prepare.outputs.matrix }}
+    steps:
+      - name: Prepare multi-arch matrix
+        id: prepare
+        uses: home-assistant/builder/actions/prepare-multi-arch-matrix@62a1597b84b3461abad9816d9cd92862a2b542c3 # 2026.03.2
+        with:
+          architectures: ${{ inputs.architectures }}
+          image-name: ${{ inputs.image-name }}
+
+  build:
+    name: Build ${{ matrix.arch }} image
+    needs: prepare
+    runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
+      id-token: write
+      packages: write
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.prepare.outputs.matrix) }}
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+
+      - name: Build image
+        id: build
+        uses: home-assistant/builder/actions/build-image@62a1597b84b3461abad9816d9cd92862a2b542c3 # 2026.03.2
+        with:
+          arch: ${{ matrix.arch }}
+          build-args: ${{ inputs.build-args }}
+          cache-gha: ${{ inputs.cache-gha }}
+          cache-gha-scope: ${{ inputs.cache-gha-scope }}
+          cache-image-tag: ${{ inputs.cache-image-tag }}
+          container-registry-password: ${{ secrets.GITHUB_TOKEN }}
+          context: ${{ inputs.context }}
+          cosign: ${{ inputs.cosign }}
+          cosign-base-identity: ${{ inputs.cosign-base-identity }}
+          cosign-base-issuer: ${{ inputs.cosign-base-issuer }}
+          cosign-base-verify: ${{ inputs.cosign-base-verify }}
+          cosign-identity: ${{ inputs.cosign-identity }}
+          cosign-issuer: ${{ inputs.cosign-issuer }}
+          file: ${{ inputs.file }}
+          image: ${{ matrix.image }}
+          image-tags: ${{ inputs.image-tags }}
+          labels: |
+            io.hass.base.arch=${{ matrix.arch }}
+            io.hass.base.version=${{ inputs.version }}
+            ${{ inputs.labels }}
+          push: ${{ inputs.push }}
+          version: ${{ inputs.version }}
+
+  manifest:
+    name: Publish multi-arch manifest
+    if: inputs.push
+    needs: [prepare, build]
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      packages: write
+    steps:
+      - name: Publish multi-arch manifest
+        uses: home-assistant/builder/actions/publish-multi-arch-manifest@62a1597b84b3461abad9816d9cd92862a2b542c3 # 2026.03.2
+        with:
+          architectures: ${{ inputs.architectures }}
+          container-registry-password: ${{ secrets.GITHUB_TOKEN }}
+          cosign: ${{ inputs.cosign }}
+          image-name: ${{ inputs.image-name }}
+          image-tags: ${{ inputs.image-tags }}
