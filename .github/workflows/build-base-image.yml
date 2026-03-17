@@ -153,7 +153,6 @@ jobs:
     needs: [prepare, build]
     runs-on: ubuntu-latest
     permissions:
-      contents: read
       id-token: write
       packages: write
     steps:
