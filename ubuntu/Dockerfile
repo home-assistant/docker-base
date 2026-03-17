@@ -26,11 +26,7 @@ ARG S6_OVERLAY_VERSION=3.2.2.0
 RUN \
     set -x \
     && if [ -z "${TARGETARCH}" ]; then \
-            case "$(uname -m)" in \
-                x86_64) TARGETARCH="amd64" ;; \
-                aarch64|arm64) TARGETARCH="arm64" ;; \
-                *) echo "Unsupported architecture: $(uname -m)" && exit 1 ;; \
-            esac; \
+            echo "TARGETARCH is not set, please use Docker BuildKit for the build." && exit 1; \
         fi \
     && case "${TARGETARCH}" in \
             amd64) TEMPIO_ARCH="amd64"; S6_ARCH="x86_64" ;; \
