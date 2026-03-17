@@ -55,6 +55,11 @@ We support the latest 3 release with the latest 3 Alpine version.
 
 Docker BuildKit (`docker buildx`) can be used for building the images locally without any extra tooling. Following are examples of building the images for a single (host) architecture.
 
+
+For a multi-platform build or cross-compilation, use the `--platform` flag with the appropriate target platform. See the official Docker documentation on [multi-platform builds](https://docs.docker.com/build/building/multi-platform/) for more details.
+
+### Examples
+
 Alpine base using the default version from the Dockerfile:
 
 ```bash
@@ -75,7 +80,7 @@ Debian base:
 ```bash
 docker buildx build \
   --build-arg DEBIAN_VERSION=trixie
-  -t debian:trixie \
+  -t base-debian:trixie \
   debian/
 ```
 
@@ -84,7 +89,7 @@ Ubuntu base:
 ```bash
 docker buildx build \
   --build-arg UBUNTU_VERSION=24.04 \
-  -t ubuntu:24.04 \
+  -t base-ubuntu:24.04 \
   ubuntu/
 ```
 
