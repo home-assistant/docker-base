@@ -16,13 +16,6 @@ env:
   UBUNTU_LATEST: "24.04"
   PYTHON_LATEST: "3.14"
 
-permissions:
-  contents: read
-  # id-token is required for Cosign in the build-base-image workflow
-  id-token: write   # zizmor: ignore[excessive-permissions]
-  # write permissions are required to push built images to GHCR in the builder workflow
-  packages: write   # zizmor: ignore[excessive-permissions]
-
 jobs:
   init:
     name: Initialize build
@@ -75,6 +68,10 @@ jobs:
       fail-fast: false
       matrix:
         alpine_version: ["3.21", "3.22", "3.23"]
+    permissions:
+      contents: read
+      id-token: write # For cosign signing
+      packages: write # For pushing to registry
     uses: ./.github/workflows/build-base-image.yml
     with:
       architectures: ${{ needs.init.outputs.architectures }}
@@ -100,6 +97,10 @@ jobs:
       fail-fast: false
       matrix:
         debian_version: ["bookworm", "trixie"]
+    permissions:
+      contents: read
+      id-token: write # For cosign signing
+      packages: write # For pushing to registry
     uses: ./.github/workflows/build-base-image.yml
     with:
       architectures: ${{ needs.init.outputs.architectures }}
@@ -125,6 +126,10 @@ jobs:
       fail-fast: false
       matrix:
         ubuntu_version: ["22.04", "24.04"]
+    permissions:
+      contents: read
+      id-token: write # For cosign signing
+      packages: write # For pushing to registry
     uses: ./.github/workflows/build-base-image.yml
     with:
       architectures: ${{ needs.init.outputs.architectures }}
@@ -151,6 +156,10 @@ jobs:
       matrix:
         alpine_version: ["3.21", "3.22", "3.23"]
         python_version: ["3.12", "3.13", "3.14"]
+    permissions:
+      contents: read
+      id-token: write # For cosign signing
+      packages: write # For pushing to registry
     uses: ./.github/workflows/build-base-image.yml
     with:
       architectures: ${{ needs.init.outputs.architectures }}
