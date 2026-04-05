@@ -23,6 +23,7 @@ RUN \
     && export PYTHON_VERSION=${PYTHON_VERSION} \
     && apk add --no-cache --virtual .fetch-deps \
         cosign \
+        gettext-base \
         openssl \
         tar \
         xz \
