@@ -1,28 +1,20 @@
 ARG BASE_IMAGE=alpine
 ARG ALPINE_VERSION=3.23
 ARG BUILD_FROM=${BASE_IMAGE}:${ALPINE_VERSION}
-FROM ${BUILD_FROM}
+FROM ${BUILD_FROM} AS build
 
-# Default ENV
-ENV \
-    LANG="C.UTF-8" \
-    S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
-    S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0 \
-    S6_CMD_WAIT_FOR_SERVICES=1 \
-    S6_SERVICES_READYTIME=50 \
-    UV_EXTRA_INDEX_URL="https://wheels.home-assistant.io/musllinux-index/"
+ENV LANG="C.UTF-8"
 
 # Set shell
 SHELL ["/bin/ash", "-o", "pipefail", "-c"]
-
-# Base system
-WORKDIR /usr/src
 
 ARG TARGETARCH
 ARG BASHIO_VERSION=0.17.5
 ARG TEMPIO_VERSION=2024.11.2
 ARG S6_OVERLAY_VERSION=3.2.2.0
 ARG JEMALLOC_VERSION=5.3.0
+
+WORKDIR /usr/src
 
 RUN \
     set -x \
@@ -84,9 +76,30 @@ RUN \
 # Root filesystem
 COPY rootfs /
 
-# S6-Overlay
-WORKDIR /
+#########################
+# Final flattened image #
+#########################
+
+# Inherit config from the original base image
+FROM ${BUILD_FROM}
+
+# Copy everything from the build
+COPY --from=build / /
+
+# S6-Overlay entrypoint
 ENTRYPOINT ["/init"]
+
+# Set shell
+SHELL ["/bin/ash", "-o", "pipefail", "-c"]
+
+# Default env for S6 and Python/uv
+ENV \
+    LANG="C.UTF-8" \
+    S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
+    S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0 \
+    S6_CMD_WAIT_FOR_SERVICES=1 \
+    S6_SERVICES_READYTIME=50 \
+    UV_EXTRA_INDEX_URL="https://wheels.home-assistant.io/musllinux-index/"
 
 LABEL \
     io.hass.type="base" \

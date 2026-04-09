@@ -1,7 +1,7 @@
 ARG BASE_IMAGE=debian
 ARG DEBIAN_VERSION=trixie
 ARG BUILD_FROM=${BASE_IMAGE}:${DEBIAN_VERSION}-slim
-FROM ${BUILD_FROM}
+FROM ${BUILD_FROM} AS build
 
 # Default ENV
 ENV \
@@ -67,9 +67,31 @@ RUN \
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /usr/src/*
 
+#########################
+# Final flattened image #
+#########################
+
+# Inherit config from the original base image
+FROM ${BUILD_FROM}
+
+# Copy everything from the build
+COPY --from=build / /
+
 # S6-Overlay
-WORKDIR /
 ENTRYPOINT ["/init"]
+
+# Set shell
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+# Default ENV
+ENV \
+    LANG="C.UTF-8" \
+    DEBIAN_FRONTEND="noninteractive" \
+    CURL_CA_BUNDLE="/etc/ssl/certs/ca-certificates.crt" \
+    S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
+    S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0 \
+    S6_CMD_WAIT_FOR_SERVICES=1 \
+    S6_SERVICES_READYTIME=50
 
 LABEL \
     io.hass.type="base" \

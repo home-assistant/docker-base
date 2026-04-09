@@ -1,7 +1,7 @@
 ARG BASE_IMAGE=ghcr.io/home-assistant/base
 ARG BASE_VERSION=3.23
 ARG BUILD_FROM=${BASE_IMAGE}:${BASE_VERSION}
-FROM ${BUILD_FROM}
+FROM ${BUILD_FROM} AS build
 
 ARG PYTHON_VERSION=3.14.4
 ARG CERT_IDENTITY=hugo@python.org
@@ -114,6 +114,19 @@ RUN set -ex; \
     python -m ensurepip --upgrade --default-pip; \
     pip3 install --no-cache-dir --upgrade pip=="${PIP_VERSION}"; \
     pip --version
+
+#########################
+# Final flattened image #
+#########################
+
+# Inherit config from the original base image
+FROM ${BUILD_FROM}
+
+# Copy everything from the build
+COPY --from=build / /
+
+# ensure local python is preferred over distribution python
+ENV PATH=/usr/local/bin:$PATH
 
 LABEL \
     io.hass.type="base" \

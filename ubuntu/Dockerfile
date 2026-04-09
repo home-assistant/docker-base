@@ -1,16 +1,12 @@
 ARG BASE_IMAGE=ubuntu
 ARG UBUNTU_VERSION=24.04
 ARG BUILD_FROM=${BASE_IMAGE}:${UBUNTU_VERSION}
-FROM ${BUILD_FROM}
+FROM ${BUILD_FROM} AS build
 
 # Default ENV
 ENV \
     LANG="C.UTF-8" \
-    DEBIAN_FRONTEND="noninteractive" \
-    S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
-    S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0 \
-    S6_CMD_WAIT_FOR_SERVICES=1 \
-    S6_SERVICES_READYTIME=50
+    DEBIAN_FRONTEND="noninteractive"
 
 # Set shell
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
@@ -65,9 +61,30 @@ RUN \
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /usr/src/*
 
+#########################
+# Final flattened image #
+#########################
+
+# Inherit config from the original base image
+FROM ${BUILD_FROM}
+
+# Copy everything from the build
+COPY --from=build / /
+
 # S6-Overlay
-WORKDIR /
 ENTRYPOINT ["/init"]
+
+# Set shell
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+# Default ENV
+ENV \
+    LANG="C.UTF-8" \
+    DEBIAN_FRONTEND="noninteractive" \
+    S6_BEHAVIOUR_IF_STAGE2_FAILS=2 \
+    S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0 \
+    S6_CMD_WAIT_FOR_SERVICES=1 \
+    S6_SERVICES_READYTIME=50
 
 LABEL \
     io.hass.type="base" \
