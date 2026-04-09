@@ -1,32 +1,56 @@
 ARG BASE_IMAGE=alpine
 ARG ALPINE_VERSION=3.23
 ARG BUILD_FROM=${BASE_IMAGE}:${ALPINE_VERSION}
-FROM ${BUILD_FROM} AS build
+FROM ${BUILD_FROM} AS jemalloc-build
 
 ENV LANG="C.UTF-8"
 
-# Set shell
-SHELL ["/bin/ash", "-o", "pipefail", "-c"]
+SHELL ["/bin/ash", "-o", "pipefail", "-x", "-c"]
 
-ARG TARGETARCH
-ARG BASHIO_VERSION=0.17.5
-ARG TEMPIO_VERSION=2024.11.2
-ARG S6_OVERLAY_VERSION=3.2.2.0
 ARG JEMALLOC_VERSION=5.3.0
 
-WORKDIR /usr/src
+# jemmalloc
+WORKDIR /usr/src/jemalloc
+
+ADD "https://github.com/jemalloc/jemalloc.git#${JEMALLOC_VERSION}" /usr/src/jemalloc
 
 RUN \
-    set -x \
-    && if [ -z "${TARGETARCH}" ]; then \
-            echo "TARGETARCH is not set, please use Docker BuildKit for the build." && exit 1; \
-        fi \
-    && case "${TARGETARCH}" in \
-            amd64) TEMPIO_ARCH="amd64"; S6_ARCH="x86_64" ;; \
-            arm64) TEMPIO_ARCH="aarch64"; S6_ARCH="aarch64" ;; \
-            *) echo "Unsupported TARGETARCH: ${TARGETARCH}" && exit 1 ;; \
-        esac \
-    && apk add --no-cache \
+    apk add --no-cache --virtual .build-deps \
+        build-base \
+        autoconf \
+        git \
+    && ./autogen.sh \
+        --with-lg-page=16 \
+    && make -j "$(nproc)" \
+    && make install_lib_shared install_bin \
+    && apk del .build-deps \
+    && rm -rf /usr/src/*
+
+############################
+# Intermediary merge image #
+############################
+
+FROM ${BUILD_FROM} AS merge
+
+SHELL ["/bin/ash", "-o", "pipefail", "-x", "-c"]
+
+ARG S6_OVERLAY_VERSION=3.2.2.0
+ARG BASHIO_VERSION=0.17.5
+ARG TEMPIO_VERSION=2024.11.2
+
+# Sanity check for later steps
+ARG TARGETARCH
+RUN \
+    if [ -z "${TARGETARCH}" ]; then \
+        echo "TARGETARCH is not set, please use Docker BuildKit for the build." && exit 1; \
+    fi
+
+# Content created in the build stage
+COPY --link --from=jemalloc-build / /
+
+# Base system packages
+RUN \
+    apk add --no-cache \
         bash \
         bind-tools \
         ca-certificates \
@@ -34,44 +58,41 @@ RUN \
         jq \
         libstdc++ \
         tzdata \
-        xz \
-    \
-    && apk add --no-cache --virtual .build-deps \
-        build-base \
-        autoconf \
-        git \
-    \
+        xz
+
+# S6-Overlay
+ADD --unpack=true "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-noarch.tar.xz" /
+ADD --unpack=true "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-symlinks-arch.tar.xz" /
+ADD --unpack=true "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-symlinks-noarch.tar.xz" /
+
+# bashio
+ADD --unpack=true "https://github.com/hassio-addons/bashio/archive/v${BASHIO_VERSION}.tar.gz" /usr/src/bashio
+
+WORKDIR /usr/src/bashio
+
+RUN \
+    mv /usr/src/bashio/bashio-*/lib /usr/lib/bashio \
+    && ln -s /usr/lib/bashio/bashio /usr/bin/bashio \
+    && rm -rf /usr/src/bashio
+
+# Arch-specific downloads (tempio and s6-overlay)
+RUN \
+    case "${TARGETARCH}" in \
+        amd64) TEMPIO_ARCH="amd64"; S6_ARCH="x86_64" ;; \
+        arm64) TEMPIO_ARCH="aarch64"; S6_ARCH="aarch64" ;; \
+        *) echo "Unsupported TARGETARCH: ${TARGETARCH}" && exit 1 ;; \
+    esac \
     && curl -L -f -s "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-${S6_ARCH}.tar.xz" \
         | tar Jxvf - -C / \
-    && curl -L -f -s "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-noarch.tar.xz" \
-        | tar Jxvf - -C / \
-    && curl -L -f -s "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-symlinks-arch.tar.xz" \
-        | tar Jxvf - -C / \
-    && curl -L -f -s "https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-symlinks-noarch.tar.xz" \
-        | tar Jxvf - -C / \
-    && mkdir -p /etc/fix-attrs.d \
-    && mkdir -p /etc/services.d \
-    \
-    && git clone "https://github.com/jemalloc/jemalloc" /usr/src/jemalloc \
-    && cd /usr/src/jemalloc \
-    && git checkout ${JEMALLOC_VERSION} \
-    && ./autogen.sh \
-        --with-lg-page=16 \
-    && make -j "$(nproc)" \
-    && make install_lib_shared install_bin \
-    \
-    && mkdir -p /usr/src/bashio \
-    && curl -L -f -s "https://github.com/hassio-addons/bashio/archive/v${BASHIO_VERSION}.tar.gz" \
-        | tar -xzf - --strip 1 -C /usr/src/bashio \
-    && mv /usr/src/bashio/lib /usr/lib/bashio \
-    && ln -s /usr/lib/bashio/bashio /usr/bin/bashio \
-    \
     && curl -L -f -s -o /usr/bin/tempio \
         "https://github.com/home-assistant/tempio/releases/download/${TEMPIO_VERSION}/tempio_${TEMPIO_ARCH}" \
-    && chmod a+x /usr/bin/tempio \
-    \
-    && apk del .build-deps \
-    && rm -rf /usr/src/*
+    && chmod a+x /usr/bin/tempio
+
+# Touch-ups and cleanup
+RUN \
+    mkdir -p /etc/fix-attrs.d \
+    && mkdir -p /etc/services.d \
+    && rm -rf /usr/src/bashio
 
 # Root filesystem
 COPY rootfs /
@@ -83,8 +104,8 @@ COPY rootfs /
 # Inherit config from the original base image
 FROM ${BUILD_FROM}
 
-# Copy everything from the build
-COPY --from=build / /
+# Copy everything from the merged build
+COPY --from=merge / /
 
 # S6-Overlay entrypoint
 ENTRYPOINT ["/init"]
