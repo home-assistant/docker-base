@@ -74,10 +74,10 @@ ADD --unpack=true "https://github.com/hassio-addons/bashio/archive/v${BASHIO_VER
 
 WORKDIR /usr/src/bashio
 
+# Install bashio
 RUN \
     mv /usr/src/bashio/bashio-*/lib /usr/lib/bashio \
-    && ln -s /usr/lib/bashio/bashio /usr/bin/bashio \
-    && rm -rf /usr/src/bashio
+    && ln -s /usr/lib/bashio/bashio /usr/bin/bashio
 
 # Arch-specific downloads (tempio and s6-overlay)
 RUN \
