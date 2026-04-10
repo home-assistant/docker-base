@@ -18,7 +18,8 @@ WORKDIR /tmp/python-fetch
 
 # Fetch and verify Python sources
 RUN \
-    apk add --no-cache --virtual .fetch-deps \
+    --mount=type=cache,target=/var/cache/apk,sharing=locked \
+    apk add --update-cache --virtual .fetch-deps \
         cosign \
         openssl \
         tar \
@@ -49,7 +50,8 @@ SHELL ["/bin/ash", "-o", "pipefail", "-x", "-c"]
 
 # Install build dependencies
 RUN \
-    apk add --no-cache --virtual .build-deps \
+    --mount=type=cache,target=/var/cache/apk,sharing=locked \
+    apk add --update-cache --virtual .build-deps \
         bluez-dev \
         build-base \
         bzip2-dev \
@@ -112,11 +114,12 @@ RUN \
 
 # Search and install runtime dependencies (except tkinter)
 RUN \
+    --mount=type=cache,target=/var/cache/apk,sharing=locked \
     find /usr/local -type f -executable -not \( -name '*tkinter*' \) -exec scanelf --needed --nobanner --format '%n#p' '{}' ';' \
         | tr ',' '\n' \
         | sort -u \
         | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
-        | xargs -rt apk add --no-cache --virtual .python-rundeps \
+        | xargs -rt apk add --update-cache --virtual .python-rundeps \
     && find /usr/local -depth \
         \( \
             -type d -a \( -name test -o -name tests \) \
@@ -133,9 +136,11 @@ RUN \
 # Install pip
 ARG PIP_VERSION=26.0.1
 
-RUN set -ex; \
+RUN \
+    --mount=type=cache,target=/root/.cache/pip,sharing=locked \
+    set -ex; \
     python -m ensurepip --upgrade --default-pip; \
-    pip3 install --no-cache-dir --upgrade pip=="${PIP_VERSION}"; \
+    pip3 install --upgrade pip=="${PIP_VERSION}"; \
     pip --version
 
 #########################

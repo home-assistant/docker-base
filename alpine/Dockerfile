@@ -15,7 +15,8 @@ WORKDIR /usr/src/jemalloc
 ADD "https://github.com/jemalloc/jemalloc.git#${JEMALLOC_VERSION}" /usr/src/jemalloc
 
 RUN \
-    apk add --no-cache --virtual .build-deps \
+    --mount=type=cache,target=/var/cache/apk,sharing=locked \
+    apk add --update-cache --virtual .build-deps \
         build-base \
         autoconf \
         git \
@@ -50,7 +51,8 @@ COPY --link --from=jemalloc-build / /
 
 # Base system packages
 RUN \
-    apk add --no-cache \
+    --mount=type=cache,target=/var/cache/apk,sharing=locked \
+    apk add --update-cache \
         bash \
         bind-tools \
         ca-certificates \
