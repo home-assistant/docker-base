@@ -33,6 +33,8 @@ RUN \
 
 FROM ${BUILD_FROM} AS merge
 
+ENV LANG="C.UTF-8"
+
 SHELL ["/bin/ash", "-o", "pipefail", "-x", "-c"]
 
 ARG S6_OVERLAY_VERSION=3.2.2.0
