@@ -1,23 +1,24 @@
 ARG BASE_IMAGE=ghcr.io/home-assistant/base
 ARG BASE_VERSION=3.23
 ARG BUILD_FROM=${BASE_IMAGE}:${BASE_VERSION}
-FROM ${BUILD_FROM} AS build
+
+####################
+# Get Python sources
+####################
+
+FROM ${BUILD_FROM} AS python-source
 
 ARG PYTHON_VERSION=3.14.4
 ARG CERT_IDENTITY=hugo@python.org
 ARG CERT_OIDC_ISSUER=https://github.com/login/oauth
 
-# ensure local python is preferred over distribution python
-ENV PATH=/usr/local/bin:$PATH
+SHELL ["/bin/ash", "-o", "pipefail", "-x", "-c"]
 
-# Set shell
-SHELL ["/bin/ash", "-o", "pipefail", "-c"]
+WORKDIR /tmp/python-fetch
 
+# Fetch and verify Python sources
 RUN \
-    --mount=type=bind,source=./patches,target=/usr/src/patches \
-    set -ex \
-    && export PYTHON_VERSION=${PYTHON_VERSION} \
-    && apk add --no-cache --virtual .fetch-deps \
+    apk add --no-cache --virtual .fetch-deps \
         cosign \
         openssl \
         tar \
@@ -32,27 +33,42 @@ RUN \
         python.tar.xz \
     && mkdir -p /usr/src/python \
     && tar -xJC /usr/src/python --strip-components=1 -f python.tar.xz \
-    && rm python.tar.xz python.tar.xz.sigstore \
-    \
-    && apk add --no-cache --virtual .build-deps  \
-        patch \
+    && apk del .fetch-deps \
+    && rm -rf /tmp/python-fetch
+
+##############
+# Python build
+##############
+
+FROM ${BUILD_FROM} AS build
+
+# Ensure local python is preferred over distribution python
+ENV PATH=/usr/local/bin:$PATH
+
+SHELL ["/bin/ash", "-o", "pipefail", "-x", "-c"]
+
+# Install build dependencies
+RUN \
+    apk add --no-cache --virtual .build-deps \
+        bluez-dev \
+        build-base \
         bzip2-dev \
         coreutils \
         dpkg-dev dpkg \
         expat-dev \
         findutils \
-        build-base \
         gdbm-dev \
         libc-dev \
         libffi-dev \
-        libnsl-dev \
-        openssl \
-        openssl-dev \
         libtirpc-dev \
+        libnsl-dev \
         linux-headers \
         make \
         mpdecimal-dev \
         ncurses-dev \
+        openssl \
+        openssl-dev \
+        patch \
         pax-utils \
         readline-dev \
         sqlite-dev \
@@ -60,12 +76,15 @@ RUN \
         tk \
         tk-dev \
         xz-dev \
-        zlib-dev \
-        bluez-dev \
-    # add build deps before removing fetch deps in case there's overlap
-    && apk del .fetch-deps \
-    \
-    && for i in /usr/src/patches/*.patch; do \
+        zlib-dev
+
+# Copy with link, so installing deps can run in parallel while downloading sources
+COPY --link --from=python-source /usr/src/python /usr/src/python
+
+# Build and install patched Python
+RUN \
+    --mount=type=bind,source=./patches,target=/usr/src/patches \
+    for i in /usr/src/patches/*.patch; do \
         patch -d /usr/src/python -p 1 < "${i}"; done \
     && cd /usr/src/python \
     && gnuArch="$(dpkg-architecture --query DEB_BUILD_GNU_TYPE)" \
@@ -88,26 +107,30 @@ RUN \
 # https://github.com/alpinelinux/aports/commit/675f1babb7ac89068d32b8f4b4e8bbfbb04c96ac
         EXTRA_CFLAGS="-DTHREAD_STACK_SIZE=0x200000" \
     && make install \
-    \
-	&& find /usr/local -type f -executable -not \( -name '*tkinter*' \) -exec scanelf --needed --nobanner --format '%n#p' '{}' ';' \
-		| tr ',' '\n' \
-		| sort -u \
-		| awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
-		| xargs -rt apk add --no-cache --virtual .python-rundeps \
-	&& apk del .build-deps \
-	\
+    && apk del .build-deps \
+    && rm -rf /usr/src/python
+
+# Search and install runtime dependencies (except tkinter)
+RUN \
+    find /usr/local -type f -executable -not \( -name '*tkinter*' \) -exec scanelf --needed --nobanner --format '%n#p' '{}' ';' \
+        | tr ',' '\n' \
+        | sort -u \
+        | awk 'system("[ -e /usr/local/lib/" $1 " ]") == 0 { next } { print "so:" $1 }' \
+        | xargs -rt apk add --no-cache --virtual .python-rundeps \
     && find /usr/local -depth \
         \( \
             -type d -a \( -name test -o -name tests \) \
-        \) -exec rm -rf '{}' + \
-    && rm -rf /usr/src/python \
-# make some useful symlinks that are expected to exist
-    && cd /usr/local/bin \
+        \) -exec rm -rf '{}' +
+
+# Make some useful symlinks that are expected to exist
+RUN \
+    cd /usr/local/bin \
     && ln -s idle3 idle \
     && ln -s pydoc3 pydoc \
     && ln -s python3 python \
     && ln -s python3-config python-config
 
+# Install pip
 ARG PIP_VERSION=26.0.1
 
 RUN set -ex; \
@@ -125,7 +148,7 @@ FROM ${BUILD_FROM}
 # Copy everything from the build
 COPY --from=build / /
 
-# ensure local python is preferred over distribution python
+# Ensure local python is preferred over distribution python
 ENV PATH=/usr/local/bin:$PATH
 
 LABEL \
