@@ -16,7 +16,11 @@ SHELL ["/bin/ash", "-o", "pipefail", "-x", "-c"]
 
 WORKDIR /tmp/python-fetch
 
-# Fetch and verify Python sources
+# Fetch Python source and signatures
+ADD "https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tar.xz" /tmp/python-fetch/python.tar.xz
+ADD "https://www.python.org/ftp/python/${PYTHON_VERSION}/Python-${PYTHON_VERSION}.tar.xz.sigstore" /tmp/python-fetch/python.tar.xz.sigstore
+
+# Verify Python sources
 RUN \
     --mount=type=cache,target=/var/cache/apk,sharing=locked \
     apk add --update-cache --virtual .fetch-deps \
@@ -24,8 +28,6 @@ RUN \
         openssl \
         tar \
         xz \
-    && curl -L -o python.tar.xz "https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz" \
-    && curl -L -o python.tar.xz.sigstore "https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz.sigstore" \
     && cosign verify-blob \
         --new-bundle-format \
         --certificate-identity "${CERT_IDENTITY}" \
