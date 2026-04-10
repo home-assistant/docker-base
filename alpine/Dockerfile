@@ -1,6 +1,11 @@
 ARG BASE_IMAGE=alpine
 ARG ALPINE_VERSION=3.23
 ARG BUILD_FROM=${BASE_IMAGE}:${ALPINE_VERSION}
+
+################
+# Build jemalloc
+################
+
 FROM ${BUILD_FROM} AS jemalloc-build
 
 ENV LANG="C.UTF-8"
@@ -9,7 +14,6 @@ SHELL ["/bin/ash", "-o", "pipefail", "-x", "-c"]
 
 ARG JEMALLOC_VERSION=5.3.0
 
-# jemmalloc
 WORKDIR /usr/src/jemalloc
 
 ADD "https://github.com/jemalloc/jemalloc.git#${JEMALLOC_VERSION}" /usr/src/jemalloc
