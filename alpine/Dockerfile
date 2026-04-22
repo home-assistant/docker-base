@@ -133,6 +133,8 @@ ENTRYPOINT ["/init"]
 # Set shell
 SHELL ["/bin/ash", "-o", "pipefail", "-c"]
 
+ARG EXTRA_INDEX_URL=https://wheels.home-assistant.io/musllinux-index/
+
 # Default env for S6 and Python/uv
 ENV \
     LANG="C.UTF-8" \
@@ -140,7 +142,8 @@ ENV \
     S6_CMD_WAIT_FOR_SERVICES_MAXTIME=0 \
     S6_CMD_WAIT_FOR_SERVICES=1 \
     S6_SERVICES_READYTIME=50 \
-    UV_EXTRA_INDEX_URL="https://wheels.home-assistant.io/musllinux-index/"
+    PIP_EXTRA_INDEX_URL=$EXTRA_INDEX_URL \
+    UV_EXTRA_INDEX_URL=$EXTRA_INDEX_URL
 
 LABEL \
     io.hass.type="base" \
