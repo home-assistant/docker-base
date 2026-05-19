@@ -58,6 +58,7 @@ RUN \
         build-base \
         bzip2-dev \
         clang \
+        compiler-rt \
         coreutils \
         dpkg-dev dpkg \
         expat-dev \
