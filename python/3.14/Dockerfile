@@ -57,6 +57,7 @@ RUN \
         bluez-dev \
         build-base \
         bzip2-dev \
+        clang \
         coreutils \
         dpkg-dev dpkg \
         expat-dev \
@@ -67,6 +68,8 @@ RUN \
         libtirpc-dev \
         libnsl-dev \
         linux-headers \
+        lld \
+        llvm \
         make \
         mpdecimal-dev \
         ncurses-dev \
@@ -98,13 +101,18 @@ RUN \
         --enable-optimizations \
         --enable-option-checking=fatal \
         --enable-shared \
-        --with-lto \
+        --with-lto=thin \
         --with-system-libmpdec \
         --with-system-expat \
+        --with-tail-call-interp \
         --without-ensurepip \
         --without-static-libpython \
+        CC=clang \
+        CXX=clang++ \
+        AR=llvm-ar \
+        RANLIB=llvm-ranlib \
     && make -j "$(nproc)" \
-        LDFLAGS="-Wl,--strip-all" \
+        LDFLAGS="-fuse-ld=lld -Wl,--strip-all" \
         CFLAGS="-fno-semantic-interposition -fno-builtin-malloc -fno-builtin-calloc -fno-builtin-realloc -fno-builtin-free" \
 # set thread stack size to 2MB so we don't segfault before we hit sys.getrecursionlimit()
 # https://github.com/alpinelinux/aports/commit/2026e1259422d4e0cf92391ca2d3844356c649d0
