@@ -8,7 +8,7 @@ ARG BUILD_FROM=${BASE_IMAGE}:${BASE_VERSION}
 
 FROM ${BUILD_FROM} AS python-source
 
-ARG PYTHON_VERSION=3.14.5
+ARG PYTHON_VERSION=3.14.6
 ARG CERT_IDENTITY=hugo@python.org
 ARG CERT_OIDC_ISSUER=https://github.com/login/oauth
 
