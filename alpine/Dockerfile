@@ -12,7 +12,7 @@ ENV LANG="C.UTF-8"
 
 SHELL ["/bin/ash", "-o", "pipefail", "-x", "-c"]
 
-ARG JEMALLOC_VERSION=5.3.0
+ARG JEMALLOC_VERSION=5.3.1
 
 WORKDIR /usr/src/jemalloc
 
