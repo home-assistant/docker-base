@@ -67,7 +67,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        alpine_version: ["3.21", "3.22", "3.23"]
+        alpine_version: ["3.21", "3.22", "3.23", "3.24"]
     permissions:
       contents: read
       id-token: write # For cosign signing
