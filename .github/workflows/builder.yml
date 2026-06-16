@@ -13,7 +13,7 @@ env:
   ARCHITECTURES: '["amd64", "aarch64"]'
   ALPINE_LATEST: "3.24"
   DEBIAN_LATEST: "trixie"
-  UBUNTU_LATEST: "24.04"
+  UBUNTU_LATEST: "26.04"
   PYTHON_LATEST: "3.14"
 
 jobs:
@@ -125,7 +125,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        ubuntu_version: ["22.04", "24.04"]
+        ubuntu_version: ["22.04", "24.04", "26.04"]
     permissions:
       contents: read
       id-token: write # For cosign signing
