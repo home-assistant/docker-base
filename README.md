@@ -19,7 +19,7 @@ We support version that are not EOL: https://alpinelinux.org/releases/
 
 | Image | OS | Tags | latest |
 |-------|----|------|--------|
-| base | Alpine | 3.21, 3.22, 3.23 | 3.23 |
+| base | Alpine | 3.21, 3.22, 3.23, 3.24 | 3.23 |
 
 ### jemalloc
 
@@ -70,8 +70,8 @@ To use a specific Alpine base version:
 
 ```bash
 docker buildx build \
-  --build-arg ALPINE_VERSION=3.21 \
-  -t base:3.21 \
+  --build-arg ALPINE_VERSION=3.23 \
+  -t base:3.23 \
   alpine/
 ```
 
@@ -93,12 +93,12 @@ docker buildx build \
   ubuntu/
 ```
 
-Python 3.14 image, using the Home Assistant Alpine 3.23 base image from GHCR:
+Python 3.14 image, using the Home Assistant Alpine 3.24 base image from GHCR:
 
 ```bash
 docker buildx build \
   --build-arg BASE_IMAGE=ghcr.io/home-assistant/base \
-  --build-arg BASE_VERSION=3.23 \
-  -t base-python:3.14-alpine3.23 \
+  --build-arg BASE_VERSION=3.24 \
+  -t base-python:3.14-alpine3.24 \
   python/3.14/
 ```
