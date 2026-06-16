@@ -15,11 +15,11 @@ Beginning with the 2026.03.1 release, all images are published as multi-arch ima
 
 ## Base images
 
-We support version that are not EOL: https://alpinelinux.org/releases/
+We support versions that are not EOL: https://alpinelinux.org/releases/
 
 | Image | OS | Tags | latest |
 |-------|----|------|--------|
-| base | Alpine | 3.21, 3.22, 3.23, 3.24 | 3.23 |
+| base | Alpine | 3.22, 3.23, 3.24 | 3.24 |
 
 ### jemalloc
 
@@ -27,11 +27,11 @@ We support on our platforms jemalloc. On the application which you want to enabl
 
 ### Python images
 
-We support the latest 3 release with the latest 3 Alpine version.
+We support the latest 3 releases with the latest 3 Alpine versions.
 
 | Image | OS | Python versions | Tags | latest |
 |-------|----|-----------------|------|--------|
-| base-python | Alpine | 3.12, 3.13, 3.14 | 3.12-alpine3.21, 3.12-alpine3.22, 3.12-alpine3.23, 3.13-alpine3.21, 3.13-alpine3.22, 3.13-alpine3.23, 3.14-alpine3.21, 3.14-alpine3.22, 3.14-alpine3.23 | 3.14-alpine3.23 |
+| base-python | Alpine | 3.12, 3.13, 3.14 | 3.12-alpine3.22, 3.12-alpine3.23, 3.12-alpine3.24, 3.13-alpine3.22, 3.13-alpine3.23, 3.13-alpine3.24, 3.14-alpine3.22, 3.14-alpine3.23, 3.14-alpine3.24 | 3.14-alpine3.24 |
 
 ## Others
 
