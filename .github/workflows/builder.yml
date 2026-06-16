@@ -11,7 +11,7 @@ on:
 env:
   REGISTRY_PREFIX: ghcr.io/${{ github.repository_owner }}
   ARCHITECTURES: '["amd64", "aarch64"]'
-  ALPINE_LATEST: "3.23"
+  ALPINE_LATEST: "3.24"
   DEBIAN_LATEST: "trixie"
   UBUNTU_LATEST: "24.04"
   PYTHON_LATEST: "3.14"
@@ -67,7 +67,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        alpine_version: ["3.21", "3.22", "3.23", "3.24"]
+        alpine_version: ["3.22", "3.23", "3.24"]
     permissions:
       contents: read
       id-token: write # For cosign signing
@@ -154,7 +154,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        alpine_version: ["3.21", "3.22", "3.23"]
+        alpine_version: ["3.22", "3.23", "3.24"]
         python_version: ["3.12", "3.13", "3.14"]
     permissions:
       contents: read
