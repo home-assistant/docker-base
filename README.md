@@ -49,7 +49,7 @@ We support the latest 3 releases with the latest 3 Alpine versions.
 
 | Image | OS | Tags | latest |
 |-------|----|------|--------|
-| base-ubuntu | Ubuntu | 22.04, 24.04 | 24.04 |
+| base-ubuntu | Ubuntu | 22.04, 24.04, 26.04 | 26.04 |
 
 ## Building images locally
 
@@ -88,8 +88,8 @@ Ubuntu base:
 
 ```bash
 docker buildx build \
-  --build-arg UBUNTU_VERSION=24.04 \
-  -t base-ubuntu:24.04 \
+  --build-arg UBUNTU_VERSION=26.04 \
+  -t base-ubuntu:26.04 \
   ubuntu/
 ```
 
