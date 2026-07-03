@@ -105,7 +105,7 @@ RUN \
         --without-static-libpython \
     && make -j "$(nproc)" \
         LDFLAGS="-Wl,--strip-all" \
-        CFLAGS="-fno-semantic-interposition -fno-builtin-malloc -fno-builtin-calloc -fno-builtin-realloc -fno-builtin-free" \
+        CFLAGS="-fno-semantic-interposition" \
 # set thread stack size to 2MB so we don't segfault before we hit sys.getrecursionlimit()
 # https://github.com/alpinelinux/aports/commit/2026e1259422d4e0cf92391ca2d3844356c649d0
 # https://github.com/alpinelinux/aports/commit/675f1babb7ac89068d32b8f4b4e8bbfbb04c96ac
