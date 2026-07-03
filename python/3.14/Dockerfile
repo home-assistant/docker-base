@@ -92,6 +92,7 @@ COPY --link --from=python-source /usr/src/python /usr/src/python
 # Build and install patched Python
 RUN \
     --mount=type=bind,source=./patches,target=/usr/src/patches \
+    --mount=type=bind,source=./normalize-sysconfig.py,target=/usr/src/normalize-sysconfig.py \
     for i in /usr/src/patches/*.patch; do \
         patch -d /usr/src/python -p 1 < "${i}"; done \
     && cd /usr/src/python \
@@ -120,6 +121,9 @@ RUN \
 # https://github.com/alpinelinux/aports/commit/675f1babb7ac89068d32b8f4b4e8bbfbb04c96ac
         EXTRA_CFLAGS="-DTHREAD_STACK_SIZE=0x200000" \
     && make install \
+# downstream extension builds default to the toolchain recorded in sysconfig,
+# but images based on this one only ship the GNU toolchain (build-base)
+    && python3 /usr/src/normalize-sysconfig.py \
     && apk del .build-deps \
     && rm -rf /usr/src/python
 
