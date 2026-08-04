@@ -41,7 +41,7 @@ We support the latest 3 releases with the latest 3 Alpine versions.
 
 | Image | OS | Tags | latest |
 |-------|----|------|--------|
-| base-debian | Debian | bookworm, trixie | trixie |
+| base-debian | Debian | trixie | trixie |
 
 ### Ubuntu images
 
