@@ -37,6 +37,8 @@ We support the latest 3 releases with the latest 3 Alpine versions.
 
 ### Debian images
 
+We support stable releases and older releases that are still under LTS support (no ELTS): https://www.debian.org/releases/
+
 **Note**: We prefer the Alpine based version because it's more IoT friendly. In some case, you need a glibc system like this.
 
 | Image | OS | Tags | latest |
