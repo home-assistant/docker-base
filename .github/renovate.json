@@ -1,0 +1,112 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended", "helpers:pinGitHubActionDigests"],
+
+  "enabledManagers": ["custom.regex", "github-actions"],
+
+  "semanticCommits": "disabled",
+  "labels": ["dependencies"],
+
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "bashio in the Alpine, Debian and Ubuntu base images",
+      "managerFilePatterns": ["/^(alpine|debian|ubuntu)/Dockerfile$/"],
+      "matchStrings": ["ARG BASHIO_VERSION=(?<currentValue>\\S+)"],
+      "depNameTemplate": "hassio-addons/bashio",
+      "datasourceTemplate": "github-releases",
+      "extractVersionTemplate": "^v(?<version>.+)$"
+    },
+    {
+      "customType": "regex",
+      "description": "s6-overlay in the Alpine, Debian and Ubuntu base images",
+      "managerFilePatterns": ["/^(alpine|debian|ubuntu)/Dockerfile$/"],
+      "matchStrings": ["ARG S6_OVERLAY_VERSION=(?<currentValue>\\S+)"],
+      "depNameTemplate": "just-containers/s6-overlay",
+      "datasourceTemplate": "github-releases",
+      "extractVersionTemplate": "^v(?<version>.+)$",
+      "versioningTemplate": "loose"
+    },
+    {
+      "customType": "regex",
+      "description": "tempio in the Alpine, Debian and Ubuntu base images. It uses CalVer with leading zeros, which isn't valid semver.",
+      "managerFilePatterns": ["/^(alpine|debian|ubuntu)/Dockerfile$/"],
+      "matchStrings": ["ARG TEMPIO_VERSION=(?<currentValue>\\S+)"],
+      "depNameTemplate": "home-assistant/tempio",
+      "datasourceTemplate": "github-releases",
+      "versioningTemplate": "loose"
+    },
+    {
+      "customType": "regex",
+      "description": "jemalloc in the Alpine base image",
+      "managerFilePatterns": ["/^alpine/Dockerfile$/"],
+      "matchStrings": ["ARG JEMALLOC_VERSION=(?<currentValue>\\S+)"],
+      "depNameTemplate": "jemalloc/jemalloc",
+      "datasourceTemplate": "github-tags"
+    },
+    {
+      "customType": "regex",
+      "description": "Python in the base-python images",
+      "managerFilePatterns": ["/^python/[^/]+/Dockerfile$/"],
+      "matchStrings": ["ARG PYTHON_VERSION=(?<currentValue>\\S+)"],
+      "depNameTemplate": "python",
+      "datasourceTemplate": "python-version",
+      "versioningTemplate": "python"
+    },
+    {
+      "customType": "regex",
+      "description": "pip in the base-python images",
+      "managerFilePatterns": ["/^python/[^/]+/Dockerfile$/"],
+      "matchStrings": ["ARG PIP_VERSION=(?<currentValue>\\S+)"],
+      "depNameTemplate": "pip",
+      "datasourceTemplate": "pypi"
+    }
+  ],
+
+  "packageRules": [
+    {
+      "description": "GitHub Actions: daily with a 7 day cooldown (except our own actions), like Dependabot did",
+      "matchManagers": ["github-actions"],
+      "addLabels": ["github_actions"],
+      "minimumReleaseAge": "7 days"
+    },
+    {
+      "description": "No cooldown for our own actions, like Dependabot did",
+      "matchManagers": ["github-actions"],
+      "matchPackageNames": ["home-assistant/**"],
+      "minimumReleaseAge": null
+    },
+    {
+      "description": "Leave runner labels and action version inputs alone, Dependabot never updated those",
+      "matchManagers": ["github-actions"],
+      "matchDepTypes": ["github-runner", "uses-with"],
+      "enabled": false
+    },
+    {
+      "description": "Our own actions that follow a branch (like home-assistant/actions@master) float on purpose. Pinning them would open a digest PR in every repository for each change to them. Our own actions on a version tag are pinned like any other.",
+      "matchManagers": ["github-actions"],
+      "matchPackageNames": ["home-assistant/**"],
+      "matchCurrentValue": "/^(dev|main|master)$/",
+      "pinDigests": false
+    },
+    {
+      "description": "Group the home-assistant/builder subactions into one PR (they share a release)",
+      "matchPackageNames": ["/^home-assistant\\/builder(?:\\/|$)/"],
+      "groupName": "home-assistant/builder",
+      "groupSlug": "builder"
+    },
+    {
+      "description": "Each base-python image stays on its Python minor. Adding a new Python version is a new image.",
+      "matchDepNames": ["python"],
+      "matchUpdateTypes": ["major", "minor"],
+      "enabled": false
+    },
+    {
+      "description": "Python patch releases for all base-python images in one PR, as they're usually released together. Minor and patch are separated, otherwise Renovate only proposes the newest Python minor, which is disabled above.",
+      "matchDepNames": ["python"],
+      "groupName": "Python",
+      "groupSlug": "python",
+      "separateMinorPatch": true
+    }
+  ]
+}
