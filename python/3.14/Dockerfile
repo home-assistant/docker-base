@@ -136,7 +136,7 @@ RUN \
     && ln -s python3-config python-config
 
 # Install pip
-ARG PIP_VERSION=26.0.1
+ARG PIP_VERSION=26.2.1
 
 RUN \
     --mount=type=cache,target=/root/.cache/pip,sharing=locked \
