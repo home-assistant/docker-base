@@ -42,7 +42,7 @@ ENV LANG="C.UTF-8"
 SHELL ["/bin/ash", "-o", "pipefail", "-x", "-c"]
 
 ARG BASHIO_REPOSITORY=hassio-addons/bashio
-ARG BASHIO_VERSION=0.17.5
+ARG BASHIO_VERSION=0.19.0
 ARG S6_OVERLAY_ARCH
 ARG S6_OVERLAY_REPOSITORY=just-containers/s6-overlay
 ARG S6_OVERLAY_VERSION=3.2.3.2
