@@ -12,6 +12,8 @@ makes test_math (and test_cmath, which imports from it) fail to import,
 breaking the PGO profile run.
 
 Restore the pre-3.13.16 condition which skips the test on musl.
+
+Upstream issue: https://github.com/python/cpython/issues/159015
 ---
  Lib/test/test_math.py | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
