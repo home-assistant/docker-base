@@ -1,0 +1,34 @@
+From 00a3e61ea9067888681deb3d1156c3db7572b191 Mon Sep 17 00:00:00 2001
+Message-ID: <00a3e61ea9067888681deb3d1156c3db7572b191.1791454933.git.stefan@agner.ch>
+From: Stefan Agner <stefan@agner.ch>
+Date: Thu, 8 Oct 2026 12:22:13 +0200
+Subject: [PATCH] Fix test_math import failure on musl
+
+The 3.13 backport of gh-152563 (8e85d73bd6) compares the return value of
+support.linked_to_musl() against a version tuple. On the 3.13 branch
+linked_to_musl() still returns a bool, so on musl this evaluates
+True < (1, 2, 6) and raises TypeError at class definition time. This
+makes test_math (and test_cmath, which imports from it) fail to import,
+breaking the PGO profile run.
+
+Restore the pre-3.13.16 condition which skips the test on musl.
+---
+ Lib/test/test_math.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/Lib/test/test_math.py b/Lib/test/test_math.py
+index b678420..eac5a1c 100644
+--- a/Lib/test/test_math.py
++++ b/Lib/test/test_math.py
+@@ -2743,7 +2743,7 @@ class FMATests(unittest.TestCase):
+     @unittest.skipIf(
+         sys.platform.startswith(("freebsd", "wasi", "netbsd", "emscripten"))
+         or (sys.platform == "android" and platform.machine() == "x86_64")
+-        or (support.linked_to_musl() and support.linked_to_musl() < (1, 2, 6)),  # gh-131032
++        or support.linked_to_musl(),  # gh-131032
+         f"this platform doesn't implement IEE 754-2008 properly")
+     def test_fma_zero_result(self):
+         nonnegative_finites = [0.0, 1e-300, 2.3, 1e300]
+-- 
+2.56.0
+
