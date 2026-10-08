@@ -110,6 +110,7 @@
       "commitMessageTopic": "Python",
       "commitMessageExtra": "",
       "commitMessageSuffix": "in base-python to {{#each upgrades}}{{{newVersion}}}{{#unless @last}}/{{/unless}}{{/each}}",
+      "commitBody": "{{#each upgrades}}* https://docs.python.org/release/{{{newVersion}}}/whatsnew/changelog.html\n{{/each}}",
       "prTitleStrict": true,
       "prBodyNotes": [
         "* https://docs.python.org/release/{{{newVersion}}}/whatsnew/changelog.html"
