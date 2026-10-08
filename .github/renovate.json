@@ -106,7 +106,14 @@
       "matchDepNames": ["python"],
       "groupName": "Python",
       "groupSlug": "python",
-      "separateMinorPatch": true
+      "separateMinorPatch": true,
+      "commitMessageTopic": "Python",
+      "commitMessageExtra": "",
+      "commitMessageSuffix": "in base-python to {{#each upgrades}}{{{newVersion}}}{{#unless @last}}/{{/unless}}{{/each}}",
+      "prTitleStrict": true,
+      "prBodyNotes": [
+        "* https://docs.python.org/release/{{{newVersion}}}/whatsnew/changelog.html"
+      ]
     }
   ]
 }
