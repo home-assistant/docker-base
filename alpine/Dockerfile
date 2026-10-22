@@ -63,7 +63,8 @@ COPY --link --from=jemalloc-build / /
 # Base system packages
 RUN \
     --mount=type=cache,target=/var/cache/apk,sharing=locked \
-    apk add --update-cache \
+    apk upgrade --update-cache \
+    && apk add \
         bash \
         bind-tools \
         ca-certificates \
