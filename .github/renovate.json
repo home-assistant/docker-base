@@ -49,8 +49,9 @@
       "description": "Python in the base-python images",
       "managerFilePatterns": ["/^python/[^/]+/Dockerfile$/"],
       "matchStrings": ["ARG PYTHON_VERSION=(?<currentValue>\\S+)"],
-      "depNameTemplate": "python",
-      "datasourceTemplate": "python-version",
+      "depNameTemplate": "python/cpython",
+      "datasourceTemplate": "github-tags",
+      "extractVersionTemplate": "^v(?<version>\\d+\\.\\d+\\.\\d+)$",
       "versioningTemplate": "python"
     },
     {
@@ -97,13 +98,13 @@
     },
     {
       "description": "Each base-python image stays on its Python minor. Adding a new Python version is a new image.",
-      "matchDepNames": ["python"],
+      "matchDepNames": ["python/cpython"],
       "matchUpdateTypes": ["major", "minor"],
       "enabled": false
     },
     {
       "description": "Python patch releases for all base-python images in one PR, as they're usually released together. Minor and patch are separated, otherwise Renovate only proposes the newest Python minor, which is disabled above.",
-      "matchDepNames": ["python"],
+      "matchDepNames": ["python/cpython"],
       "groupName": "Python",
       "groupSlug": "python",
       "separateMinorPatch": true,
