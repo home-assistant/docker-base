@@ -8,9 +8,9 @@ ARG BUILD_FROM=${BASE_IMAGE}:${BASE_VERSION}
 
 FROM ${BUILD_FROM} AS python-source
 
-ARG PYTHON_VERSION=3.12.16
-ARG CERT_IDENTITY=thomas@python.org
-ARG CERT_OIDC_ISSUER=https://accounts.google.com
+ARG PYTHON_VERSION=3.15.2
+ARG CERT_IDENTITY=hugo@python.org
+ARG CERT_OIDC_ISSUER=https://github.com/login/oauth
 
 SHELL ["/bin/ash", "-o", "pipefail", "-x", "-c"]
 
@@ -64,8 +64,6 @@ RUN \
         gdbm-dev \
         libc-dev \
         libffi-dev \
-        libtirpc-dev \
-        libnsl-dev \
         linux-headers \
         make \
         mpdecimal-dev \
@@ -79,8 +77,10 @@ RUN \
         tcl-dev \
         tk \
         tk-dev \
+        util-linux-dev \
         xz-dev \
-        zlib-dev
+        zlib-dev \
+        zstd-dev
 
 # Copy with link, so installing deps can run in parallel while downloading sources
 COPY --link --from=python-source /usr/src/python /usr/src/python
@@ -105,10 +105,11 @@ RUN \
         --without-static-libpython \
     && make -j "$(nproc)" \
         LDFLAGS="-Wl,--strip-all" \
-        CFLAGS="-fno-semantic-interposition -fno-builtin-malloc -fno-builtin-calloc -fno-builtin-realloc -fno-builtin-free" \
-# set thread stack size to 1MB so we don't segfault before we hit sys.getrecursionlimit()
+        CFLAGS="-fno-semantic-interposition" \
+# set thread stack size to 2MB so we don't segfault before we hit sys.getrecursionlimit()
 # https://github.com/alpinelinux/aports/commit/2026e1259422d4e0cf92391ca2d3844356c649d0
-        EXTRA_CFLAGS="-DTHREAD_STACK_SIZE=0x100000" \
+# https://github.com/alpinelinux/aports/commit/675f1babb7ac89068d32b8f4b4e8bbfbb04c96ac
+        EXTRA_CFLAGS="-DTHREAD_STACK_SIZE=0x200000" \
     && make install \
     && apk del .build-deps \
     && rm -rf /usr/src/python
@@ -123,7 +124,7 @@ RUN \
         | xargs -rt apk add --update-cache --virtual .python-rundeps \
     && find /usr/local -depth \
         \( \
-            -type d -a \( -name test -o -name tests \) \
+            -type d -a \( -name test -o -name tests -o -name idle_test \) \
         \) -exec rm -rf '{}' +
 
 # Make some useful symlinks that are expected to exist

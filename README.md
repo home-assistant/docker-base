@@ -31,7 +31,7 @@ We support the latest 3 releases with the latest 3 Alpine versions.
 
 | Image | OS | Python versions | Tags | latest |
 |-------|----|-----------------|------|--------|
-| base-python | Alpine | 3.12, 3.13, 3.14 | 3.12-alpine3.22, 3.12-alpine3.23, 3.12-alpine3.24, 3.13-alpine3.22, 3.13-alpine3.23, 3.13-alpine3.24, 3.14-alpine3.22, 3.14-alpine3.23, 3.14-alpine3.24 | 3.14-alpine3.24 |
+| base-python | Alpine | 3.13, 3.14, 3.15 | 3.13-alpine3.22, 3.13-alpine3.23, 3.13-alpine3.24, 3.14-alpine3.22, 3.14-alpine3.23, 3.14-alpine3.24, 3.15-alpine3.22, 3.15-alpine3.23, 3.15-alpine3.24 | 3.14-alpine3.24 |
 
 ## Others
 
