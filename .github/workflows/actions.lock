@@ -11,7 +11,7 @@ workflows:
     '.github/workflows/builder.yml': []
     '.github/workflows/release-drafter.yml':
         - 'actions/checkout@v7.0.1'
-        - 'release-drafter/release-drafter@v7.10.0'
+        - 'release-drafter/release-drafter@v7.11.0'
 dependencies:
     'actions/checkout@v7.0.1':
         ref: 'v7.0.1'
@@ -49,9 +49,9 @@ dependencies:
         commit: 'sha1-4de35182ce1e329181bffcbcc84d33db5e2c7e10'
         owner_id: 13844975
         repo_id: 181371487
-    'release-drafter/release-drafter@v7.10.0':
-        ref: 'v7.10.0'
-        commit: 'sha1-978bb0b30c5ee8cdd332ced253758157150d43f0'
+    'release-drafter/release-drafter@v7.11.0':
+        ref: 'v7.11.0'
+        commit: 'sha1-d1a19e60e81a7e650d00a7de9277f87e439117ea'
         owner_id: 58292376
         repo_id: 139022359
     'sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6':
