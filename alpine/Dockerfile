@@ -18,12 +18,16 @@ WORKDIR /usr/src/jemalloc
 
 ADD "https://github.com/jemalloc/jemalloc.git#${JEMALLOC_VERSION}" /usr/src/jemalloc
 
+# jemalloc is deprecated: make the library print a warning when it is loaded
+COPY jemalloc-deprecation.c /usr/src/
+
 RUN \
     --mount=type=cache,target=/var/cache/apk,sharing=locked \
     apk add --update-cache --virtual .build-deps \
         build-base \
         autoconf \
         git \
+    && cat /usr/src/jemalloc-deprecation.c >> src/jemalloc.c \
     && ./autogen.sh \
         --with-lg-page=16 \
     && make -j "$(nproc)" \
