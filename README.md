@@ -1,11 +1,11 @@
 # Home Assistant Base Images
 
-These base images are designed as Docker base images for use with building Home Assistant containers and add-ons.
-It is recommended to use these as a base for your own Home Assistant Add-ons.
+These base images are designed as Docker base images for use with building Home Assistant containers and apps (formerly known as add-ons).
+It is recommended to use these as a base for your own Home Assistant apps.
 
 Using these images as a base for other Docker projects is, however, not recommended.
 
-The image include [S6-Overlay](https://github.com/just-containers/s6-overlay), [Bashio](https://github.com/hassio-addons/bashio) and [TempIO](https://github.com/home-assistant/tempio).
+The images include [S6-Overlay](https://github.com/just-containers/s6-overlay), [Bashio](https://github.com/hassio-addons/bashio) and [TempIO](https://github.com/home-assistant/tempio).
 
 ## Supported architectures
 
@@ -23,7 +23,7 @@ We support versions that are not EOL: https://alpinelinux.org/releases/
 
 ### jemalloc
 
-We support on our platforms jemalloc. On the application which you want to enable it, set as environment `LD_PRELOAD="/usr/local/lib/libjemalloc.so.2"` on your Dockerfile or before you start the application.
+The Alpine-based images ship with jemalloc. To enable it for an application, set the environment variable `LD_PRELOAD="/usr/local/lib/libjemalloc.so.2"` in your Dockerfile or before you start the application.
 
 ### Python images
 
@@ -39,7 +39,7 @@ We support the latest 3 releases with the latest 3 Alpine versions.
 
 We support stable releases and older releases that are still under LTS support (no ELTS): https://www.debian.org/releases/
 
-**Note**: We prefer the Alpine based version because it's more IoT friendly. In some case, you need a glibc system like this.
+**Note**: We prefer the Alpine-based version because it's more IoT friendly. In some cases, you need a glibc system like this.
 
 | Image | OS | Tags | latest |
 |-------|----|------|--------|
@@ -49,7 +49,7 @@ We support stable releases and older releases that are still under LTS support (
 
 We support stable releases and older releases that are still under LTS support (no ESM or Ubuntu Pro): https://ubuntu.com/about/release-cycle
 
-**Note**: We prefer the alpine based version because it's more IoT friendly. In some case, you need a glibc system like this.
+**Note**: We prefer the Alpine-based version because it's more IoT friendly. In some cases, you need a glibc system like this.
 
 | Image | OS | Tags | latest |
 |-------|----|------|--------|
@@ -58,7 +58,6 @@ We support stable releases and older releases that are still under LTS support (
 ## Building images locally
 
 Docker BuildKit (`docker buildx`) can be used for building the images locally without any extra tooling. Following are examples of building the images for a single (host) architecture.
-
 
 For a multi-platform build or cross-compilation, use the `--platform` flag with the appropriate target platform. See the official Docker documentation on [multi-platform builds](https://docs.docker.com/build/building/multi-platform/) for more details.
 
@@ -83,7 +82,7 @@ Debian base:
 
 ```bash
 docker buildx build \
-  --build-arg DEBIAN_VERSION=trixie
+  --build-arg DEBIAN_VERSION=trixie \
   -t base-debian:trixie \
   debian/
 ```
